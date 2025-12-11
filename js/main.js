@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             new Typed('#typed-text', {
                                 strings: [
-                                    '사용자 중심의 문제 해결과 빠른 실행력을 갖춘 개발자',
+                                    '협업과 열린 소통으로 함께 문제를 해결하는 개발자',
                                     'UX 중심의 문제 정의와 해결을 추구하는 개발자',
                                     'Agile 방식으로 빠르게 실행하고 개선하는 개발자',
-                                    'LLM 및 최신 IT 트렌드를 학습하고 실전에 적용하는 개발자'
+                                    '최신 LLM 및 IT 트렌드를 학습하고 실전에 적용하는 개발자'
                                 ],
                                 typeSpeed: 50,
                                 backSpeed: 30,
