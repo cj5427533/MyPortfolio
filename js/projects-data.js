@@ -210,24 +210,36 @@ const projectsData = [
     {
         id: 4,
         title: "Bilingual Buddy - 다문화가정 자녀를 위한 AI 기반 이중 언어 학습 도우미",
-        thumbnail: "", // 이미지 없음 (비디오만 있음)
+        thumbnail: "Projects/BilingualBuddy Project/BilingualBuddy_logo.png",
         shortDescription: "언어 장벽으로 인한 학습 격차를 해소하기 위해 설계한 Android 애플리케이션. GPT-4와 Papago API를 연동하여 모국어 질문에 한국 교과 개념을 모국어로 설명하고, 가정통신문 자동 번역 기능을 제공합니다.",
         valueStatement: "AI 기술을 활용한 실제 사회 문제 해결",
         period: "2025.06.11 ～ 2025.06.17",
         contribution: "기획부터 구현까지 전체 개발",
-        fullDescription: "다문화가정 자녀의 학습 장벽을 해소하기 위한 AI 기반 이중 언어 학습 도우미 플랫폼입니다. 한국어가 서툰 학생들과 그들의 부모를 위한 학습 지원 도구로, AI 기술을 활용하여 언어 장벽을 넘어 효과적인 학습 환경을 제공합니다.",
+        fullDescription: "다문화가정 자녀의 학습 장벽을 해소하기 위한 AI 기반 이중 언어 학습 도우미 플랫폼입니다. Material Design 3 기반의 모던한 UI와 MVVM 아키텍처를 적용하여 확장 가능하고 유지보수하기 쉬운 구조로 설계되었습니다. Mock 서비스를 통해 API 키 없이도 테스트 가능하며, 질문 유형별 맞춤 답변과 강화된 에러 처리를 통해 안정적인 사용자 경험을 제공합니다.",
         mainFeatures: [
             "이중언어 AI 튜터: 모국어 질문 → 한국 교과 개념 모국어로 설명 → 한국어 재설명",
             "가정통신문 자동 번역 및 알림 기능",
             "다국어 & 지역 맞춤 대응 (베트남어, 중국어, 우즈벡어, 네팔어)",
-            "정서적·문화적 멘토 기능"
+            "정서적·문화적 멘토 기능",
+            "Material Design 3 기반 모던한 UI/UX: 그라데이션 배경, 카드 기반 레이아웃, Material Icons Extended",
+            "Mock 서비스: API 키 없이도 테스트 가능한 개발 환경 제공",
+            "질문별 맞춤 답변: 수학, 과학, 사회 등 질문 유형별 맞춤 답변 제공",
+            "OCR 기능: ML Kit을 사용한 텍스트 인식으로 이미지에서 직접 질문 가능",
+            "강화된 에러 처리: 네트워크 오류, API 실패 등 다양한 상황에 대한 사용자 친화적 메시지"
         ],
-        technologies: ["Android Native", "Google STT", "Kotlin", "ML Kit OCR", "OpenAI GPT-4", "Papago API"],
+        technologies: ["Android Native", "Jetpack Compose", "Material Design 3", "Material Icons Extended", "Google STT", "Kotlin", "ML Kit OCR", "OpenAI GPT-4", "Papago API", "MVVM", "Hilt", "Coroutines", "Repository Pattern"],
         technologyRationale: [
             "Android Native(Kotlin): 저사양 단말 포함 다양한 기기에서 음성·카메라 접근성을 확보",
+            "Jetpack Compose: View 기반 Activity 제거, Compose로 완전 전환하여 선언적 UI와 코드 재사용성 향상",
+            "Material Design 3: 최신 디자인 시스템으로 친숙하고 상용화된 느낌의 모던한 UI 제공",
+            "MVVM 패턴: ViewModel을 통한 상태 관리 및 비즈니스 로직 분리로 테스트 용이성 향상",
+            "Repository 패턴: 데이터 소스 추상화 및 Mock 서비스 구현으로 개발 효율성 증대",
+            "Hilt 의존성 주입: 의존성 관리 자동화 및 테스트 용이성 개선",
+            "Coroutines: 비동기 처리 개선 및 메인 스레드 블로킹 방지",
             "GPT-4: 교과 개념을 모국어→한국어로 단계적으로 설명해 학습 맥락을 유지",
             "Papago API: 공공/학교 문서 번역 시 한국어 특화 품질 확보",
-            "Google STT + ML Kit OCR: 음성·이미지 입력을 텍스트로 변환해 비문해 사용자도 이용 가능"
+            "Google STT + ML Kit OCR: 음성·이미지 입력을 텍스트로 변환해 비문해 사용자도 이용 가능",
+            "Result 타입: 성공/실패 상태를 명확하게 표현하여 에러 처리 개선"
         ],
         technicalTroubleshooting: [
             {
@@ -251,9 +263,16 @@ const projectsData = [
             achievements: [
                 "API 호출 실패율 70% 감소, 비용 40% 절감 (캐싱 및 프롬프트 최적화)",
                 "음성 인식 정확도 30% 향상 (언어 감지 및 VAD 로직)",
-                "교육 용어 번역 정확도 향상 (전문 용어 사전 및 사용자 검증)"
+                "교육 용어 번역 정확도 향상 (전문 용어 사전 및 사용자 검증)",
+                "MVVM 패턴 도입으로 상태 관리 및 비즈니스 로직 분리 완료",
+                "Repository 패턴 적용으로 데이터 소스 추상화 및 Mock 서비스 구현",
+                "Hilt 의존성 주입으로 의존성 관리 자동화 및 테스트 용이성 개선",
+                "Compose로 UI 완전 전환하여 선언적 UI와 코드 재사용성 향상",
+                "Material Design 3 적용으로 모던하고 일관된 사용자 경험 제공",
+                "단위 테스트 추가 및 Mockito-Kotlin 도입으로 코드 품질 향상",
+                "Result 타입 도입으로 성공/실패 상태 명확화 및 에러 처리 개선"
             ],
-            learnings: "실제 사용자 문제 해결이 기술 선택의 기준이 되어야 함을 배웠습니다. API 비용 절감을 위해 캐싱 전략과 프롬프트 최적화를 적용하며, 비즈니스 관점에서의 기술 판단력을 키웠습니다. 다국어 환경에서의 UX 설계와 사용자 피드백 반영 프로세스를 경험했습니다. 향후 AI 기반 서비스 개발 시 비용 효율성과 사용자 경험의 균형을 항상 고려하겠습니다."
+            learnings: "실제 사용자 문제 해결이 기술 선택의 기준이 되어야 함을 배웠습니다. API 비용 절감을 위해 캐싱 전략과 프롬프트 최적화를 적용하며, 비즈니스 관점에서의 기술 판단력을 키웠습니다. MVVM과 Repository 패턴을 적용하며 확장 가능한 아키텍처 설계의 중요성을 깨달았고, Hilt를 통한 의존성 주입으로 테스트 용이성을 크게 향상시켰습니다. Compose로 UI를 완전 전환하며 선언적 UI의 장점을 체감했고, Material Design 3를 적용하여 일관된 디자인 시스템을 구축했습니다. 단위 테스트와 Result 타입을 도입하며 코드 품질과 안정성을 개선했습니다. 다국어 환경에서의 UX 설계와 사용자 피드백 반영 프로세스를 경험했으며, 향후 AI 기반 서비스 개발 시 비용 효율성과 사용자 경험의 균형을 항상 고려하겠습니다."
         },
         images: [],
         videos: [
