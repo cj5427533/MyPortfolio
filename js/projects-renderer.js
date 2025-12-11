@@ -982,6 +982,25 @@ function createProjectModal(project) {
                     
                     <!-- 7) 회고 - 모든 프로젝트 동일 -->
                     ${reflectionHTML}
+                    
+                    <!-- 8) 프로젝트 자료 (PDF) - Bilingual Buddy 프로젝트만 특별히 추가 -->
+                    ${project.pdfPath ? `
+                        <div class="mb-6 md:mb-8 modal-section" data-section="pdf">
+                            <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📄 프로젝트 자료</h4>
+                            <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
+                                <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
+                                    <span class="text-xs md:text-sm font-medium text-gray-700">${project.title}</span>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs text-gray-500" id="project-pdf-page-info-${project.id}">로딩 중...</span>
+                                        <a href="${encodeURI(project.pdfPath)}" target="_blank" class="text-xs ${theme.textColor} hover:underline">새 탭에서 열기</a>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4">
+                                    <div id="project-pdf-container-${project.id}" class="pdf-swiper-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         </div>
@@ -1226,6 +1245,16 @@ function showProjectModal(projectId) {
             });
         });
     }, 100);
+    
+    // PDF 렌더링 (Bilingual Buddy 프로젝트만)
+    if (project.pdfPath && typeof window.renderPdfPages === 'function') {
+        setTimeout(() => {
+            const pdfContainerId = `project-pdf-container-${project.id}`;
+            const pageInfoElementId = `project-pdf-page-info-${project.id}`;
+            const pdfPath = encodeURI(project.pdfPath);
+            window.renderPdfPages(pdfPath, pdfContainerId, pageInfoElementId);
+        }, 200);
+    }
 }
 
 // Unity 게임 인스턴스 저장
@@ -1414,6 +1443,17 @@ function closeProjectModal(projectId) {
         // Unity 게임 정리
         if (project && project.hasSpecialContent && project.specialContentType === 'unity-game') {
             cleanupUnityGame(projectId);
+        }
+        
+        // PDF Swiper 인스턴스 정리
+        const pdfContainerId = `project-pdf-container-${projectId}`;
+        if (typeof window.pdfSwiperInstances !== 'undefined' && window.pdfSwiperInstances[pdfContainerId]) {
+            try {
+                window.pdfSwiperInstances[pdfContainerId].destroy(true, true);
+            } catch (e) {
+                console.warn('PDF Swiper 인스턴스 정리 중 오류:', e);
+            }
+            delete window.pdfSwiperInstances[pdfContainerId];
         }
         
         // Swiper 인스턴스 정리 (이미지 갤러리)

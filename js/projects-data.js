@@ -263,6 +263,7 @@ const projectsData = [
                 type: "video/mp4"
             }
         ],
+        pdfPath: "Projects/BilingualBuddy Project/BilingualBuddy.pdf",
         colorTheme: "pink",
         hasSpecialContent: false,
         heroSummary: {
