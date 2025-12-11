@@ -688,17 +688,19 @@ function createProjectModal(project) {
     // 비디오 - 모바일 최적화: max-w-full, aspect-video, centered
     let videosHTML = '';
     if (project.videos && project.videos.length > 0) {
-        // Bilingual Buddy 프로젝트는 세로 스마트폰 비율, 다른 프로젝트는 가로 비율
-        const aspectRatio = project.id === 4 ? 'aspect-[9/16]' : 'aspect-video';
-        const maxWidth = project.id === 4 ? 'max-w-xs sm:max-w-sm' : 'max-w-full md:max-w-3xl';
+        // Bilingual Buddy 프로젝트는 세로 비디오를 가로 컨테이너에 배치
+        const aspectRatio = project.id === 4 ? 'aspect-video' : 'aspect-video';
+        const maxWidth = project.id === 4 ? 'max-w-full md:max-w-3xl' : 'max-w-full md:max-w-3xl';
+        const bgColor = project.id === 4 ? 'bg-black' : 'bg-gray-100';
+        const objectFit = project.id === 4 ? 'object-contain' : 'object-cover';
         
         videosHTML = `
             <div class="mb-6 md:mb-8 modal-section" data-section="media">
                 <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📹 Media</h4>
                 ${project.videos.map(video => `
-                    <div class="${maxWidth} mx-auto rounded-lg md:rounded-xl overflow-hidden shadow-md bg-gray-100 mb-3 md:mb-4">
+                    <div class="${maxWidth} mx-auto rounded-lg md:rounded-xl overflow-hidden shadow-md ${bgColor} mb-3 md:mb-4">
                         <div class="${aspectRatio}">
-                            <video class="w-full h-full object-cover enlargeable-media" controls preload="metadata" data-media-type="video" data-src="${video.src}" poster="${video.poster || ''}">
+                            <video class="w-full h-full ${objectFit} enlargeable-media" controls preload="metadata" data-media-type="video" data-src="${video.src}">
                                 <source src="${video.src}" type="${video.type || 'video/mp4'}">
                                 브라우저가 비디오를 지원하지 않습니다.
                             </video>

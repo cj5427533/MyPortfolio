@@ -277,9 +277,8 @@ const projectsData = [
         images: [],
         videos: [
             {
-                src: "images/Bilingual_Buddy_MVP_Video.mp4",
-                poster: "images/logo.png",
-                type: "video/mp4"
+                src: "Projects/BilingualBuddy Project/Bilingual_Buddy_MVP_Video.webm",
+                type: "video/webm"
             }
         ],
         pdfPath: "Projects/BilingualBuddy Project/BilingualBuddy.pdf",
