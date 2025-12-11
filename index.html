@@ -614,7 +614,7 @@
                 title: "2024 인천전문대연합 아이디어톤",
                 subtitle: "",
                 pdf: "Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf",
-                pdfPath: "케어브릿지(은둔형외톨이 상담치료 플랫폼).pdf",
+                pdfPath: "Projects/CoCo/케어브릿지(은둔형외톨이 상담치료 플랫폼).pdf",
                 projectName: "케어브릿지 - 은둔형 외톨이 상담 치료 플랫폼 (COCO)",
                 description: "처음으로 심리/정신건강 분야에 도전하며, 단순히 기술을 적용하는 것보다 사용자의 심리적 안전을 고려한 설계가 얼마나 중요한지 배웠습니다. 공공 데이터와 학술 자료를 직접 분석하며 신뢰성 있는 AI 상담 시스템을 설계하는 과정에서 성장했습니다.",
                 mainFeatures: [
@@ -639,7 +639,7 @@
                 title: "2024 NextGen 창업경진대회",
                 subtitle: "",
                 pdf: "Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf",
-                pdfPath: "초록잇다(농산물 직거래 연결 서비스 플랫폼).pdf",
+                pdfPath: "Projects/Green_Connect/초록잇다(농산물 직거래 연결 서비스 플랫폼).pdf",
                 projectName: "초록잇다 - AI 농산물 직거래 플랫폼",
                 description: "처음으로 실제 사용자(부모님)와의 인터뷰를 통해 문제를 정의하는 과정을 경험했습니다. 가설로 시작했던 아이디어를 사용자의 실제 니즈에 맞춰 검증하고 수정하며, 문제 해결 중심의 사고를 배웠습니다.",
                 mainFeatures: [
@@ -662,7 +662,7 @@
                 title: "2025 U300 창업경진대회",
                 subtitle: "",
                 pdf: "Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf",
-                pdfPath: "오늘뭐입지(사용자 맞춤형 코디추천 플랫폼).pdf",
+                pdfPath: "Projects/What_To_Wear/오늘뭐입지(사용자 맞춤형 코디추천 플랫폼).pdf",
                 projectName: "오늘 뭐 입지? - AI 기반 올인원 패션 플랫폼",
                 description: "대규모 설문(2000명)을 처음 시도하며 데이터 기반 의사결정의 중요성을 배웠습니다. 초기에는 기능을 많이 넣는 것이 좋다고 생각했지만, MVP 우선 전략과 단계적 확장의 가치를 깨달았습니다.",
                 mainFeatures: [
@@ -707,7 +707,7 @@
                 targetUsers: "제주도 관광객과 도민들을 위한 서비스입니다. 특히 해양 환경 보호에 관심이 있는 사용자들이 해양 폐기물 수거에 참여하고, 그에 대한 보상을 받을 수 있도록 설계했습니다.",
                 reflection: "처음에는 좋은 아이디어만 있으면 서비스를 만들 수 있다고 생각했습니다. 하지만 피그마로 프로토타입을 만들며, 머릿속의 아이디어와 실제 사용자 경험 사이의 차이를 발견하게 되었습니다. 특히 지자체 운영을 가정한 설계 과정에서 예산, 인프라 배치, 운영 규정 등 개발 외의 요소들이 얼마나 중요한지 배웠습니다. 단순히 기능을 나열하는 것이 아니라, 실제로 운영 가능한 서비스를 설계하는 것의 복잡성과 중요성을 깨달았고, 이를 통해 더 현실적이고 실용적인 서비스 설계 관점을 기를 수 있었습니다.",
                 images: [],
-                pdfPath: "탐해(탐라의 바다) 제주도 발전을 위한 스마트 해양 농업 플랫폼.pdf"
+                pdfPath: "Projects/Tamhae/탐해(탐라의 바다) 제주도 발전을 위한 스마트 해양 농업 플랫폼.pdf"
             }
         ];
 
@@ -867,10 +867,26 @@
             
             document.getElementById('awardMedia').innerHTML = mediaHTML || '';
             
-            // 8) 프로젝트 자료 (PDF) - 항상 최하단, 원래대로 세로 스크롤
-            if (award.pdf) {
+            // 8) 프로젝트 자료 (PDF/PPT) - 항상 최하단, 원래대로 세로 스크롤
+            if (award.pdfPath || award.pdf) {
                 const rawPdfPath = award.pdfPath || award.pdf;
                 const pdfPath = encodeURI(rawPdfPath);
+                let pptSection = '';
+                if (award.pptLink) {
+                    pptSection = `
+                        <div class="mt-4 bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
+                            <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
+                                <span class="text-xs md:text-sm font-medium text-gray-700">프레젠테이션 자료</span>
+                                <a href="${award.pptLink}" target="_blank" class="text-xs text-primary hover:underline">새 탭에서 열기</a>
+                            </div>
+                            <div class="bg-white p-4">
+                                <a href="${award.pptLink}" target="_blank" class="text-primary hover:underline font-medium">
+                                    📊 프레젠테이션 보기 (Canva)
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
                 document.getElementById('awardPdfPages').innerHTML = `
                     <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">📄 프로젝트 자료</h4>
                     <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
@@ -884,6 +900,7 @@
                                     style="height: 720px;"></iframe>
                         </div>
                     </div>
+                    ${pptSection}
                 `;
             } else {
                 document.getElementById('awardPdfPages').innerHTML = '';
