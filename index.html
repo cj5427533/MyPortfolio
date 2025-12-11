@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyuJin Cheon - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0EA5E9',
+                        secondary: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
+    <!-- 오로라 배경 애니메이션 -->
+    <div class="aurora-background pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div class="aurora-band aurora-band-1"></div>
+        <div class="aurora-band aurora-band-2"></div>
+    </div>
+    
+    <!-- 매우 은은한 그리드 텍스처 (선택적) -->
+    <div class="fixed inset-0 opacity-[0.06] pointer-events-none -z-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23cbd5e1\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    
+    <div class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
+        <header class="text-center mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20" id="hero-section" data-animate="fade-in">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg" id="hero-image">
+                    <img src="images/MyImage.png" alt="GyuJin Cheon's Profile" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 text-left">
+                    <!-- Headline -->
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary" id="hero-headline" data-animate="stagger-child" data-stagger-index="0">
+                        인터랙티브한 경험을 설계하는 <br class="hidden md:block">풀스택 지향 개발자, <span class="title-emphasis">천규진</span>입니다.
+                    </h1>
+                    
+                    <!-- Tagline -->
+                    <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium" id="hero-tagline" data-animate="stagger-child" data-stagger-index="1">
+                        사용자 중심의 문제 해결과 빠른 실행력을 갖춘 개발자
+                    </p>
+                    
+                    <!-- Key Values -->
+                    <div class="space-y-3 mb-6" id="hero-values" data-animate="stagger-parent">
+                        <div class="flex items-start gap-3" data-animate="stagger-child">
+                            <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700">
+                                <span class="font-semibold text-primary">UX</span> 중심의 문제 정의와 해결
+                            </p>
+                        </div>
+                        <div class="flex items-start gap-3" data-animate="stagger-child">
+                            <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700">
+                                <span class="font-semibold text-primary">Agile</span> 방식으로 빠르게 실행하고 개선
+                            </p>
+                        </div>
+                        <div class="flex items-start gap-3" data-animate="stagger-child">
+                            <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700">
+                                <span class="font-semibold text-primary">LLM</span> 및 최신 IT 트렌드 학습과 실전 적용
+                            </p>
+                        </div>
+                        <div class="flex items-start gap-3" data-animate="stagger-child">
+                            <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <p class="text-gray-700">
+                                <span class="font-semibold text-primary">협업</span>과 열린 소통으로 문제 해결
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA -->
+                    <div class="mt-6 flex flex-wrap gap-3" id="hero-cta" data-animate="stagger-child" data-stagger-index="2">
+                        <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 px-5 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-200 shadow-md hover:shadow-lg cta-button">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="mailto:cj542753303@gmail.com" 
+                           class="inline-flex items-center gap-2 px-5 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-secondary transition-all duration-200 shadow-md hover:shadow-lg cta-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            Email
+                        </a>
+                        <a href="" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 px-5 py-3 bg-white text-gray-800 border border-primary/40 rounded-lg font-semibold hover:bg-primary/5 transition-all duration-200 shadow-md hover:shadow-lg cta-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6M9 12h6M9 16h3" />
+                            </svg>
+                            이력서
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-3xl font-bold mb-8 text-primary">
+                <span class="relative inline-block">
+                    🚀 Project
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            <!-- 프로젝트 카드 그리드 - JavaScript로 동적 생성 (모바일 최적화) -->
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" data-animate="stagger-parent">
+                <!-- 프로젝트 카드들이 여기에 동적으로 생성됩니다 -->
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-3xl font-bold mb-8 text-primary">
+                <span class="relative inline-block">
+                    💻 Skills
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- Strong - 주력 기술 (가장 강조) -->
+                <div class="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-6 border-2 border-emerald-300 shadow-lg" data-animate="fade-in">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">⭐</span>
+                        <h3 class="text-xl font-bold text-emerald-700">Strong</h3>
+                        <span class="text-sm text-gray-500">(주력 기술 - 바로 업무 투입 가능)</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Cursor</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Express.js</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">GitHub Actions</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Java</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">JavaScript</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">MySQL</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Node.js</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">React Native</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Spring Boot</span>
+                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">TypeScript</span>
+                    </div>
+                </div>
+
+                <!-- Knowledgeable - 경험 있음 -->
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200 shadow-md" data-animate="fade-in">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">📖</span>
+                        <h3 class="text-xl font-bold text-gray-800">Knowledgeable</h3>
+                        <span class="text-sm text-gray-500">(경험 있음 - 활용 가능)</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">3D Blender</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">AWS (EC2/S3)</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Docker</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FastAPI (Python)</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Jenkins</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kotlin</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kubernetes</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Linux</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">PostgreSQL</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Tailwind CSS</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Three.js</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Unity</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WSL2 (Ubuntu)</span>
+                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WebGL</span>
+                    </div>
+                </div>
+
+                <!-- Tools - 협업 툴 -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200 shadow-md" data-animate="fade-in">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🛠️</span>
+                        <h3 class="text-xl font-bold text-gray-800">Tools</h3>
+                        <span class="text-sm text-gray-500">(협업 툴)</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
+                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FigJam</span>
+                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Git/GitHub</span>
+                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Notion</span>
+                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Slack</span>
+                    </div>
+                </div>
+
+                <!-- Designs - 디자인 툴 -->
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200 shadow-md" data-animate="fade-in">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🎨</span>
+                        <h3 class="text-xl font-bold text-gray-800">Designs</h3>
+                        <span class="text-sm text-gray-500">(디자인 툴)</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
+                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Canva</span>
+                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Figma</span>
+                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Mangoboard</span>
+                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Miricanvas</span>
+                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Photoshop</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-3xl font-bold mb-8 text-primary">
+                <span class="relative inline-block">
+                    👔 Leadership & Activities
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            <div class="space-y-6">
+                <!-- 학생회장 -->
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">👨‍💼</span>
+                                <h3 class="text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 학생회장</h3>
+                            </div>
+                            <p class="text-primary font-semibold mb-3">2025.03 ~ 2025.12</p>
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <ul class="list-none space-y-3 text-gray-700 leading-relaxed">
+                                    <li class="flex items-start">
+                                        <span class="text-primary mr-3 mt-1">🌍</span>
+                                        <span><strong>다문화 협업:</strong> 네팔 유학생·한국 학생 합동 행사 기획으로 이해관계자 요구사항 조율</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-primary mr-3 mt-1">👥</span>
+                                        <span><strong>조직 운영:</strong> 학생회 간부 R&R 분배 및 실행력 확보</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-primary mr-3 mt-1">⚡</span>
+                                        <span><strong>이슈 해결:</strong> 우선순위 설정·커뮤니케이션으로 현장 이슈 신속 해결</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-primary mr-3 mt-1">📈</span>
+                                        <span><strong>운영 데이터 기반 개선:</strong> 학생 피드백 데이터 분석으로 학과행사 참여율 20% 증대</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 창업동아리 회장 -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border-l-4 border-secondary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">🚀</span>
+                                <h3 class="text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 창업동아리 회장</h3>
+                            </div>
+                            <p class="text-secondary font-semibold mb-3">2024.01 ~ 2025.12</p>
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <ul class="list-none space-y-3 text-gray-700 leading-relaxed">
+                                    <li class="flex items-start">
+                                        <span class="text-secondary mr-3 mt-1">👥</span>
+                                        <span><strong>R&R 설계:</strong> 동아리 내 개발/디자인 파트별 R&R(역할과 책임) 설계 및 협업 프로세스 정립</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-secondary mr-3 mt-1">🔀</span>
+                                        <span><strong>형상 관리:</strong> Git Flow 전략을 도입하여 팀원들의 형상 관리 역량 강화</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-secondary mr-3 mt-1">🎯</span>
+                                        <span><strong>프로젝트 리딩:</strong> 각종 창업 경진대회, 해커톤 입상을 위한 아이디어 구체화 및 MVP 개발 리딩</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-3xl font-bold mb-8 text-primary">
+                <span class="relative inline-block">
+                    🏆 Awards & Submissions
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            <!-- 가로 스크롤 가능한 캐러셀 컨테이너 -->
+            <div class="relative">
+                <div id="awardsCarousel" class="flex gap-6 overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide snap-x snap-mandatory scroll-smooth" 
+                     style="scrollbar-width: none; -ms-overflow-style: none;"
+                     onmousedown="handleCarouselMouseDown(event)"
+                     onmousemove="handleCarouselMouseMove(event)"
+                     onmouseup="handleCarouselMouseUp(event)"
+                     onmouseleave="handleCarouselMouseUp(event)"
+                     onscroll="updateDragBar()">
+                    <!-- 상장 미리보기 카드들 -->
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="0"
+                         onmousedown="handleCardMouseDown(event, 0)"
+                         onclick="handleCardClick(event, 0)">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
+                                <iframe src="수상내역/2025_재능대컴소과_캡스톤대상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                        class="w-full h-full pointer-events-none"
+                                        style="object-fit: contain; object-position: center;"></iframe>
+                                <!-- 확대 버튼 -->
+                                <button onclick="event.stopPropagation(); enlargePdf('수상내역/2025_재능대컴소과_캡스톤대상.pdf')" 
+                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
+                                        title="상장 크게 보기">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center">2025 컴퓨터소프트웨어학과 <br>캡스톤 졸업작품 대상</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1">온라인 쇼핑몰 안전확인 플랫폼</p>
+                        </div>
+                    </div>
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="1"
+                         onmousedown="handleCardMouseDown(event, 1)"
+                         onclick="handleCardClick(event, 1)">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
+                                <iframe src="수상내역/2024_인천전문대연합_아이디어톤_최우수상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                        class="w-full h-full pointer-events-none"
+                                        style="object-fit: contain; object-position: center;"></iframe>
+                                <!-- 확대 버튼 -->
+                                <button onclick="event.stopPropagation(); enlargePdf('수상내역/2024_인천전문대연합_아이디어톤_최우수상.pdf')" 
+                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
+                                        title="상장 크게 보기">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center">2024 인천전문대 연합 <br>아이디어톤 최우수상</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1">은둔형 외톨이 상담 치료 플랫폼 </p>
+                        </div>
+                    </div>
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="2"
+                         onmousedown="handleCardMouseDown(event, 2)"
+                         onclick="handleCardClick(event, 2)">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
+                                <iframe src="수상내역/2024_NextGen창업경진대회_우승.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                        class="w-full h-full pointer-events-none"
+                                        style="object-fit: contain; object-position: center;"></iframe>
+                                <!-- 확대 버튼 -->
+                                <button onclick="event.stopPropagation(); enlargePdf('수상내역/2024_NextGen창업경진대회_우승.pdf')" 
+                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
+                                        title="상장 크게 보기">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center">2024 NextGen <br>창업경진대회 우승</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1">AI기반 농산물 직거래 플랫폼</p>
+                        </div>
+                    </div>
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="3"
+                         onmousedown="handleCardMouseDown(event, 3)"
+                         onclick="handleCardClick(event, 3)">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
+                                <iframe src="수상내역/2025_U300창업경진대회_전국50팀.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                        class="w-full h-full pointer-events-none"
+                                        style="object-fit: contain; object-position: center;"></iframe>
+                                <!-- 확대 버튼 -->
+                                <button onclick="event.stopPropagation(); enlargePdf('수상내역/2025_U300창업경진대회_전국50팀.pdf')" 
+                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
+                                        title="상장 크게 보기">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center">2025 U300 창업경진대회 <br> 전국 50팀 선정</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1">사용자 맞춤형 코디추천 플랫폼</p>
+                        </div>
+                    </div>
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="4"
+                         onmousedown="handleCardMouseDown(event, 4)"
+                         onclick="handleCardClick(event, 4)">
+                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full flex flex-col items-center justify-center">
+                            <div class="aspect-[4/3] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative border-4 border-blue-300 w-full" style="border-style: double;">
+                                <div class="w-full h-full flex items-center justify-center relative">
+                                    <iframe src="수상내역/2025_제주도_AWS해커톤_수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-width&view=FitV&page=1" 
+                                            class="pointer-events-none"
+                                            style="width: 100%; height: 100%; display: block; transform: translateY(0);"></iframe>
+                                </div>
+                                <!-- 확대 버튼 -->
+                                <button onclick="event.stopPropagation(); enlargePdf('수상내역/2025_제주도_AWS해커톤_수료증.pdf')" 
+                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
+                                        title="상장 크게 보기">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center w-full">2025 제주도 AWS 해커톤 수료증</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1 w-full">
+                                제주도 발전을 위한 <br>스마트 해양 농업 플랫폼
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 드래그 바 (Media 스타일) -->
+                <div id="dragBar" class="w-full h-1 bg-gray-200 rounded-full mt-4 cursor-pointer relative overflow-hidden">
+                    <div id="dragBarThumb" class="h-full bg-primary rounded-full transition-all duration-150 absolute left-0 cursor-grab active:cursor-grabbing" style="width: 20%; pointer-events: auto;"></div>
+                </div>
+                <!-- 스크롤 힌트 -->
+                <div class="text-center mt-4 text-sm text-gray-500">
+                    <span>← 드래그하거나 스크롤하여 더 많은 상장을 확인하세요 →</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" data-animate="fade-in">
+            <h2 class="text-3xl font-bold mb-6 text-primary">
+                <span class="relative inline-block">
+                    📝 Contact Me
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all duration-200 hover:border-primary/50 form-input">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all duration-200 hover:border-primary/50 form-input">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">메시지</label>
+                    <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all duration-200 hover:border-primary/50 form-input"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-secondary transition-all duration-200 flex items-center justify-center font-medium submit-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    메시지 보내기
+                </button>
+                <p class="text-center text-sm text-gray-500 mt-2">메시지를 보내면 Discord로 실시간 알림이 전송됩니다!</p>
+            </form>
+            <div id="formStatus" class="mt-4 text-center hidden">
+                <p class="text-green-600 bg-green-50 p-3 rounded-md border border-green-200" id="successMessage">메시지가 성공적으로 전송되었습니다!</p>
+                <p class="text-red-600 bg-red-50 p-3 rounded-md border border-red-200" id="errorMessage"></p>
+            </div>
+        </section>
+        
+        <footer class="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-3xl font-bold mb-6 text-primary">
+                <span class="relative inline-block">
+                    🔗 Links
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                </span>
+            </h2>
+            <div class="flex gap-4">
+                <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="mailto:cj542753303@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Email
+                </a>
+            </div>
+        </footer>
+    </div>
+    <!-- Three.js 라이브러리 로드 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- 프로젝트 데이터 및 렌더러 -->
+    <script src="js/projects-data.js"></script>
+    <script src="js/projects-renderer.js"></script>
+
+    <!-- 게임 스크립트 -->
+    <script src="Projects/3D_Maze/maze-game.js"></script>
+    
+    <!-- 애니메이션 헬퍼 -->
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- PDF.js (수상내역 PDF 페이지 렌더링) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+
+    <!-- Modal for enlarged images/videos -->
+    <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="relative bg-white rounded-lg shadow-2xl w-[35ㅔvw] h-[90vh] max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <button id="closeModal" class="absolute top-2 right-2 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-50">&times;</button>
+            <div id="modalContent" class="flex items-center justify-center flex-1 w-full h-full overflow-auto">
+                <!-- Image or video will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Awards - Project 모달과 동일한 UI/UX -->
+    <div id="awardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 hidden award-modal modal-overlay" style="opacity: 0;">
+        <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container" style="opacity: 0; transform: scale(0.97) translateY(8px);">
+            <div class="bg-gradient-to-r from-yellow-400 to-amber-500 h-2"></div>
+            <div class="overflow-y-auto flex-1 p-4 md:p-6">
+                <!-- Header - Project 모달과 동일한 구조 -->
+                <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1 pr-2">
+                            <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis mb-2 md:mb-3"></h3>
+                            <div id="awardHeaderMeta" class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
+                                <!-- 동적으로 채워짐 -->
+                            </div>
+                        </div>
+                        <button id="closeAwardModal" class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors">&times;</button>
+                    </div>
+                </div>
+                
+                <div id="awardContent">
+                    <!-- Hero Summary (선택적) -->
+                    <div id="awardHeroSummary" class="mb-6 md:mb-8"></div>
+                    
+                    <!-- 1) 프로젝트 개요 -->
+                    <div id="awardOverview" class="mb-6 md:mb-8 modal-section" data-section="overview"></div>
+                    
+                    <!-- 2) 주요 기능 -->
+                    <div id="awardFeatures" class="mb-6 md:mb-8 modal-section" data-section="features"></div>
+                    
+                    <!-- 3) Media (이미지만) -->
+                    <div id="awardMedia" class="mb-6 md:mb-8 modal-section" data-section="media"></div>
+                    
+                    <!-- 4) 사용 기술 -->
+                    <div id="awardTechnologies" class="mb-6 md:mb-8 modal-section" data-section="technologies"></div>
+                    
+                    <!-- 5) 기술적 문제 해결 / 경험 포인트 -->
+                    <div id="awardTroubleshooting" class="mb-6 md:mb-8 modal-section" data-section="troubleshooting"></div>
+                    
+                    <!-- 6) 대상 사용자 -->
+                    <div id="awardTargetUsers" class="mb-6 md:mb-8 modal-section" data-section="target-users"></div>
+                    
+                    <!-- 7) 회고 -->
+                    <div id="awardReflection" class="mb-6 md:mb-8 modal-section" data-section="reflection"></div>
+                    
+                    <!-- 8) 프로젝트 자료 (PDF) - 항상 최하단 -->
+                    <div id="awardPdfPages" class="mb-6 md:mb-8 modal-section" data-section="pdf"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 수상내역 데이터
+        const awardsData = [
+            {
+                title: "2025 컴퓨터소프트웨어학과 캡스톤 졸업작품",
+                subtitle: "",
+                pdf: "수상내역/2025_재능대컴소과_캡스톤대상.pdf",
+                pdfPath: "Projects/YGMK/여기몰까(온라인 쇼핑몰 안전확인 플랫폼).pdf",
+                projectName: "여기몰까 - AI 기반 쇼핑몰 신뢰도 분석 플랫폼",
+                description: "쇼핑몰 URL 입력 시 피싱 위험도·리뷰 신뢰도·신고 사례를 종합 분석해 0~100점 신뢰도 점수를 제공하는 서비스. 프론트엔드·백엔드·AI 분석 시스템을 단독 설계·구현해 캡스톤 대상을 수상했습니다.",
+                mainFeatures: [
+                    "이중 분석 파이프라인: Claude 3.5 Sonnet 리뷰 신뢰도 + Random Forest URL 피싱 탐지",
+                    "기술 검증: SSL 인증서/리다이렉트 체인/도메인 연령 분석으로 위험도 점수화",
+                    "신고·커뮤니티: 피해 제보 승인제, 게시판/댓글/좋아요로 정보 공유",
+                    "관리자 대시보드: Recharts 통계와 Full-Text Search 기반 검색/관리"
+                ],
+                technologies: ["React", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Supabase", "Claude 3.5 Sonnet", "Random Forest", "Tailwind CSS"],
+                experiencePoints: [
+                    "LLM+ML 실서비스 적용: 프롬프트 설계와 자체 학습 모델을 결합한 이중 분석",
+                    "성능·비용 최적화: 배치 처리와 5분 캐싱으로 응답 속도 및 API 비용 절감",
+                    "엔드투엔드 풀스택: 18개 페이지, 14개 테이블, 인증·업로드·검색 전 구간 구현"
+                ],
+                targetUsers: "온라인 쇼핑몰 신뢰도를 빠르게 확인하고 피해를 예방하려는 일반 소비자 및 관리자",
+                reflection: "AI/ML을 실제 서비스에 얹으며 데이터 파이프라인·캐싱·프롬프트 엔지니어링을 모두 다뤘고, 전 구간을 혼자 설계·구현하며 제품 완성도를 높였습니다.",
+                images: []
+            },
+            {
+                title: "2024 인천전문대연합 아이디어톤",
+                subtitle: "",
+                pdf: "수상내역/2024_인천전문대연합_아이디어톤_최우수상.pdf",
+                pdfPath: "케어브릿지(은둔형외톨이 상담치료 플랫폼).pdf",
+                projectName: "케어브릿지 - 은둔형 외톨이 상담 치료 플랫폼 (COCO)",
+                description: "은둔형 외톨이 증가 문제를 해결하기 위해 AI 기반 상담 치료 앱 ‘코코(Comfort Companion)’를 개발했습니다. 인천 지역 실태(직업 어려움 37.4%, 심리 문제 17.6%)를 반영해 단계적 사회 통합을 지원합니다.",
+                mainFeatures: [
+                    "AI 상담·커뮤니티: 다마고치처럼 교감하며 자연스러운 AI 상담 경험 제공",
+                    "캐릭터 커스터마이징: 사용자 취향을 반영해 정서적 개방을 유도",
+                    "전문 데이터 기반 상담: 보건복지부·정신건강복지센터·인천 공공데이터·APA·PubMed 심리 데이터 활용",
+                    "상태 분류: 은둔 기간, 심리 원인, 연령·행동 동기에 따른 맞춤 상담",
+                    "코코버스(메타버스 연계): 3D 인천 공간에서 미션 수행 → 현실 활동(산책·모임)으로 연계"
+                ],
+                technologies: ["심리 데이터 분석", "LLM 기반 상담", "3D/메타버스 연동", "커스터마이징 UX"],
+                experiencePoints: [
+                    "지역 실태 조사 기반 문제 정의와 페르소나 설정",
+                    "공공·학술 데이터로 상담 품질을 확보한 AI 설계",
+                    "분류 체계(기간·원인·연령/동기)로 맞춤 상담 시나리오 설계",
+                    "메타버스-현실 연계 미션으로 행동 변화를 유도"
+                ],
+                targetUsers: "인천을 포함한 은둔형 외톨이 당사자 및 가족, 단계적 사회 복귀가 필요한 청년·성인",
+                reflection: "기술보다 심리적 안전과 신뢰가 우선이라는 점을 고려해 공공·학술 데이터를 토대로 상담 신뢰성을 확보하고, 메타버스 미션과 현실 활동을 연계해 행동 변화를 설계했습니다.",
+                images: []
+            },
+            {
+                title: "2024 NextGen 창업경진대회",
+                subtitle: "",
+                pdf: "수상내역/2024_NextGen창업경진대회_우승.pdf",
+                pdfPath: "초록잇다(농산물 직거래 연결 서비스 플랫폼).pdf",
+                projectName: "초록잇다 - AI 농산물 직거래 플랫폼",
+                description: "AI 품질 검사로 신선도를 검증하고 소비자와 농민을 직접 연결하는 농산물 직거래 플랫폼입니다. 중간 유통 없이 합리적 가격을 제공하며, 부모님 인터뷰를 통해 도출한 수요를 기반으로 기능을 설계했습니다.",
+                mainFeatures: [
+                    "AI 품질 검사: 근적외선 당도 측정 + 이미지 인식으로 신선도 등급화",
+                    "직거래 매칭: 농민-소비자를 직접 연결해 신선한 농산물 제공",
+                    "가격 합리화: 중간 유통 제거로 농민 수익 증대, 소비자 부담 감소",
+                    "운영 구조: 농민 상품 등록 → 소비자 온라인 구매 → 플랫폼 수수료 모델"
+                ],
+                technologies: ["NIR 센서", "딥러닝 이미지 인식", "직거래 플랫폼"],
+                experiencePoints: [
+                    "실제 부모님 인터뷰 기반 수요 정의로 기능 우선순위 설정",
+                    "AI 품질 검증을 직거래 신뢰 확보 수단으로 설계",
+                    "수수료 기반 BM과 가격 경쟁력 검증"
+                ],
+                targetUsers: "신선하고 안전한 먹거리를 찾는 40~50대 주부 및 로컬푸드에 관심 있는 소비자",
+                reflection: "직거래의 신뢰를 확보하기 위해 AI 품질 검증을 도입하고, 농민·소비자 인터뷰로 문제 정의와 기능 우선순위를 확정했습니다. 가격 합리화와 수익 구조를 함께 설계하며 차별화를 확보했습니다.",
+                images: []
+            },
+            {
+                title: "2025 U300 창업경진대회",
+                subtitle: "",
+                pdf: "수상내역/2025_U300창업경진대회_전국50팀.pdf",
+                pdfPath: "오늘뭐입지(사용자 맞춤형 코디추천 플랫폼).pdf",
+                projectName: "오늘 뭐 입지? - AI 기반 올인원 패션 플랫폼",
+                description: "알림 기반 코디 추천, 옷장 관리, 커뮤니티를 한 번에 제공하는 AI 패션 플랫폼입니다. 바쁜 MZ세대의 아침 옷 선택 스트레스를 줄이고, 개인화된 코디와 성장형 구독 모델로 유저 락인을 목표로 합니다.",
+                mainFeatures: [
+                    "AI 개인 맞춤 코디 추천: 알림 기반으로 매일 최적 코디 제안",
+                    "옷장 관리/이미지 업로드: 보유 아이템을 등록해 조합 추천",
+                    "커뮤니티/콘텐츠: 스타일 공유와 소속감·자기표현 강화",
+                    "AI 비서 커스터마이징 + 스타일 레벨업 시스템: 성장 경험과 자존감 향상",
+                    "구독 등급제: Free→Pro→Premium 단계별 혜택 제공"
+                ],
+                technologies: ["AI 추천 모델", "이미지 인식", "알림 서비스", "구독 결제"],
+                experiencePoints: [
+                    "2000명 설문과 기사 데이터로 문제 정의 및 페르소나 검증",
+                    "AI 코디 추천과 옷장 관리, 커뮤니티를 통합한 올인원 UX 설계",
+                    "구독 단계별 가치 제안으로 초기 유입→전환→프리미엄 업셀 구조 설계",
+                    "MVP→프로토타입→정식 서비스 로드맵 수립"
+                ],
+                targetUsers: "바쁜 MZ세대(특히 20만 명 규모 패션 앱·커뮤니티 친숙층)와 알림 기반 추천을 선호하는 직장인·대학생",
+                reflection: "옷 선택 스트레스를 해결하기 위해 AI 개인화, 커뮤니티 소속감, 성장형 구독 경험을 결합했습니다. 설문·페르소나 기반 문제 정의 후 MVP를 먼저 출시하고, 단계별 혜택으로 유저 락인과 매출화를 함께 설계했습니다.",
+                images: []
+            },
+            {
+                title: "2025 제주도 AWS 해커톤",
+                subtitle: "",
+                pdf: "수상내역/2025_제주도_AWS해커톤_수료증.pdf",
+                pptLink: "https://www.canva.com/design/DAGcud4z50o/dJc1wtvmEvHJRVFkUxJ8qg/edit?utm_content=DAGcud4z50o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+                projectName: "탐해(탐라의 바다) - 제주도 발전을 위한 스마트 해양 농업 플랫폼",
+                description: "제주도 지자체 운영을 가정한 해양 폐기물 수거 리워드 플랫폼 MVP입니다. Blue Station에서 QR 스캔 후 장비 대여 → 해양 폐기물 수거 → 인근 스테이션 반납 및 블루포인트 적립 → 제주 지역 상품권/리워드 지급 → 수거 폐기물 업사이클링까지의 전체 프로세스를 구현했습니다. 피그마를 이용한 기능 정의가 완료된 MVP 수준의 프로토타입까지 제작했습니다.",
+                mainFeatures: [
+                    "Blue Station 시스템: 제주도 해변마다 설치된 Blue Station에서 QR 코드 스캔을 통해 해양 폐기물 수거 장비 대여",
+                    "해양 폐기물 수거: 사용자가 해변을 걸으며 해양 폐기물을 수거하고, 어느 Blue Station에서든 반납 가능",
+                    "블루포인트 적립 시스템: 수거한 폐기물의 무게에 따라 블루포인트가 자동 적립",
+                    "리워드 제공: 적립된 블루포인트를 제주도 지역 상품권 및 농업 자재로 교환 가능",
+                    "업사이클링 연계: 수거된 폐기물은 전문 재활용 기업과 협업하여 업사이클링 제품으로 제작"
+                ],
+                technologies: ["Figma", "MVP Prototype", "QR Code System", "Reward Platform"],
+                experiencePoints: [
+                    "제주도 해양 환경 문제 해결을 위한 실용적인 플랫폼 기획 및 설계",
+                    "피그마를 활용한 기능 정의 및 프로토타입 제작 경험",
+                    "지자체 운영을 고려한 서비스 설계 및 사용자 플로우 구성",
+                    "해양 폐기물 수거부터 업사이클링까지의 순환 경제 모델 구현"
+                ],
+                targetUsers: "제주도 관광객과 도민들을 위한 서비스입니다. 특히 해양 환경 보호에 관심이 있는 사용자들이 해양 폐기물 수거에 참여하고, 그에 대한 보상을 받을 수 있도록 설계했습니다.",
+                reflection: "제주도의 해양 환경 문제를 해결하기 위한 실용적인 플랫폼을 기획하고 프로토타입까지 제작하는 경험을 할 수 있었습니다. 특히 지자체 운영을 가정한 서비스 설계 과정에서 실제 운영 가능성을 고려한 기능 정의와 사용자 플로우 구성이 중요하다는 것을 배웠습니다. 피그마를 활용한 프로토타입 제작을 통해 아이디어를 시각화하고 구체화하는 과정에서 UX/UI 설계 역량을 향상시킬 수 있었습니다.",
+                images: [],
+                pdfPath: "탐해(탐라의 바다) 제주도 발전을 위한 스마트 해양 농업 플랫폼.pdf"
+            }
+        ];
+
+        let currentAwardIndex = -1;
+
+
+
+        // 카드 마우스 다운 처리
+        let cardMouseDownX = 0;
+        let cardMouseDownY = 0;
+        let cardHasMoved = false;
+
+        function handleCardMouseDown(event, index) {
+            cardMouseDownX = event.clientX;
+            cardMouseDownY = event.clientY;
+            cardHasMoved = false;
+        }
+
+        // 카드 클릭 처리
+        function handleCardClick(event, index) {
+            // 마우스가 많이 움직였으면 클릭으로 간주하지 않음
+            const deltaX = Math.abs(event.clientX - cardMouseDownX);
+            const deltaY = Math.abs(event.clientY - cardMouseDownY);
+            
+            if (deltaX > 5 || deltaY > 5) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+            
+            // 드래그 중이면 모달 열지 않음
+            if (hasMoved || cardHasMoved) {
+                hasMoved = false;
+                cardHasMoved = false;
+                return false;
+            }
+            
+            openAwardModal(index, event);
+        }
+
+        // 모달 열기 - Project 모달과 동일한 UI/UX
+        function openAwardModal(index, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            currentAwardIndex = index;
+            const award = awardsData[index];
+            const modal = document.getElementById('awardModal');
+            
+            // 제목
+            document.getElementById('awardTitle').textContent = award.title;
+            
+            // Header Meta (프로젝트명)
+            let headerMetaHTML = '';
+            if (award.projectName) {
+                headerMetaHTML = `<span class="px-2 py-1 md:px-3 md:py-1 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">${award.projectName}</span>`;
+            }
+            document.getElementById('awardHeaderMeta').innerHTML = headerMetaHTML;
+            
+            // Hero Summary (선택적 - 여기몰까 프로젝트만)
+            if (index === 0 && award.projectName && award.projectName.includes('여기몰까')) {
+                document.getElementById('awardHeroSummary').innerHTML = `
+                    <div class="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg md:rounded-xl p-4 md:p-6 mb-6 md:mb-8 border-l-4 border-amber-500 shadow-sm modal-section" data-section="hero-summary">
+                        <div class="mb-3 md:mb-4">
+                            <p class="text-base md:text-lg font-semibold text-gray-800 leading-relaxed">온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 플랫폼</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">풀스택 개발</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">AI/ML 시스템 설계</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">데이터베이스 설계</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">UI/UX 기획</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-3 md:pt-4 border-t border-amber-200">
+                            <div class="text-center">
+                                <div class="text-xs text-gray-600 mb-1">API 비용</div>
+                                <div class="text-base md:text-lg font-bold text-amber-700">60% 절감</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xs text-gray-600 mb-1">응답 속도</div>
+                                <div class="text-base md:text-lg font-bold text-amber-700">3초 → 0.5초</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xs text-gray-600 mb-1">검색 속도</div>
+                                <div class="text-base md:text-lg font-bold text-amber-700">10배 개선</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xs text-gray-600 mb-1">피싱 탐지 정확도</div>
+                                <div class="text-base md:text-lg font-bold text-amber-700">85%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('awardHeroSummary').innerHTML = '';
+            }
+            
+            // 1) 프로젝트 개요
+            document.getElementById('awardOverview').innerHTML = award.description ? `
+                <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">프로젝트 개요</h4>
+                <p class="text-gray-700 text-sm leading-relaxed line-clamp-3 md:line-clamp-none">${award.description}</p>
+            ` : '';
+            
+            // 2) 주요 기능
+            if (award.mainFeatures && award.mainFeatures.length > 0) {
+                const featuresHTML = award.mainFeatures.map(feature => {
+                    const parts = feature.split(':');
+                    if (parts.length === 2) {
+                        return `
+                            <li class="flex items-start">
+                                <span class="inline-block mr-3 mt-1 text-amber-600 text-base">•</span>
+                                <div>
+                                    <span class="font-medium text-gray-900">${parts[0]}:</span>
+                                    <span class="text-sm">${parts[1]}</span>
+                                </div>
+                            </li>
+                        `;
+                    }
+                    return `
+                        <li class="flex items-start">
+                            <span class="inline-block mr-2 mt-1 text-amber-600">✓</span>
+                            <span class="text-sm">${feature}</span>
+                        </li>
+                    `;
+                }).join('');
+                document.getElementById('awardFeatures').innerHTML = `
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">📌 주요 기능</h4>
+                    <ul class="list-none text-gray-700 space-y-2 md:space-y-3">${featuresHTML}</ul>
+                `;
+            } else {
+                document.getElementById('awardFeatures').innerHTML = '';
+            }
+            
+            // 3) Media (이미지만)
+            let mediaHTML = '';
+            
+            // 이미지 갤러리
+            if (award.images && award.images.length > 0) {
+                mediaHTML = `
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🖼️ Media</h4>
+                    <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+                        ${award.images.map((img, imgIndex) => `
+                            <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
+                                <div class="aspect-video bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md border border-gray-200 flex items-center justify-center transition-transform duration-300 md:hover:scale-[1.02]">
+                                    <img src="${img}" alt="프로젝트 이미지 ${imgIndex + 1}" 
+                                         class="object-cover w-full h-full enlargeable-media cursor-pointer" 
+                                         data-media-type="image" 
+                                         data-src="${img}" 
+                                         onclick="enlargeImage('${img}')" />
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            document.getElementById('awardMedia').innerHTML = mediaHTML || '';
+            
+            // 8) 프로젝트 자료 (PDF) - 항상 최하단, 원래대로 세로 스크롤
+            if (award.pdf) {
+                const rawPdfPath = award.pdfPath || award.pdf;
+                const pdfPath = encodeURI(rawPdfPath);
+                document.getElementById('awardPdfPages').innerHTML = `
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">📄 프로젝트 자료</h4>
+                    <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
+                        <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
+                            <span class="text-xs md:text-sm font-medium text-gray-700">${award.projectName || '프로젝트 PDF'}</span>
+                            <a href="${pdfPath}" target="_blank" class="text-xs text-primary hover:underline">새 탭에서 열기</a>
+                        </div>
+                        <div class="bg-white">
+                            <iframe src="${pdfPath}#toolbar=0&navpanes=0&scrollbar=1" 
+                                    class="w-full border-0" 
+                                    style="height: 720px;"></iframe>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('awardPdfPages').innerHTML = '';
+            }
+            
+            // 4) 사용 기술
+            if (award.technologies && award.technologies.length > 0) {
+                const techHTML = award.technologies.map(tech => 
+                    `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                ).join('');
+                document.getElementById('awardTechnologies').innerHTML = `
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🔧 사용 기술</h4>
+                    <div class="flex flex-wrap gap-2 mb-3 md:mb-4">${techHTML}</div>
+                `;
+            } else {
+                document.getElementById('awardTechnologies').innerHTML = '';
+            }
+            
+            // 5) 주요 경험 포인트 (간결한 리스트 형식)
+            if (award.experiencePoints && award.experiencePoints.length > 0) {
+                const experienceHTML = award.experiencePoints.map(point => 
+                    `<li class="flex items-start">
+                        <span class="inline-block mr-2 mt-1 text-amber-600">💡</span>
+                        <span class="text-sm text-gray-700 leading-relaxed">${point}</span>
+                    </li>`
+                ).join('');
+                
+                document.getElementById('awardTroubleshooting').innerHTML = `
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🧠 주요 경험 포인트</h4>
+                    <ul class="list-none space-y-2 md:space-y-3 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg md:rounded-xl p-4 md:p-5 border-l-4 border-amber-400">
+                        ${experienceHTML}
+                    </ul>
+                `;
+            } else {
+                document.getElementById('awardTroubleshooting').innerHTML = '';
+            }
+            
+            // 6) 대상 사용자
+            if (award.targetUsers) {
+                document.getElementById('awardTargetUsers').innerHTML = `
+                    <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">👥 대상 사용자</h4>
+                    <p class="text-gray-700 text-sm leading-relaxed">${award.targetUsers}</p>
+                `;
+            } else {
+                document.getElementById('awardTargetUsers').innerHTML = '';
+            }
+            
+            // 7) 회고
+            if (award.reflection) {
+                document.getElementById('awardReflection').innerHTML = `
+                    <div class="bg-gradient-to-r from-amber-50 to-yellow-50 p-4 md:p-6 rounded-lg border-l-4 border-amber-400 reflection-box modal-section" data-section="reflection">
+                        <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">💬 회고</h4>
+                        <p class="text-gray-700 text-sm leading-relaxed">${award.reflection}</p>
+                    </div>
+                `;
+            } else {
+                document.getElementById('awardReflection').innerHTML = '';
+            }
+            
+            // 모달 표시 및 애니메이션 - Project 모달과 동일
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Framer Motion 스타일 애니메이션
+            const overlay = modal;
+            const container = modal.querySelector('.modal-container');
+            const isMobile = window.innerWidth < 768;
+            const yDistance = isMobile ? 4 : 8;
+            const duration = isMobile ? 0.2 : 0.25;
+            
+            overlay.style.opacity = '0';
+            container.style.opacity = '0';
+            container.style.transform = `scale(0.97) translateY(${yDistance}px)`;
+            
+            requestAnimationFrame(() => {
+                overlay.style.transition = 'opacity 0.2s ease-out';
+                container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+                
+                requestAnimationFrame(() => {
+                    overlay.style.opacity = '1';
+                    container.style.opacity = '1';
+                    container.style.transform = 'scale(1) translateY(0)';
+                });
+            });
+            
+            // 모달 스크롤 리셋
+            const scrollContainer = modal.querySelector('.overflow-y-auto');
+            if (scrollContainer) {
+                scrollContainer.scrollTop = 0;
+            }
+            
+            // 섹션 스크롤 애니메이션 초기화
+            initAwardModalSectionAnimations(modal);
+        }
+        
+        // 이미지 확대 함수
+        function enlargeImage(imgSrc) {
+            const modal = document.getElementById('enlargeModal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `<img src="${imgSrc}" alt="확대 이미지" class="max-w-full max-h-full w-auto h-auto object-contain">`;
+            modal.classList.remove('hidden');
+        }
+        
+        // PDF 확대 함수
+        function enlargePdf(pdfSrc) {
+            const modal = document.getElementById('enlargeModal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="bg-white w-full h-full flex items-center justify-center">
+                    <iframe src="${pdfSrc}#toolbar=0&navpanes=0&scrollbar=1&view=fitH&zoom=page-width" class="w-full h-full border-0"></iframe>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        // (미사용) PDF 페이지 렌더링 함수 제거됨
+        
+        // 모달 닫기 - Framer Motion 스타일 (Project 모달과 동일)
+        function closeAwardModal() {
+            const modal = document.getElementById('awardModal');
+            const overlay = modal;
+            const container = modal.querySelector('.modal-container');
+            const isMobile = window.innerWidth < 768;
+            const yDistance = isMobile ? 4 : 8;
+            const duration = isMobile ? 0.2 : 0.25;
+            
+            // Backdrop: opacity 1 → 0, duration ~0.2s
+            // Modal panel: opacity 1 → 0, scale 1 → 0.97, y 0 → 8 (모바일: y 0 → 4), duration ~0.25s (모바일: ~0.2s), easeOut
+            overlay.style.transition = 'opacity 0.2s ease-out';
+            container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+            
+            overlay.style.opacity = '0';
+            container.style.opacity = '0';
+            container.style.transform = `scale(0.97) translateY(${yDistance}px)`;
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, duration * 1000);
+        }
+        
+        // Awards 모달 섹션 스크롤 애니메이션 - Project 모달과 동일
+        function initAwardModalSectionAnimations(modal) {
+            const sections = modal.querySelectorAll('.modal-section');
+            const isMobile = window.innerWidth < 768;
+            const yDistance = isMobile ? 8 : 16;
+            const duration = isMobile ? 0.2 : 0.25;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.05,
+                rootMargin: '0px 0px -30px 0px'
+            });
+            
+            sections.forEach((section) => {
+                section.style.opacity = '0';
+                section.style.transform = `translateY(${yDistance}px)`;
+                section.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+                observer.observe(section);
+            });
+        }
+
+
+        // 이벤트 리스너
+        document.getElementById('closeAwardModal').addEventListener('click', closeAwardModal);
+        document.getElementById('awardModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAwardModal();
+            }
+        });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('awardModal').classList.contains('hidden')) {
+                closeAwardModal();
+            }
+        });
+
+
+        // 캐러셀 드래그 기능
+        let isDragging = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let carouselElement = null;
+        let hasMoved = false;
+
+        function handleCarouselMouseDown(e) {
+            carouselElement = document.getElementById('awardsCarousel');
+            if (!carouselElement) return;
+            
+            isDragging = true;
+            hasMoved = false;
+            carouselElement.style.cursor = 'grabbing';
+            startX = e.pageX - carouselElement.offsetLeft;
+            scrollLeft = carouselElement.scrollLeft;
+        }
+
+        function handleCarouselMouseMove(e) {
+            if (!isDragging || !carouselElement) return;
+            
+            const x = e.pageX - carouselElement.offsetLeft;
+            const walk = (x - startX) * 2; // 스크롤 속도 조절
+            
+            if (Math.abs(walk) > 5) {
+                hasMoved = true;
+                cardHasMoved = true;
+            }
+            
+            carouselElement.scrollLeft = scrollLeft - walk;
+            updateDragBar();
+            e.preventDefault();
+        }
+
+        function handleCarouselMouseUp(e) {
+            if (!carouselElement) return;
+            
+            isDragging = false;
+            carouselElement.style.cursor = 'grab';
+            
+            // 드래그가 발생했다면 클릭 이벤트 방지
+            if (hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+
+        // 드래그 바 thumb 위치 업데이트
+        function updateDragBar() {
+            const carousel = document.getElementById('awardsCarousel');
+            const dragBarThumb = document.getElementById('dragBarThumb');
+            if (!carousel || !dragBarThumb) return;
+            
+            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+            if (scrollWidth <= 0) {
+                dragBarThumb.style.width = '100%';
+                dragBarThumb.style.left = '0%';
+                return;
+            }
+            
+            const thumbWidth = (carousel.clientWidth / carousel.scrollWidth) * 100;
+            const maxThumbWidth = 100;
+            const minThumbWidth = 15;
+            const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
+            
+            const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
+            const maxLeft = 100 - finalThumbWidth;
+            const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
+            
+            dragBarThumb.style.width = finalThumbWidth + '%';
+            dragBarThumb.style.left = finalLeft + '%';
+        }
+
+        // 드래그 바 드래그 기능
+        let isDraggingBar = false;
+        let dragBarStartX = 0;
+        let dragBarStartScroll = 0;
+
+        // 터치 이벤트 지원 (모바일)
+        document.addEventListener('DOMContentLoaded', function() {
+            // 드래그 바 초기화
+            setTimeout(updateDragBar, 100); // 이미지 로드 후 업데이트
+            
+            // 드래그 바 드래그 기능
+            const dragBar = document.getElementById('dragBar');
+            const carousel = document.getElementById('awardsCarousel');
+            
+            if (dragBar && carousel) {
+                const dragBarThumb = document.getElementById('dragBarThumb');
+                
+                // 드래그 바 클릭 시 스크롤 (thumb가 아닌 곳 클릭)
+                dragBar.addEventListener('click', function(e) {
+                    if (e.target.id !== 'dragBarThumb' && e.target !== dragBarThumb) {
+                        const dragBarRect = dragBar.getBoundingClientRect();
+                        const clickX = e.clientX - dragBarRect.left;
+                        const dragBarWidth = dragBarRect.width;
+                        const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+                        
+                        if (scrollWidth <= 0) return;
+                        
+                        const clickPercent = clickX / dragBarWidth;
+                        carousel.scrollLeft = clickPercent * scrollWidth;
+                        updateDragBar();
+                    }
+                });
+                
+                // thumb 드래그 시작
+                if (dragBarThumb) {
+                    dragBarThumb.addEventListener('mousedown', function(e) {
+                        isDraggingBar = true;
+                        dragBarStartX = e.clientX;
+                        dragBarStartScroll = carousel.scrollLeft;
+                        dragBarThumb.style.cursor = 'grabbing';
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                }
+
+                document.addEventListener('mousemove', function(e) {
+                    if (!isDraggingBar || !carousel) return;
+                    
+                    const dragBarRect = dragBar.getBoundingClientRect();
+                    const dragBarWidth = dragBarRect.width;
+                    const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+                    
+                    if (scrollWidth <= 0) return;
+                    
+                    const deltaX = e.clientX - dragBarStartX;
+                    const scrollDelta = (deltaX / dragBarWidth) * carousel.scrollWidth;
+                    carousel.scrollLeft = Math.max(0, Math.min(scrollWidth, dragBarStartScroll + scrollDelta));
+                    updateDragBar();
+                });
+
+                document.addEventListener('mouseup', function() {
+                    if (isDraggingBar) {
+                        isDraggingBar = false;
+                        if (dragBarThumb) {
+                            dragBarThumb.style.cursor = 'grab';
+                        }
+                    }
+                });
+            }
+            
+            // 캐러셀 터치 이벤트
+            if (!carousel) return;
+
+            let touchStartX = 0;
+            let touchScrollLeft = 0;
+
+            carousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].pageX - carousel.offsetLeft;
+                touchScrollLeft = carousel.scrollLeft;
+            });
+
+            carousel.addEventListener('touchmove', function(e) {
+                if (!touchStartX) return;
+                const x = e.touches[0].pageX - carousel.offsetLeft;
+                const walk = (x - touchStartX) * 2;
+                carousel.scrollLeft = touchScrollLeft - walk;
+                updateDragBar();
+            });
+
+            carousel.addEventListener('touchend', function() {
+                touchStartX = 0;
+            });
+        });
+    </script>
+    <style>
+        /* 스크롤바 숨기기 */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body>
+</html>
