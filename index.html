@@ -17,6 +17,8 @@
             }
         }
     </script>
+    <!-- Typed.js 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
@@ -43,7 +45,7 @@
                     
                     <!-- Tagline -->
                     <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium" id="hero-tagline" data-animate="stagger-child" data-stagger-index="1">
-                        사용자 중심의 문제 해결과 빠른 실행력을 갖춘 개발자
+                        <span id="typed-text"></span><span class="typed-cursor">|</span>
                     </p>
                     
                     <!-- Key Values -->
@@ -132,128 +134,136 @@
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
-            <h2 class="text-3xl font-bold mb-8 text-primary">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-primary">
                 <span class="relative inline-block">
                     💻 Skills
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
             
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6">
                 <!-- Strong - 주력 기술 (가장 강조) -->
-                <div class="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-6 border-2 border-emerald-300 shadow-lg" data-animate="fade-in">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-2xl">⭐</span>
-                        <h3 class="text-xl font-bold text-emerald-700">Strong</h3>
-                        <span class="text-sm text-gray-500">(주력 기술 - 바로 업무 투입 가능)</span>
+                <div class="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-4 md:p-6 border-2 border-emerald-300 shadow-lg" data-animate="fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl md:text-2xl">⭐</span>
+                            <h3 class="text-lg md:text-xl font-bold text-emerald-700">Strong</h3>
+                        </div>
+                        <span class="text-xs md:text-sm text-gray-500">(주력 기술 - 바로 업무 투입 가능)</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Cursor</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Express.js</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">GitHub Actions</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Java</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">JavaScript</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">MySQL</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Node.js</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">React Native</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Spring Boot</span>
-                        <span class="px-3 py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">TypeScript</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Cursor</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Express.js</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">GitHub Actions</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Java</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">JavaScript</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">MySQL</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Node.js</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">React Native</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Spring Boot</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">TypeScript</span>
                     </div>
                 </div>
 
                 <!-- Knowledgeable - 경험 있음 -->
-                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200 shadow-md" data-animate="fade-in">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-2xl">📖</span>
-                        <h3 class="text-xl font-bold text-gray-800">Knowledgeable</h3>
-                        <span class="text-sm text-gray-500">(경험 있음 - 활용 가능)</span>
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 md:p-6 border border-blue-200 shadow-md" data-animate="fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl md:text-2xl">📖</span>
+                            <h3 class="text-lg md:text-xl font-bold text-gray-800">Knowledgeable</h3>
+                        </div>
+                        <span class="text-xs md:text-sm text-gray-500">(경험 있음 - 활용 가능)</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">3D Blender</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">AWS (EC2/S3)</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Docker</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FastAPI (Python)</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Jenkins</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kotlin</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kubernetes</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Linux</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">PostgreSQL</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Tailwind CSS</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Three.js</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Unity</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WSL2 (Ubuntu)</span>
-                        <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WebGL</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">3D Blender</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">AWS (EC2/S3)</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Docker</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FastAPI (Python)</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Jenkins</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kotlin</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kubernetes</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Linux</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">PostgreSQL</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Tailwind CSS</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Three.js</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Unity</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WSL2 (Ubuntu)</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">WebGL</span>
                     </div>
                 </div>
 
                 <!-- Tools - 협업 툴 -->
-                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200 shadow-md" data-animate="fade-in">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-2xl">🛠️</span>
-                        <h3 class="text-xl font-bold text-gray-800">Tools</h3>
-                        <span class="text-sm text-gray-500">(협업 툴)</span>
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 md:p-6 border border-purple-200 shadow-md" data-animate="fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl md:text-2xl">🛠️</span>
+                            <h3 class="text-lg md:text-xl font-bold text-gray-800">Tools</h3>
+                        </div>
+                        <span class="text-xs md:text-sm text-gray-500">(협업 툴)</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
-                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FigJam</span>
-                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Git/GitHub</span>
-                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Notion</span>
-                        <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Slack</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">FigJam</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Git/GitHub</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Notion</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-purple-100 text-purple-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Slack</span>
                     </div>
                 </div>
 
                 <!-- Designs - 디자인 툴 -->
-                <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200 shadow-md" data-animate="fade-in">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-2xl">🎨</span>
-                        <h3 class="text-xl font-bold text-gray-800">Designs</h3>
-                        <span class="text-sm text-gray-500">(디자인 툴)</span>
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 md:p-6 border border-amber-200 shadow-md" data-animate="fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl md:text-2xl">🎨</span>
+                            <h3 class="text-lg md:text-xl font-bold text-gray-800">Designs</h3>
+                        </div>
+                        <span class="text-xs md:text-sm text-gray-500">(디자인 툴)</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" data-animate="stagger-parent">
-                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Canva</span>
-                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Figma</span>
-                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Mangoboard</span>
-                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Miricanvas</span>
-                        <span class="px-3 py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Photoshop</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Canva</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Figma</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Mangoboard</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Miricanvas</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Photoshop</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
-            <h2 class="text-3xl font-bold mb-8 text-primary">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-primary">
                 <span class="relative inline-block">
                     👔 Leadership & Activities
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6">
                 <!-- 학생회장 -->
-                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
-                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-4 md:p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                         <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="text-2xl">👨‍💼</span>
-                                <h3 class="text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 학생회장</h3>
+                            <div class="flex items-center gap-2 md:gap-3 mb-2">
+                                <span class="text-xl md:text-2xl">👨‍💼</span>
+                                <h3 class="text-lg md:text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 학생회장</h3>
                             </div>
-                            <p class="text-primary font-semibold mb-3">2025.03 ~ 2025.12</p>
-                            <div class="bg-white rounded-lg p-4 border border-gray-200">
-                                <ul class="list-none space-y-3 text-gray-700 leading-relaxed">
+                            <p class="text-primary font-semibold mb-3 text-sm md:text-base">2025.03 ~ 2025.12</p>
+                            <div class="bg-white rounded-lg p-3 md:p-4 border border-gray-200">
+                                <ul class="list-none space-y-4 md:space-y-3 text-gray-700 leading-relaxed">
                                     <li class="flex items-start">
-                                        <span class="text-primary mr-3 mt-1">🌍</span>
-                                        <span><strong>다문화 협업:</strong> 네팔 유학생·한국 학생 합동 행사 기획으로 이해관계자 요구사항 조율</span>
+                                        <span class="text-primary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">🌍</span>
+                                        <span class="text-sm md:text-base"><strong>다문화 협업:</strong> 네팔 유학생·한국 학생 합동 행사 기획으로 이해관계자 요구사항 조율</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <span class="text-primary mr-3 mt-1">👥</span>
-                                        <span><strong>조직 운영:</strong> 학생회 간부 R&R 분배 및 실행력 확보</span>
+                                        <span class="text-primary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">👥</span>
+                                        <span class="text-sm md:text-base"><strong>조직 운영:</strong> 학생회 간부 R&R 분배 및 실행력 확보</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <span class="text-primary mr-3 mt-1">⚡</span>
-                                        <span><strong>이슈 해결:</strong> 우선순위 설정·커뮤니케이션으로 현장 이슈 신속 해결</span>
+                                        <span class="text-primary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">⚡</span>
+                                        <span class="text-sm md:text-base"><strong>이슈 해결:</strong> 우선순위 설정·커뮤니케이션으로 현장 이슈 신속 해결</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <span class="text-primary mr-3 mt-1">📈</span>
-                                        <span><strong>운영 데이터 기반 개선:</strong> 학생 피드백 데이터 분석으로 학과행사 참여율 20% 증대</span>
+                                        <span class="text-primary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">📈</span>
+                                        <span class="text-sm md:text-base"><strong>운영 데이터 기반 개선:</strong> 학생 피드백 데이터 분석으로 학과행사 참여율 20% 증대</span>
                                     </li>
                                 </ul>
                             </div>
@@ -262,27 +272,27 @@
                 </div>
 
                 <!-- 창업동아리 회장 -->
-                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border-l-4 border-secondary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
-                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 md:p-6 border-l-4 border-secondary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                         <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="text-2xl">🚀</span>
-                                <h3 class="text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 창업동아리 회장</h3>
+                            <div class="flex items-center gap-2 md:gap-3 mb-2">
+                                <span class="text-xl md:text-2xl">🚀</span>
+                                <h3 class="text-lg md:text-xl font-bold text-gray-800">컴퓨터소프트웨어학과 창업동아리 회장</h3>
                             </div>
-                            <p class="text-secondary font-semibold mb-3">2024.01 ~ 2025.12</p>
-                            <div class="bg-white rounded-lg p-4 border border-gray-200">
-                                <ul class="list-none space-y-3 text-gray-700 leading-relaxed">
+                            <p class="text-secondary font-semibold mb-3 text-sm md:text-base">2024.01 ~ 2025.12</p>
+                            <div class="bg-white rounded-lg p-3 md:p-4 border border-gray-200">
+                                <ul class="list-none space-y-4 md:space-y-3 text-gray-700 leading-relaxed">
                                     <li class="flex items-start">
-                                        <span class="text-secondary mr-3 mt-1">👥</span>
-                                        <span><strong>R&R 설계:</strong> 동아리 내 개발/디자인 파트별 R&R(역할과 책임) 설계 및 협업 프로세스 정립</span>
+                                        <span class="text-secondary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">👥</span>
+                                        <span class="text-sm md:text-base"><strong>R&R 설계:</strong> 동아리 내 개발/디자인 파트별 R&R(역할과 책임) 설계 및 협업 프로세스 정립</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <span class="text-secondary mr-3 mt-1">🔀</span>
-                                        <span><strong>형상 관리:</strong> Git Flow 전략을 도입하여 팀원들의 형상 관리 역량 강화</span>
+                                        <span class="text-secondary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">🔀</span>
+                                        <span class="text-sm md:text-base"><strong>형상 관리:</strong> Git Flow 전략을 도입하여 팀원들의 형상 관리 역량 강화</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <span class="text-secondary mr-3 mt-1">🎯</span>
-                                        <span><strong>프로젝트 리딩:</strong> 각종 창업 경진대회, 해커톤 입상을 위한 아이디어 구체화 및 MVP 개발 리딩</span>
+                                        <span class="text-secondary mr-2 md:mr-3 mt-0.5 md:mt-1 flex-shrink-0">🎯</span>
+                                        <span class="text-sm md:text-base"><strong>프로젝트 리딩:</strong> 각종 창업 경진대회, 해커톤 입상을 위한 아이디어 구체화 및 MVP 개발 리딩</span>
                                     </li>
                                 </ul>
                             </div>
@@ -482,29 +492,55 @@
                 <p class="text-green-600 bg-green-50 p-3 rounded-md border border-green-200" id="successMessage">메시지가 성공적으로 전송되었습니다!</p>
                 <p class="text-red-600 bg-red-50 p-3 rounded-md border border-red-200" id="errorMessage"></p>
             </div>
+            
+            <!-- Links 섹션 -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <h3 class="text-2xl font-bold mb-4 text-primary">
+                    <span class="relative inline-block">
+                        🔗 Links
+                        <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
+                    </span>
+                </h3>
+                <div class="flex gap-4">
+                    <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="mailto:cj542753303@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Email
+                    </a>
+                </div>
+            </div>
         </section>
-        
+
+        <!-- Giscus 댓글 푸터 -->
         <footer class="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
             <h2 class="text-3xl font-bold mb-6 text-primary">
                 <span class="relative inline-block">
-                    🔗 Links
+                    💬 Comments
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
-            <div class="flex gap-4">
-                <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    GitHub
-                </a>
-                <a href="mailto:cj542753303@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Email
-                </a>
-            </div>
+            <script src="https://giscus.app/client.js"
+                    data-repo="cj5427533/MyComments"
+                    data-repo-id="R_kgDOQm4H9g"
+                    data-category="Announcements"
+                    data-category-id="DIC_kwDOQm4H9s4Czqax"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="bottom"
+                    data-theme="light"
+                    data-lang="ko"
+                    crossorigin="anonymous"
+                    async>
+            </script>
         </footer>
     </div>
     <!-- Three.js 라이브러리 로드 -->
@@ -521,13 +557,19 @@
     <script src="js/animations.js"></script>
     <script src="js/main.js"></script>
 
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
     <!-- PDF.js (수상내역 PDF 페이지 렌더링) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    
+    <!-- Swiper.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- Modal for enlarged images/videos -->
-    <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-50 hidden">
+    <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-[100] hidden">
         <div class="relative bg-white rounded-lg shadow-2xl w-full h-[95vh] max-w-[95vw] max-h-[95vh] overflow-hidden flex flex-col">
-            <button id="closeModal" class="absolute top-2 right-2 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-50">&times;</button>
+            <button id="closeModal" class="absolute top-2 right-2 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-[101]">&times;</button>
             <div id="modalContent" class="flex items-center justify-center flex-1 w-full h-full overflow-auto">
                 <!-- Image or video will be loaded here -->
             </div>
@@ -585,6 +627,180 @@
     </div>
 
     <script>
+        // PDF.js Worker 설정
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+        }
+        
+        // PDF Swiper 인스턴스 저장
+        const pdfSwiperInstances = {};
+        
+        // PDF 페이지를 렌더링하는 함수
+        async function renderPdfPages(pdfPath, containerId, pageInfoElementId) {
+            try {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                // 로딩 표시
+                container.innerHTML = `
+                    <div class="flex items-center justify-center py-12">
+                        <div class="text-center">
+                            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+                            <p class="text-gray-600">PDF를 로딩 중입니다...</p>
+                        </div>
+                    </div>
+                `;
+                
+                // PDF 로드
+                const loadingTask = pdfjsLib.getDocument(pdfPath);
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+                
+                // 각 페이지를 순차적으로 렌더링하고 이미지 URL 생성
+                const pageImages = [];
+                
+                for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    
+                    // 페이지 렌더링 완료 대기
+                    await page.render(renderContext).promise;
+                    
+                    // 이미지가 완전히 렌더링된 후에만 데이터 URL 생성
+                    const imageDataUrl = canvas.toDataURL('image/png');
+                    
+                    // 이미지 로드 완료를 보장하기 위해 Promise로 래핑
+                    const imageLoadPromise = new Promise((resolve) => {
+                        const img = new Image();
+                        img.onload = () => resolve(imageDataUrl);
+                        img.onerror = () => resolve(imageDataUrl); // 에러가 나도 계속 진행
+                        img.src = imageDataUrl;
+                    });
+                    
+                    await imageLoadPromise;
+                    pageImages.push({
+                        dataUrl: imageDataUrl,
+                        pageNum: pageNum
+                    });
+                }
+                
+                // 모든 페이지 렌더링 완료 후 Swiper HTML 생성
+                const slidesHTML = pageImages.map((pageImage, index) => `
+                    <div class="swiper-slide">
+                        <div class="flex items-center justify-center bg-gray-50 p-4 min-h-[400px]">
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden max-w-full">
+                                <img src="${pageImage.dataUrl}" 
+                                     alt="PDF 페이지 ${pageImage.pageNum}" 
+                                     class="max-w-full h-auto"
+                                     style="max-height: 80vh; display: block;"
+                                     loading="eager">
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Swiper HTML 생성
+                container.innerHTML = `
+                    <div class="swiper pdf-swiper-${containerId}">
+                        <div class="swiper-wrapper">
+                            ${slidesHTML}
+                        </div>
+                        <div class="swiper-pagination pdf-pagination-${containerId}"></div>
+                        <div class="swiper-button-prev pdf-prev-${containerId}"></div>
+                        <div class="swiper-button-next pdf-next-${containerId}"></div>
+                    </div>
+                `;
+                
+                // 이미지 로드 완료 대기 (특히 첫 번째 이미지)
+                const firstImage = container.querySelector('.swiper-slide:first-child img');
+                if (firstImage) {
+                    await new Promise((resolve) => {
+                        if (firstImage.complete) {
+                            resolve();
+                        } else {
+                            firstImage.onload = resolve;
+                            firstImage.onerror = resolve; // 에러가 나도 계속 진행
+                            // 타임아웃 설정 (5초 후 강제 진행)
+                            setTimeout(resolve, 5000);
+                        }
+                    });
+                }
+                
+                // Swiper 초기화 (이미지 로드 완료 후)
+                if (typeof Swiper !== 'undefined') {
+                    // 약간의 지연을 두어 DOM이 완전히 업데이트되도록 함
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
+                    const swiperInstance = new Swiper(`.pdf-swiper-${containerId}`, {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        pagination: {
+                            el: `.pdf-pagination-${containerId}`,
+                            clickable: true,
+                            dynamicBullets: true,
+                            renderBullet: function (index, className) {
+                                return '<span class="' + className + '">' + (index + 1) + '</span>';
+                            },
+                        },
+                        navigation: {
+                            nextEl: `.pdf-next-${containerId}`,
+                            prevEl: `.pdf-prev-${containerId}`,
+                        },
+                        keyboard: {
+                            enabled: true,
+                        },
+                        mousewheel: {
+                            forceToAxis: true,
+                        },
+                        on: {
+                            slideChange: function() {
+                                if (pageInfoElementId) {
+                                    const pageInfo = document.getElementById(pageInfoElementId);
+                                    if (pageInfo) {
+                                        pageInfo.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    
+                    // 인스턴스 저장
+                    pdfSwiperInstances[containerId] = swiperInstance;
+                    
+                    // 초기 페이지 정보 업데이트
+                    if (pageInfoElementId) {
+                        const pageInfo = document.getElementById(pageInfoElementId);
+                        if (pageInfo) {
+                            pageInfo.textContent = `1 / ${numPages}`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('PDF 렌더링 오류:', error);
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `
+                        <div class="flex items-center justify-center py-12">
+                            <div class="text-center text-red-600">
+                                <p>PDF를 로드하는 중 오류가 발생했습니다.</p>
+                                <p class="text-sm mt-2">${error.message}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
         // 수상내역 데이터
         const awardsData = [
             {
@@ -687,7 +903,6 @@
                 title: "2025 제주도 AWS 해커톤",
                 subtitle: "",
                 pdf: "Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf",
-                pptLink: "https://www.canva.com/design/DAGcud4z50o/dJc1wtvmEvHJRVFkUxJ8qg/edit?utm_content=DAGcud4z50o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
                 projectName: "탐해(탐라의 바다) - 제주도 발전을 위한 스마트 해양 농업 플랫폼",
                 description: "피그마를 처음 본격적으로 사용하며, 아이디어를 시각화하는 과정에서 UX/UI 설계의 중요성을 배웠습니다. 지자체 운영을 가정한 설계를 통해 실제 서비스 운영의 복잡성을 이해하게 되었습니다.",
                 mainFeatures: [
@@ -754,6 +969,18 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
+            
+            // 기존 PDF Swiper 인스턴스 정리
+            Object.keys(pdfSwiperInstances).forEach(containerId => {
+                if (pdfSwiperInstances[containerId]) {
+                    try {
+                        pdfSwiperInstances[containerId].destroy(true, true);
+                    } catch (e) {
+                        console.warn('Swiper 인스턴스 정리 중 오류:', e);
+                    }
+                    delete pdfSwiperInstances[containerId];
+                }
+            });
             
             currentAwardIndex = index;
             const award = awardsData[index];
@@ -867,7 +1094,7 @@
             
             document.getElementById('awardMedia').innerHTML = mediaHTML || '';
             
-            // 8) 프로젝트 자료 (PDF/PPT) - 항상 최하단, 원래대로 세로 스크롤
+            // 8) 프로젝트 자료 (PDF/PPT) - 항상 최하단, Swiper.js로 슬라이드 표시
             if (award.pdfPath || award.pdf) {
                 const rawPdfPath = award.pdfPath || award.pdf;
                 const pdfPath = encodeURI(rawPdfPath);
@@ -887,21 +1114,32 @@
                         </div>
                     `;
                 }
+                
+                // PDF 컨테이너 ID 생성
+                const pdfContainerId = `award-pdf-container-${index}`;
+                const pageInfoElementId = `${pdfContainerId}-page-info`;
+                
                 document.getElementById('awardPdfPages').innerHTML = `
                     <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">📄 프로젝트 자료</h4>
                     <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
                         <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
                             <span class="text-xs md:text-sm font-medium text-gray-700">${award.projectName || '프로젝트 PDF'}</span>
-                            <a href="${pdfPath}" target="_blank" class="text-xs text-primary hover:underline">새 탭에서 열기</a>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-500" id="${pageInfoElementId}">로딩 중...</span>
+                                <a href="${pdfPath}" target="_blank" class="text-xs text-primary hover:underline">새 탭에서 열기</a>
+                            </div>
                         </div>
-                        <div class="bg-white">
-                            <iframe src="${pdfPath}#toolbar=0&navpanes=0&scrollbar=1" 
-                                    class="w-full border-0" 
-                                    style="height: 720px;"></iframe>
+                        <div class="bg-white p-4">
+                            <div id="${pdfContainerId}" class="pdf-swiper-container"></div>
                         </div>
                     </div>
                     ${pptSection}
                 `;
+                
+                // PDF 렌더링 시작
+                setTimeout(() => {
+                    renderPdfPages(pdfPath, pdfContainerId, pageInfoElementId);
+                }, 100);
             } else {
                 document.getElementById('awardPdfPages').innerHTML = '';
             }
@@ -1028,6 +1266,18 @@
             const isMobile = window.innerWidth < 768;
             const yDistance = isMobile ? 4 : 8;
             const duration = isMobile ? 0.2 : 0.25;
+            
+            // PDF Swiper 인스턴스 정리
+            Object.keys(pdfSwiperInstances).forEach(containerId => {
+                if (pdfSwiperInstances[containerId]) {
+                    try {
+                        pdfSwiperInstances[containerId].destroy(true, true);
+                    } catch (e) {
+                        console.warn('Swiper 인스턴스 정리 중 오류:', e);
+                    }
+                    delete pdfSwiperInstances[containerId];
+                }
+            });
             
             // Backdrop: opacity 1 → 0, duration ~0.2s
             // Modal panel: opacity 1 → 0, scale 1 → 0.97, y 0 → 8 (모바일: y 0 → 4), duration ~0.25s (모바일: ~0.2s), easeOut

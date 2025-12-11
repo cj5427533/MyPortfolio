@@ -10,7 +10,7 @@ const projectsData = [
         contribution: "프론트엔드 전체 구현 / 백엔드 연동 / UI 기획 및 디버깅 주도",
         fullDescription: "재능대학교 캠퍼스를 3D로 구현한 웹 플랫폼입니다. 학생들이 강의실을 예약하고 각 건물의 이벤트·캠페인 정보를 시각적으로 확인할 수 있는 서비스입니다.",
         mainFeatures: "Three.js로 3D 캠퍼스를 시각화하고, 건물 클릭 시 이벤트 정보 확인 및 강의실 예약이 가능한 서비스입니다.",
-        technologies: ["Three.js", "HTML/CSS", "JavaScript", "Express.js", "MySQL"],
+        technologies: ["Express.js", "HTML/CSS", "JavaScript", "MySQL", "Three.js"],
         technologyRationale: [
             "Three.js: 캠퍼스 건물과 동선을 3D로 시각화하여 공간 맥락을 직관적으로 전달",
             "Express.js + MySQL: 강의실 예약·이벤트 데이터 CRUD를 안정적으로 처리하는 전통적 웹 스택",
@@ -71,29 +71,37 @@ const projectsData = [
         contribution: "기획·디자인·프론트엔드·3D/게임 데모 연동·백엔드 폼 연동을 단독 수행",
         heroSummary: {
             purpose: "인터랙티브 웹 포트폴리오로 프로젝트·수상·연락을 한 번에 전달",
-            roles: ["기획/디자인", "프론트엔드 개발", "3D·게임 데모 통합", "배포/운영"],
+            roles: ["기획/디자인", "프론트엔드 개발", "3D·게임 데모 통합", "CI/CD 구축", "배포/운영"],
             keyOutcomes: [
+                { label: "CI/CD 파이프라인", value: "자동 배포 구축", bold: true },
                 { label: "3D·게임 데모", value: "웹에 직접 탑재", bold: true },
                 { label: "연락 폼 성공률", value: "100% (Worker)", bold: true },
-                { label: "WebGL 서빙", value: "gzip/wasm 정상", bold: true },
-                { label: "콘텐츠 추가", value: "데이터 기반 자동", bold: false }
+                { label: "실서비스 운영", value: "성능 최적화", bold: true }
             ]
         },
-        fullDescription: "정적 HTML 기반이지만 프로젝트 데이터 파일만 수정하면 카드와 모달이 자동 렌더링됩니다. Three.js 미로 게임, Unity WebGL 빌드, PDF.js 기반 수상 자료 뷰어, Cloudflare Worker/Discord 연동 연락처 폼 등을 한 페이지에 통합해 '보여줄 수 있는' 포트폴리오를 목표로 제작했습니다.",
+        fullDescription: "정적 HTML 기반이지만 프로젝트 데이터 파일만 수정하면 카드와 모달이 자동 렌더링됩니다. Three.js 미로 게임, Unity WebGL 빌드, PDF.js 기반 수상 자료 뷰어, Cloudflare Worker/Discord 연동 연락처 폼 등을 한 페이지에 통합해 '보여줄 수 있는' 포트폴리오를 목표로 제작했습니다. Netlify에 배포하여 Git 기반 CI/CD 파이프라인을 구축하고, 실제 서비스 환경에서 운영하며 성능 최적화와 사용자 피드백을 수집하는 경험을 했습니다.",
         mainFeatures: [
             "프로젝트 카드/모달 자동 생성: `js/projects-data.js` 수정만으로 UI 갱신",
             "3D·게임 데모 통합: Three.js 미로 게임과 Unity WebGL 빌드를 동일 페이지에 제공",
-            "수상/제출물 뷰어: PDF.js 기반 확대 모달로 자료 바로 확인",
+            "수상/제출물 뷰어: PDF.js + Swiper.js로 페이지별 슬라이드 뷰어 제공",
+            "이미지 갤러리: Swiper.js로 프로젝트 이미지를 슬라이드 형태로 표시",
+            "타이핑 효과: Typed.js로 히어로 섹션 태그라인에 동적 타이핑 효과 적용",
             "연락처 폼: Cloudflare Worker → Discord 알림 + D1 저장(확장 가능 API)",
-            "반응형/애니메이션: Tailwind 유틸리티와 커스텀 애니메이션 스크립트로 인터랙션 구현"
+            "반응형/애니메이션: Tailwind 유틸리티와 커스텀 애니메이션 스크립트로 인터랙션 구현",
+            "CI/CD 자동화: Netlify와 GitHub 연동으로 코드 푸시 시 자동 빌드 및 배포",
+            "실서비스 운영: 실제 URL을 통한 배포로 사용자 피드백 수집 및 성능 모니터링"
         ],
-        technologies: ["HTML/CSS", "JavaScript", "Tailwind CSS", "Three.js", "PDF.js", "Cloudflare Workers", "Node.js"],
+        technologies: ["Cloudflare Workers", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
         technologyRationale: [
             "Tailwind CSS + 커스텀 CSS: 빠른 UI 반복과 일관된 디자인 시스템 유지",
             "데이터 드리븐 렌더링: `projects-data.js` → `projects-renderer.js`로 카드/모달 자동 생성",
             "Cloudflare Worker: 폼 데이터를 서버 없이 수집·검증하고 Discord/D1로 전달",
             "Node 서버(gzip/wasm): Unity WebGL 빌드와 정적 리소스를 올바른 헤더로 서빙",
-            "Three.js + PDF.js: 브라우저에서 3D 데모와 PDF 뷰를 모두 제공"
+            "Three.js + PDF.js: 브라우저에서 3D 데모와 PDF 뷰를 모두 제공",
+            "Swiper.js: PDF 페이지와 이미지 갤러리를 슬라이드 형태로 제공하여 사용자 경험 향상",
+            "Typed.js: 히어로 섹션 태그라인에 타이핑 효과를 적용하여 인터랙티브한 첫인상 제공",
+            "Netlify: GitHub 연동 CI/CD로 코드 변경 시 자동 빌드 및 배포 환경 구축",
+            "Git: 버전 관리 및 배포 파이프라인 자동화"
         ],
         technicalTroubleshooting: [
             {
@@ -102,9 +110,19 @@ const projectsData = [
                 result: "WebGL 빌드가 브라우저에서 정상 로드되고, 로딩 오류가 해소됨."
             },
             {
+                problem: "Netlify에 배포할 때 빌드 과정에서 submodule 및 리소스 경로 오류가 발생했습니다.",
+                solution: "Netlify 빌드 설정에서 환경 변수와 빌드 명령어를 명시적으로 지정하고, 리소스 경로를 상대 경로로 통일했습니다. 또한 Netlify의 캐시 관리 설정을 활용하여 빌드 시간을 최적화했습니다.",
+                result: "빌드 오류가 해소되고 배포 파이프라인이 안정적으로 동작하며, 빌드 시간도 단축되었습니다."
+            },
+            {
                 problem: "연락처 폼 전송 시 실패 원인 확인이 어려웠음.",
                 solution: "Cloudflare Worker에서 요청 검증/로깅 후 Discord 웹훅 알림과 에러 메시지 반환을 분리 처리.",
                 result: "성공/실패 피드백이 명확해지고, 폼 성공률이 안정적으로 유지됨."
+            },
+            {
+                problem: "실서비스 배포 후 이미지 로딩이 느리고, 특히 모바일에서 성능이 저하되었습니다.",
+                solution: "이미지 최적화와 지연 로딩(lazy loading)을 적용하고, Netlify의 CDN 기능을 활용해 이미지 캐싱을 개선했습니다. 또한 라우팅 설정을 최적화하여 불필요한 리다이렉트를 제거했습니다.",
+                result: "이미지 로딩 속도가 개선되고, 모바일 환경에서의 성능이 향상되었으며, 실제 사용자 피드백을 반영하여 지속적으로 개선했습니다."
             },
             {
                 problem: "프로젝트 카드가 늘어날 때 스타일 일관성이 무너질 위험.",
@@ -117,9 +135,11 @@ const projectsData = [
             achievements: [
                 "데이터 기반 카드/모달 자동화로 신규 프로젝트 추가 시간 단축",
                 "Unity WebGL/Three.js/PDF.js/Worker까지 한 페이지에 통합",
-                "연락 폼 Discord 알림 연동으로 실시간 응답 가능"
+                "연락 폼 Discord 알림 연동으로 실시간 응답 가능",
+                "Git 기반 CI/CD 파이프라인 구축으로 코드 변경 시 자동 배포 환경 완성",
+                "실서비스 배포를 통해 이미지 최적화 및 성능 개선 적용"
             ],
-            learnings: "정적 사이트에서도 데이터 주도 설계와 올바른 헤더 설정만으로 WebGL·3D·폼 백엔드를 안정적으로 제공할 수 있음을 확인했습니다. 배포 환경에 맞춰 CORS·헤더·리소스 경로를 일관되게 관리하는 중요성을 체감했습니다."
+            learnings: "정적 사이트에서도 데이터 주도 설계와 올바른 헤더 설정만으로 WebGL·3D·폼 백엔드를 안정적으로 제공할 수 있음을 확인했습니다. 배포 환경에 맞춰 CORS·헤더·리소스 경로를 일관되게 관리하는 중요성을 체감했습니다. Netlify와 GitHub를 연동한 CI/CD 파이프라인을 구축하며, 코드 변경 시 자동으로 빌드 및 배포가 이루어지는 자동화 경험을 했습니다. 특히 빌드 과정에서 발생하는 submodule 및 경로 오류를 해결하며 배포 환경 안정화 역량을 키웠습니다. 실제 서비스 운영을 통해 이미지 최적화, 라우팅 설정, 성능 모니터링 등을 적용하며 실전 프론트엔드 최적화 경험을 쌓았고, 실제 사용자 피드백을 반영하여 지속적으로 개선하는 프로세스를 경험했습니다."
         },
         images: [
             "images/portfolio-screenshot.png"
@@ -138,7 +158,7 @@ const projectsData = [
         contribution: "기획부터 구현까지 전체 개발",
         fullDescription: "Three.js를 활용한 인터랙티브 3D 공 굴리기 미로 게임입니다. 사용자의 마우스나 키보드 조작에 반응하여 판을 기울이고 공을 굴려 목적지에 도달하는 게임입니다.",
         mainFeatures: "Three.js를 활용한 3D 미로에서 물리 시뮬레이션을 통해 공을 굴려 목적지에 도달하는 인터랙티브 게임입니다.",
-        technologies: ["Three.js", "JavaScript", "HTML/CSS", "물리 시뮬레이션"],
+        technologies: ["HTML/CSS", "JavaScript", "물리 시뮬레이션", "Three.js"],
         technologyRationale: [
             "Three.js: 브라우저에서 실시간 3D 렌더링을 수행하고 카메라·조명·오브젝트 제어",
             "커스텀 물리 시뮬레이션: 간단한 수학 모델로 충돌·마찰을 직접 구현해 퍼포먼스와 제어권 확보",
@@ -202,7 +222,7 @@ const projectsData = [
             "다국어 & 지역 맞춤 대응 (베트남어, 중국어, 우즈벡어, 네팔어)",
             "정서적·문화적 멘토 기능"
         ],
-        technologies: ["Android Native", "Kotlin", "OpenAI GPT-4", "Papago API", "Google STT", "ML Kit OCR"],
+        technologies: ["Android Native", "Google STT", "Kotlin", "ML Kit OCR", "OpenAI GPT-4", "Papago API"],
         technologyRationale: [
             "Android Native(Kotlin): 저사양 단말 포함 다양한 기기에서 음성·카메라 접근성을 확보",
             "GPT-4: 교과 개념을 모국어→한국어로 단계적으로 설명해 학습 맥락을 유지",
@@ -283,10 +303,10 @@ const projectsData = [
             "관리자 대시보드: Recharts 통계와 Full-Text Search 기반 검색/관리"
         ],
         technologies: {
-            frontend: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Recharts"],
-            backend: ["Node.js", "Express.js", "PostgreSQL", "Supabase", "JWT"],
+            frontend: ["React", "Recharts", "shadcn/ui", "Tailwind CSS", "TypeScript"],
+            backend: ["Express.js", "JWT", "Node.js", "PostgreSQL", "Supabase"],
             aiMl: ["Claude 3.5 Sonnet", "Python scikit-learn", "Random Forest"],
-            infra: ["GitHub Actions", "GCP", "Docker"]
+            infra: ["Docker", "GCP", "GitHub Actions"]
         },
         technologyRationale: [
             "React + TypeScript: 복잡한 대시보드 상태와 폼을 타입 안전하게 관리",
@@ -372,7 +392,7 @@ const projectsData = [
             "사운드 시스템 - 씬별 BGM 및 효과음 관리 (싱글톤 패턴)",
             "게임 조작 - WASD/방향키 이동, 게임 오버 후 R키 재시작, T키 메인 메뉴"
         ],
-        technologies: ["Unity", "C#", "Blender", "Unity UI", "TextMeshPro", "Unity Physics"],
+        technologies: ["Blender", "C#", "TextMeshPro", "Unity", "Unity Physics", "Unity UI"],
         technologyRationale: [
             "Unity: 3D 게임 개발에 최적화된 엔진으로 물리, 애니메이션, UI를 통합 관리",
             "C#: Unity 스크립팅 언어로 게임 로직과 시스템 구현 (싱글톤 패턴, 코루틴 활용)",

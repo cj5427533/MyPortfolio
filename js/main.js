@@ -22,6 +22,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // HERO 섹션 애니메이션 초기화
     initHeroAnimations();
     
+    // Typed.js 초기화 (태그라인)
+    const typedElement = document.getElementById('typed-text');
+    if (typedElement && typeof Typed !== 'undefined') {
+        // 히어로 섹션이 화면에 보일 때 시작하도록 Intersection Observer 사용
+        const heroSection = document.getElementById('hero-section');
+        const heroTagline = document.getElementById('hero-tagline');
+        
+        if (heroSection && heroTagline) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !typedElement.dataset.typedInitialized) {
+                        typedElement.dataset.typedInitialized = 'true';
+                        
+                        // 애니메이션이 완료된 후 Typed.js 시작 (stagger-index가 1이므로 약 300ms + 여유)
+                        setTimeout(() => {
+                            // 기존 텍스트를 숨기고 Typed.js 시작
+                            typedElement.textContent = '';
+                            
+                            new Typed('#typed-text', {
+                                strings: [
+                                    '사용자 중심의 문제 해결과 빠른 실행력을 갖춘 개발자',
+                                    'UX 중심의 문제 정의와 해결을 추구하는 개발자',
+                                    'Agile 방식으로 빠르게 실행하고 개선하는 개발자',
+                                    'LLM 및 최신 IT 트렌드를 학습하고 실전에 적용하는 개발자'
+                                ],
+                                typeSpeed: 50,
+                                backSpeed: 30,
+                                backDelay: 2000,
+                                loop: true,
+                                showCursor: false, // 커서는 CSS로 직접 제어
+                                smartBackspace: true,
+                                startDelay: 300 // 애니메이션 완료 후 추가 딜레이
+                            });
+                        }, 600); // 애니메이션 완료 대기 시간
+                        
+                        observer.unobserve(heroSection);
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            observer.observe(heroSection);
+        }
+    }
+    
     const sections = document.querySelectorAll('.section-animate');
     
     function checkIfInView() {

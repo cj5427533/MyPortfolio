@@ -144,6 +144,24 @@ body {
     border-radius: 0.1rem;
 }
 
+/* Typed.js 커서 애니메이션 */
+.typed-cursor {
+    display: inline-block;
+    color: #0EA5E9;
+    font-weight: 300;
+    animation: typed-cursor-blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes typed-cursor-blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
 /* 중요 문단 스타일 */
 .important-paragraph {
     padding: 1rem;
@@ -401,6 +419,15 @@ body {
     transform: scale(1.02);
 }
 
+/* 확대 모달 - 항상 최상단에 표시 */
+#enlargeModal {
+    z-index: 100 !important;
+}
+
+#enlargeModal #closeModal {
+    z-index: 101 !important;
+}
+
 /* 프로젝트 카드 애니메이션 */
 @keyframes fadeInUp {
     from {
@@ -583,5 +610,173 @@ body {
     /* 모바일에서 애니메이션 거리 감소 */
     .modal-section {
         will-change: opacity, transform;
+    }
+}
+
+/* PDF Swiper 스타일 */
+.pdf-swiper-container {
+    position: relative;
+    width: 100%;
+}
+
+.pdf-swiper-container .swiper {
+    padding-bottom: 50px;
+}
+
+.pdf-swiper-container .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-swiper-container .swiper-button-prev,
+.pdf-swiper-container .swiper-button-next {
+    color: #0EA5E9;
+    background: rgba(255, 255, 255, 0.9);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.pdf-swiper-container .swiper-button-prev:hover,
+.pdf-swiper-container .swiper-button-next:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.pdf-swiper-container .swiper-button-prev::after,
+.pdf-swiper-container .swiper-button-next::after {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pdf-swiper-container .swiper-pagination {
+    bottom: 10px;
+}
+
+.pdf-swiper-container .swiper-pagination-bullet {
+    background: #0EA5E9;
+    opacity: 0.5;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    color: white;
+    font-weight: 600;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+
+.pdf-swiper-container .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #0EA5E9;
+    transform: scale(1.2);
+}
+
+/* 모바일에서 버튼 크기 조정 */
+@media (max-width: 640px) {
+    .pdf-swiper-container .swiper-button-prev,
+    .pdf-swiper-container .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .pdf-swiper-container .swiper-button-prev::after,
+    .pdf-swiper-container .swiper-button-next::after {
+        font-size: 16px;
+    }
+    
+    .pdf-swiper-container .swiper-pagination-bullet {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 11px;
+    }
+}
+
+/* 프로젝트 이미지 Swiper 스타일 */
+.project-images-swiper-container {
+    position: relative;
+    width: 100%;
+}
+
+.project-images-swiper-container .swiper {
+    padding-bottom: 50px;
+}
+
+.project-images-swiper-container .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-images-swiper-container .swiper-button-prev,
+.project-images-swiper-container .swiper-button-next {
+    color: #0EA5E9;
+    background: rgba(255, 255, 255, 0.9);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.project-images-swiper-container .swiper-button-prev:hover,
+.project-images-swiper-container .swiper-button-next:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.project-images-swiper-container .swiper-button-prev::after,
+.project-images-swiper-container .swiper-button-next::after {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.project-images-swiper-container .swiper-pagination {
+    bottom: 10px;
+}
+
+.project-images-swiper-container .swiper-pagination-bullet {
+    background: #0EA5E9;
+    opacity: 0.5;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    color: white;
+    font-weight: 600;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+
+.project-images-swiper-container .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #0EA5E9;
+    transform: scale(1.2);
+}
+
+/* 모바일에서 프로젝트 이미지 Swiper 버튼 크기 조정 */
+@media (max-width: 640px) {
+    .project-images-swiper-container .swiper-button-prev,
+    .project-images-swiper-container .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .project-images-swiper-container .swiper-button-prev::after,
+    .project-images-swiper-container .swiper-button-next::after {
+        font-size: 16px;
+    }
+    
+    .project-images-swiper-container .swiper-pagination-bullet {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 11px;
     }
 } 

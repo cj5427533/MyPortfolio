@@ -635,22 +635,54 @@ function createProjectModal(project) {
     }
     
     // 이미지 갤러리 (스크린샷 캐러셀) - 모바일 최적화
+    // 이미지만 있고 비디오나 게임이 없는 경우 Swiper.js 사용
     let imagesHTML = '';
     if (project.images && project.images.length > 0) {
-        imagesHTML = `
-            <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
-                <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
-                    ${project.images.map(img => `
-                        <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
-                            <div class="aspect-video bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md border ${theme.border} flex items-center justify-center transition-transform duration-300 md:hover:scale-[1.02]">
-                                <img src="${img}" alt="${project.title}" class="object-cover w-full h-full enlargeable-media cursor-pointer" data-media-type="image" data-src="${img}" />
+        const hasOnlyImages = !project.videos && !project.hasSpecialContent;
+        const imageContainerId = `project-images-swiper-${project.id}`;
+        
+        if (hasOnlyImages) {
+            // Swiper.js 사용 (이미지만 있는 경우)
+            imagesHTML = `
+                <div class="mb-6 md:mb-8 modal-section" data-section="media">
+                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
+                    <div id="${imageContainerId}" class="project-images-swiper-container">
+                        <div class="swiper project-images-swiper-${project.id}">
+                            <div class="swiper-wrapper">
+                                ${project.images.map((img, index) => `
+                                    <div class="swiper-slide">
+                                        <div class="flex items-center justify-center bg-gray-50 p-2 md:p-4">
+                                            <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${img}">
+                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}" class="max-w-full h-auto" style="max-height: 80vh; display: block;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
                             </div>
+                            <div class="swiper-pagination project-images-pagination-${project.id}"></div>
+                            <div class="swiper-button-prev project-images-prev-${project.id}"></div>
+                            <div class="swiper-button-next project-images-next-${project.id}"></div>
                         </div>
-                    `).join('')}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            // 기존 방식 (비디오나 게임이 있는 경우)
+            imagesHTML = `
+                <div class="mb-6 md:mb-8 modal-section" data-section="media">
+                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
+                    <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+                        ${project.images.map(img => `
+                            <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
+                                <div class="aspect-video bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md border ${theme.border} flex items-center justify-center transition-transform duration-300 md:hover:scale-[1.02]">
+                                    <img src="${img}" alt="${project.title}" class="object-cover w-full h-full enlargeable-media cursor-pointer" data-media-type="image" data-src="${img}" />
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
     }
     
     // 비디오 - 모바일 최적화: max-w-full, aspect-video, centered
@@ -1124,6 +1156,41 @@ function showProjectModal(projectId) {
         }, 300);
     }
     
+    // 이미지만 있는 경우 Swiper 초기화
+    const hasOnlyImages = project.images && project.images.length > 0 && !project.videos && !project.hasSpecialContent;
+    if (hasOnlyImages && typeof Swiper !== 'undefined') {
+        setTimeout(() => {
+            const swiperSelector = `.project-images-swiper-${project.id}`;
+            const swiperElement = modal.querySelector(swiperSelector);
+            
+            if (swiperElement && !swiperElement.swiper) {
+                new Swiper(swiperSelector, {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    pagination: {
+                        el: `.project-images-pagination-${project.id}`,
+                        clickable: true,
+                        dynamicBullets: true,
+                        renderBullet: function (index, className) {
+                            return '<span class="' + className + '">' + (index + 1) + '</span>';
+                        },
+                    },
+                    navigation: {
+                        nextEl: `.project-images-next-${project.id}`,
+                        prevEl: `.project-images-prev-${project.id}`,
+                    },
+                    keyboard: {
+                        enabled: true,
+                    },
+                    mousewheel: {
+                        forceToAxis: true,
+                    },
+                    loop: false,
+                });
+            }
+        }, 150);
+    }
+    
     // 이미지 확대 기능 초기화 (동적으로 추가된 요소에도 적용)
     setTimeout(() => {
         const enlargeableMedia = modal.querySelectorAll('.enlargeable-media');
@@ -1347,6 +1414,16 @@ function closeProjectModal(projectId) {
         // Unity 게임 정리
         if (project && project.hasSpecialContent && project.specialContentType === 'unity-game') {
             cleanupUnityGame(projectId);
+        }
+        
+        // Swiper 인스턴스 정리 (이미지 갤러리)
+        const swiperElement = modal.querySelector(`.project-images-swiper-${projectId}`);
+        if (swiperElement && swiperElement.swiper) {
+            try {
+                swiperElement.swiper.destroy(true, true);
+            } catch (e) {
+                console.warn('Swiper 인스턴스 정리 중 오류:', e);
+            }
         }
         
         const overlay = modal;
