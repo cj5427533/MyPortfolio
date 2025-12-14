@@ -34,12 +34,11 @@ const projectsData = [
             infra: ["Docker", "GCP", "GitHub Actions"]
         },
         technologyRationale: [
-            "React + TypeScript: 복잡한 대시보드 상태와 폼을 타입 안전하게 관리",
-            "Express.js + PostgreSQL: 신고/게시판/통계 등 다중 엔드포인트를 안정적으로 처리",
-            "Supabase Storage: 신고 증빙 업로드 및 관리 단순화",
-            "Claude 3.5 Sonnet: 리뷰 텍스트의 맥락 이해도를 높여 가짜 리뷰 판별 정밀도 확보",
-            "Random Forest(scikit-learn): URL 특성 기반 피싱 탐지에서 해석 가능성과 속도를 확보",
-            "Recharts: 관리자 대시보드에서 위험도/신뢰도 변동을 시각적으로 빠르게 파악"
+            "Claude 3.5 Sonnet: 리뷰 텍스트의 맥락 이해도를 높여 가짜 리뷰 판별 정밀도 확보 (GPT-4 대비 비용 효율성)",
+            "Random Forest(scikit-learn): URL 특성 기반 피싱 탐지에서 해석 가능성과 속도를 확보 (신경망 대비 빠른 추론)",
+            "PostgreSQL Full-Text Search: 한국어 형태소 분석과 pg_trgm 확장으로 초성 검색 및 유사도 검색 지원",
+            "Node.js + Python 분리: ML 모델은 Python Flask 서버로 분리, Node.js는 API 게이트웨이로 활용하여 각 언어의 장점 극대화",
+            "Docker + GCP: 컨테이너화로 개발/프로덕션 환경 일관성 확보 및 GCP의 Auto-scaling으로 트래픽 대응"
         ],
         technicalTroubleshooting: [
             {
@@ -124,15 +123,10 @@ const projectsData = [
         technologies: ["Spring Boot", "Java 17", "React", "TypeScript", "MySQL", "Spring Data JPA", "Spring Security", "JWT", "Kakao Local API", "Kakao Mobility API", "Docker", "Fly.io", "GitHub Actions"],
         technologyRationale: [
             "Spring Boot + JPA: 엔티티 간 복잡한 관계를 효율적으로 관리하고 N+1 문제를 @EntityGraph와 fetch join으로 해결",
-            "React + TypeScript: 복잡한 상태 관리와 타입 안전성을 확보하여 대규모 프론트엔드 개발",
-            "Kakao Local API: 한국 지역 문화시설 검색에 최적화된 API로 정확한 위치 정보 제공",
-            "Kakao Mobility Directions API: 자동차 경로 조회 및 지도 표시를 통한 사용자 경험 향상",
-            "MySQL: 관계형 데이터베이스로 복잡한 플랜-장소-사용자 관계를 안정적으로 관리",
-            "Docker + Fly.io: 컨테이너화를 통한 일관된 배포 환경 구축 및 클라우드 배포",
-            "GitHub Actions: CI/CD 파이프라인 자동화로 코드 변경 시 자동 빌드 및 배포",
-            "JWT + 리프레시 토큰: Stateless 인증 방식으로 확장 가능한 인증 시스템 구현",
-            "검색 결과 캐싱: 인메모리 캐싱을 통한 API 호출 감소 및 응답 속도 향상",
-            "레이트 리밋: 로그인 시도 및 API 호출 제한을 통한 보안 강화 및 서버 부하 방지"
+            "JWT + 리프레시 토큰: Stateless 인증 방식으로 확장 가능한 인증 시스템 구현 (세션 기반 대비 서버 부하 감소)",
+            "Kakao Local API + Mobility API: 한국 지역 문화시설 검색과 경로 조회에 최적화된 API 활용",
+            "Fly.io: Docker 기반 배포로 Heroku 대비 비용 효율적이며, 글로벌 CDN으로 응답 속도 향상",
+            "Spring Security: 인증/인가를 프레임워크 레벨에서 처리하여 보안 취약점 최소화"
         ],
         technicalTroubleshooting: [
             {
@@ -211,11 +205,9 @@ const projectsData = [
         technologies: ["Blender", "C#", "TextMeshPro", "Unity", "Unity Physics", "Unity UI"],
         technologyRationale: [
             "Unity: 3D 게임 개발에 최적화된 엔진으로 물리, 애니메이션, UI를 통합 관리",
-            "C#: Unity 스크립팅 언어로 게임 로직과 시스템 구현 (싱글톤 패턴, 코루틴 활용)",
-            "Blender: 3D 모델링 및 애니메이션 제작 (플레이어, 적, 아이템 모델)",
-            "Unity Physics: Rigidbody와 Collider를 활용한 충돌 감지 및 물리 시뮬레이션",
-            "Unity UI + TextMeshPro: 실시간 점수, 생명력, 페이즈 알림 등 게임 정보 표시",
-            "Unity Animator: 플레이어 이동 애니메이션 제어"
+            "C# 코루틴: 비동기 처리를 위한 Unity 네이티브 방식으로 아이템 스폰 타이밍과 무적 상태 관리",
+            "Unity Physics: Rigidbody와 Collider를 활용한 충돌 감지 및 물리 시뮬레이션 (커스텀 물리 대비 안정성)",
+            "싱글톤 패턴: DifficultyManager와 SoundManager로 씬 전환 시에도 데이터와 사운드 상태 유지"
         ],
         technicalTroubleshooting: [
             {
@@ -279,17 +271,13 @@ const projectsData = [
         ],
         technologies: ["Android Native", "Jetpack Compose", "Kotlin", "OpenAI GPT-4", "Papago API", "MVVM", "Hilt", "Coroutines", "Repository Pattern"],
         technologyRationale: [
-            "Android Native(Kotlin): 저사양 단말 포함 다양한 기기에서 음성·카메라 접근성을 확보",
             "Jetpack Compose: View 기반 Activity 제거, Compose로 완전 전환하여 선언적 UI와 코드 재사용성 향상",
-            "Material Design 3: 최신 디자인 시스템으로 친숙하고 상용화된 느낌의 모던한 UI 제공",
-            "MVVM 패턴: ViewModel을 통한 상태 관리 및 비즈니스 로직 분리로 테스트 용이성 향상",
-            "Repository 패턴: 데이터 소스 추상화 및 Mock 서비스 구현으로 개발 효율성 증대",
-            "Hilt 의존성 주입: 의존성 관리 자동화 및 테스트 용이성 개선",
-            "Coroutines: 비동기 처리 개선 및 메인 스레드 블로킹 방지",
-            "GPT-4: 교과 개념을 모국어→한국어로 단계적으로 설명해 학습 맥락을 유지",
-            "Papago API: 공공/학교 문서 번역 시 한국어 특화 품질 확보",
-            "Google STT + ML Kit OCR: 음성·이미지 입력을 텍스트로 변환해 비문해 사용자도 이용 가능",
-            "Result 타입: 성공/실패 상태를 명확하게 표현하여 에러 처리 개선"
+            "MVVM + Repository 패턴: ViewModel을 통한 상태 관리 및 데이터 소스 추상화로 테스트 용이성 향상",
+            "Hilt 의존성 주입: 의존성 관리 자동화 및 테스트 용이성 개선 (Dagger 대비 간소화된 설정)",
+            "Coroutines: 비동기 처리 개선 및 메인 스레드 블로킹 방지 (RxJava 대비 가독성 향상)",
+            "GPT-4: 교과 개념을 모국어→한국어로 단계적으로 설명해 학습 맥락을 유지 (Claude 대비 교육 맥락 이해도)",
+            "Papago API: 공공/학교 문서 번역 시 한국어 특화 품질 확보 (Google Translate 대비 한국어 정확도)",
+            "ML Kit OCR: 온디바이스 텍스트 인식으로 네트워크 없이도 이미지에서 질문 추출 가능"
         ],
         technicalTroubleshooting: [
             {
@@ -352,9 +340,9 @@ const projectsData = [
         mainFeatures: "Three.js로 3D 캠퍼스를 시각화하고, 건물 클릭 시 이벤트 정보 확인 및 강의실 예약이 가능한 서비스입니다.",
         technologies: ["Express.js", "HTML/CSS", "JavaScript", "MySQL", "Three.js"],
         technologyRationale: [
-            "Three.js: 캠퍼스 건물과 동선을 3D로 시각화하여 공간 맥락을 직관적으로 전달",
-            "Express.js + MySQL: 강의실 예약·이벤트 데이터 CRUD를 안정적으로 처리하는 전통적 웹 스택",
-            "HTML/CSS + JavaScript: 3D 인터랙션과 UI를 한 화면에서 가볍게 통합 구현"
+            "Three.js: 캠퍼스 건물과 동선을 3D로 시각화하여 공간 맥락을 직관적으로 전달 (WebGL 직접 사용 대비 생산성)",
+            "Raycasting: 마우스 클릭 위치에서 카메라 방향으로 광선을 쏘아 건물 선택 정확도 향상",
+            "MySQL + SELECT FOR UPDATE: 트랜잭션과 행 잠금으로 동시 예약 시 데이터 일관성 보장"
         ],
         technicalTroubleshooting: [
             {
@@ -415,8 +403,9 @@ const projectsData = [
         technologies: ["HTML/CSS", "JavaScript", "물리 시뮬레이션", "Three.js"],
         technologyRationale: [
             "Three.js: 브라우저에서 실시간 3D 렌더링을 수행하고 카메라·조명·오브젝트 제어",
-            "커스텀 물리 시뮬레이션: 간단한 수학 모델로 충돌·마찰을 직접 구현해 퍼포먼스와 제어권 확보",
-            "JavaScript 입력 처리: 키보드·마우스·터치를 단일 입력 파이프라인으로 묶어 크로스플랫폼 대응"
+            "커스텀 물리 시뮬레이션: AABB 충돌 감지와 중력 적용을 직접 구현해 퍼포먼스와 제어권 확보 (Cannon.js 대비 경량화)",
+            "InputManager 패턴: 키보드·마우스·터치를 단일 입력 파이프라인으로 통합하여 크로스플랫폼 대응 및 코드 중복 제거",
+            "Frustum Culling: 카메라가 보이지 않는 오브젝트 렌더링 생략으로 모바일에서 30fps 이상 유지"
         ],
         technicalTroubleshooting: [
             {
@@ -494,15 +483,11 @@ const projectsData = [
         ],
         technologies: ["Cloudflare Workers", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
         technologyRationale: [
-            "Tailwind CSS + 커스텀 CSS: 빠른 UI 반복과 일관된 디자인 시스템 유지",
-            "데이터 드리븐 렌더링: `projects-data.js` → `projects-renderer.js`로 카드/모달 자동 생성",
-            "Cloudflare Worker: 폼 데이터를 서버 없이 수집·검증하고 Discord/D1로 전달",
-            "Node 서버(gzip/wasm): Unity WebGL 빌드와 정적 리소스를 올바른 헤더로 서빙",
-            "Three.js + PDF.js: 브라우저에서 3D 데모와 PDF 뷰를 모두 제공",
-            "Swiper.js: PDF 페이지와 이미지 갤러리를 슬라이드 형태로 제공하여 사용자 경험 향상",
-            "Typed.js: 히어로 섹션 태그라인에 타이핑 효과를 적용하여 인터랙티브한 첫인상 제공",
-            "Netlify: GitHub 연동 CI/CD로 코드 변경 시 자동 빌드 및 배포 환경 구축",
-            "Git: 버전 관리 및 배포 파이프라인 자동화"
+            "데이터 드리븐 렌더링: `projects-data.js` → `projects-renderer.js`로 카드/모달 자동 생성 (수동 HTML 작성 대비 유지보수성)",
+            "Cloudflare Worker: 서버 없이 폼 데이터 수집·검증 및 Discord/D1 전달 (서버리스 아키텍처로 비용 절감)",
+            "Node 서버(gzip/wasm): Unity WebGL 빌드의 올바른 MIME 타입과 Content-Encoding 헤더 설정 (정적 호스팅 대비 필수)",
+            "Netlify CI/CD: GitHub 연동으로 코드 푸시 시 자동 빌드 및 배포 (수동 배포 대비 개발 효율성)",
+            "PDF.js: 브라우저 네이티브 PDF 뷰어 대비 페이지별 슬라이드 뷰와 커스텀 UI 제공"
         ],
         technicalTroubleshooting: [
             {
