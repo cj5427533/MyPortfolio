@@ -116,7 +116,7 @@ function createProjectCard(project) {
     const badgeHTML = isFeatured ? `
         <div class="mb-3">
             <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold shadow-md featured-badge-pulse">
-                ✨ Featured · 주요 프로젝트
+                ✨ 주요 프로젝트
             </span>
         </div>
     ` : '';
@@ -367,7 +367,7 @@ function createCollapsibleChallenges(project, theme) {
     
     return `
         <div class="mb-8 modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold mb-6 ${theme.textColor} text-xl">🔧 Engineering Challenges & Solutions</h4>
+            <h4 class="font-semibold mb-6 ${theme.textColor} text-xl">🔧 기술적 도전과 해결</h4>
             <div class="space-y-4">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const cardId = `challenge-${project.id}-${index}`;
@@ -730,7 +730,7 @@ function createProjectModal(project) {
             // Swiper.js 사용 (이미지만 있는 경우)
             imagesHTML = `
                 <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ 시연 자료</h4>
                     <div id="${imageContainerId}" class="project-images-swiper-container">
                         <div class="swiper project-images-swiper-${project.id}">
                             <div class="swiper-wrapper">
@@ -760,7 +760,7 @@ function createProjectModal(project) {
             // 기존 방식 (비디오나 게임이 있는 경우)
             imagesHTML = `
                 <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ 시연 자료</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
                         ${project.images.map((img, index) => `
                             <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
@@ -792,7 +792,7 @@ function createProjectModal(project) {
         
         videosHTML = `
             <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📹 Media</h4>
+                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📹 시연 영상</h4>
                 ${project.videos.map(video => {
                     // Bilingual Buddy 프로젝트(id: 4)는 비디오 확대 기능 제거
                     if (project.id === 4) {
@@ -831,7 +831,7 @@ function createProjectModal(project) {
                 <canvas id="modal-maze-game-${project.id}" class="w-full h-full"></canvas>
                 <div class="absolute top-2 right-2">
                     <button id="modal-pause-toggle-${project.id}" class="bg-gray-800 text-white text-[10px] sm:text-xs px-3 py-1.5 rounded shadow hover:bg-gray-700 transition-colors">
-                        정지
+                        일시정지
                     </button>
                 </div>
                 <div id="modal-game-ui-${project.id}" class="absolute top-2 left-2 bg-white/70 p-1 rounded text-xs">
@@ -894,7 +894,7 @@ function createProjectModal(project) {
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                         </svg>
-                        <span class="font-medium">Live Demo</span>
+                        <span class="font-medium">데모</span>
                     </a>
                 ` : ''}
             </div>
@@ -1007,7 +1007,7 @@ function createProjectModal(project) {
                                             } else if (project.id === 6) {
                                                 teamRole = '맵 제작 및 설계 / 충돌 판정 시스템 / 피격 처리 구현';
                                             }
-                                            return `<span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">팀 프로젝트 - ${teamRole}</span>`;
+                                            return `<span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">팀 프로젝트 · ${teamRole}</span>`;
                                         } else {
                                             return `<span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">개인 프로젝트</span>`;
                                         }
@@ -1026,16 +1026,16 @@ function createProjectModal(project) {
                         <!-- JEIU 캠퍼스 참고 설명 (링크 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
                             <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-sky-400">
-                                <strong>📝 참고:</strong> 이 프로젝트는 <strong>로컬(Node.js + MySQL)</strong>에서 재현 가능하도록 공개했으며, <br>운영 리소스 이슈로 <strong>Live Demo는 미배포</strong> 상태입니다. 실행 방법은 GitHub README를 참고해주세요.
+                                <strong>📝 참고:</strong> 이 프로젝트는 <strong>로컬(Node.js + MySQL)</strong>에서 재현 가능하도록 공개했으며, <br>운영 리소스 이슈로 <strong>Live Demo는 현재 제공하지 않습니다.</strong> 실행 방법은 GitHub README를 참고해주세요.
                             </p>
                         </div>
                     ` : ''}
                     
                     ${project.id === 3 ? `
-                        <!-- 미로게임 참고 설명 (깃허브 버튼 아래) -->
+                        <!-- 미로게임 참고 설명 (GitHub 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
                             <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-purple-400">
-                                <strong>📝 참고:</strong> 이 게임은 포트폴리오 웹 사이트에 내장된 데모 게임입니다. 깃허브 링크는 포트폴리오 웹 저장소를 가리키며, 게임 소스코드는 <code class="px-1 py-0.5 bg-gray-200 rounded text-xs">Projects/3D_Maze/maze-game.js</code> 파일에서 확인하실 수 있습니다.
+                                <strong>📝 참고:</strong> 이 게임은 포트폴리오 웹사이트에 내장된 데모입니다. GitHub 링크는 포트폴리오 웹 저장소를 가리키며, 게임 소스 코드는 <code class="px-1 py-0.5 bg-gray-200 rounded text-xs">Projects/3D_Maze/maze-game.js</code>에서 확인하실 수 있습니다.
                             </p>
                         </div>
                     ` : ''}
