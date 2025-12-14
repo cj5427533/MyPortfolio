@@ -1147,12 +1147,50 @@
             
             // 4) 사용 기술
             if (award.technologies && award.technologies.length > 0) {
-                const techHTML = award.technologies.map(tech => 
-                    `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
-                ).join('');
+                const techs = award.technologies;
+                const totalCount = techs.length;
+                
+                let techHTML = '';
+                
+                // 기술이 6개 이하면 한 줄로 표시
+                if (totalCount <= 6) {
+                    techHTML = `
+                        <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
+                            ${techs.map(tech => 
+                                `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                            ).join('')}
+                        </div>
+                    `;
+                } else {
+                    // 7개 이상이면 위아래로 나누기
+                    // 짝수면 반으로 나누고, 홀수면 위쪽에 하나 더 많이
+                    const firstRowCount = Math.ceil(totalCount / 2);
+                    const secondRowCount = totalCount - firstRowCount;
+                    
+                    const firstRow = techs.slice(0, firstRowCount);
+                    const secondRow = techs.slice(firstRowCount);
+                    
+                    techHTML = `
+                        <div class="flex flex-col mb-3 md:mb-4" style="gap: 0;">
+                            <div class="flex flex-wrap gap-2">
+                                ${firstRow.map(tech => 
+                                    `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                                ).join('')}
+                            </div>
+                            ${secondRow.length > 0 ? `
+                                <div class="flex flex-wrap gap-2 -mt-1">
+                                    ${secondRow.map(tech => 
+                                        `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                                    ).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+                
                 document.getElementById('awardTechnologies').innerHTML = `
                     <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🔧 사용 기술</h4>
-                    <div class="flex flex-wrap gap-2 mb-3 md:mb-4">${techHTML}</div>
+                    ${techHTML}
                 `;
             } else {
                 document.getElementById('awardTechnologies').innerHTML = '';

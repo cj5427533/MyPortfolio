@@ -61,12 +61,33 @@ const colorThemes = {
         check: "text-amber-500",
         reflectionGradient: "from-amber-50 to-orange-50",
         reflectionBorder: "border-amber-500"
+    },
+    blue: {
+        gradient: "from-blue-500 to-cyan-500",
+        border: "border-blue-100",
+        text: "text-blue-700",
+        bg: "bg-blue-100",
+        textColor: "text-blue-600",
+        check: "text-blue-500",
+        reflectionGradient: "from-blue-50 to-cyan-50",
+        reflectionBorder: "border-blue-500"
+    },
+    teal: {
+        gradient: "from-teal-500 to-cyan-500",
+        border: "border-teal-100",
+        text: "text-teal-700",
+        bg: "bg-teal-100",
+        textColor: "text-teal-600",
+        check: "text-teal-500",
+        reflectionGradient: "from-teal-50 to-cyan-50",
+        reflectionBorder: "border-teal-500"
     }
 };
 
 // 프로젝트 카드 프리뷰 생성
 function createProjectCard(project) {
     const theme = colorThemes[project.colorTheme];
+    const isFeatured = project.featured === true;
     
     // 이미지가 없거나 logo.png이거나 빈 문자열인 경우 이미지 영역을 비움
     const hasImage = project.thumbnail && 
@@ -81,9 +102,24 @@ function createProjectCard(project) {
         'purple': '#a855f7',
         'pink': '#ec4899',
         'emerald': '#10b981',
-        'amber': '#f59e0b'
+        'amber': '#f59e0b',
+        'blue': '#3b82f6',
+        'teal': '#14b8a6'
     };
     const accentColor = accentColorMap[project.colorTheme] || '#0ea5e9';
+    
+    // Featured 카드 강조용 클래스
+    const cardEmphasisClasses = isFeatured
+        ? 'ring-2 ring-blue-200 shadow-[0_10px_30px_-12px_rgba(59,130,246,0.6)] hover:-translate-y-1 hover:shadow-2xl'
+        : 'shadow-md';
+    const gradientBarHeight = isFeatured ? 'h-2.5' : 'h-1.5';
+    const badgeHTML = isFeatured ? `
+        <div class="mb-3">
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold shadow-md animate-pulse">
+                ✨ Featured · AI 쇼핑몰 신뢰도
+            </span>
+        </div>
+    ` : '';
     
     // 이미지 HTML (인터랙티브 호버 효과 포함) - 모바일 최적화
     const imageHTML = hasImage ? `
@@ -98,12 +134,13 @@ function createProjectCard(project) {
     const valueStatement = project.valueStatement || '';
     
     return `
-        <div class="project-card-preview bg-white rounded-xl shadow-md overflow-hidden border-l-4 transition-all duration-300 ease-out opacity-0 translate-y-4 project-card-item cursor-pointer w-full" 
+        <div class="project-card-preview bg-white rounded-xl overflow-hidden border-l-4 transition-all duration-300 ease-out opacity-0 translate-y-4 project-card-item cursor-pointer w-full ${cardEmphasisClasses}" 
              style="border-left-color: ${accentColor};"
              data-project-id="${project.id}">
             <!-- 그라데이션 상단 바 -->
-            <div class="bg-gradient-to-r ${theme.gradient} h-1.5"></div>
+            <div class="bg-gradient-to-r ${theme.gradient} ${gradientBarHeight}"></div>
             <div class="p-4 md:p-6">
+                ${badgeHTML}
                 ${imageHTML}
                 
                 <!-- 프로젝트 제목 (시각적 앵커) -->
@@ -275,6 +312,20 @@ function createHeroSummary(project, theme) {
             bg: 'bg-amber-100',
             text: 'text-amber-700',
             borderT: 'border-amber-200'
+        },
+        blue: {
+            gradient: 'from-blue-50 to-cyan-50',
+            border: 'border-blue-500',
+            bg: 'bg-blue-100',
+            text: 'text-blue-700',
+            borderT: 'border-blue-200'
+        },
+        teal: {
+            gradient: 'from-teal-50 to-cyan-50',
+            border: 'border-teal-500',
+            bg: 'bg-teal-100',
+            text: 'text-teal-700',
+            borderT: 'border-teal-200'
         }
     };
     
@@ -426,9 +477,9 @@ function createTechnicalTroubleshooting(project, theme) {
         const borderColorResolved = isBilingual ? 'border-rose-400' : borderColor;
     
     return `
-        <div class="mb-6 md:mb-8 modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold mb-4 md:mb-6 ${theme.textColor} text-base md:text-xl">🔧 기술적 문제 해결</h4>
-            <div class="space-y-4">
+        <div class="mb-5 md:mb-6 modal-section" data-section="troubleshooting">
+            <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🛠️ 트러블 슈팅</h4>
+            <div class="space-y-3">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const accordionId = `troubleshooting-${project.id}-${index}`;
                     
@@ -482,47 +533,73 @@ function createTechnicalTroubleshooting(project, theme) {
                         solutionBullets = item.solution.split('.').filter(s => s.trim()).slice(0, 3).map(s => s.trim());
                     }
                     
-                    // 결과 강조 (게임 프로젝트)
+                    // 성능 개선 수치 강조 (모든 프로젝트 공통)
                     let highlightedResult = item.result;
+                    // 성능 수치 패턴 강조: %, 배, 초, fps 등
+                    const performancePatterns = [
+                        /(\d+%)/g,
+                        /(\d+\.\d+%)/g,
+                        /(\d+)배/g,
+                        /(\d+)초/g,
+                        /(\d+fps)/gi,
+                        /(\d+\.\d+초)/g,
+                        /(\d+%\s*(?:단축|감소|절감|향상|개선))/g
+                    ];
+                    
+                    // 프로젝트별 테마 색상 설정
+                    let performanceColor = 'text-blue-700';
                     if (project.id === 3) {
-                        highlightedResult = item.result
-                            .replace(/30fps/g, '<span class="font-semibold text-indigo-700">30fps</span>')
+                        performanceColor = 'text-indigo-700';
+                    } else if (isBilingual) {
+                        performanceColor = 'text-rose-700';
+                    } else if (project.id === 5) {
+                        performanceColor = 'text-emerald-700';
+                    }
+                    
+                    // 성능 수치 강조
+                    highlightedResult = highlightedResult
+                        .replace(/(\d+%)/g, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
+                        .replace(/(\d+\.\d+%)/g, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
+                        .replace(/(\d+)배/g, `<span class="font-bold ${performanceColor} text-base">$1배</span>`)
+                        .replace(/(\d+)초/g, `<span class="font-bold ${performanceColor} text-base">$1초</span>`)
+                        .replace(/(\d+fps)/gi, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
+                        .replace(/(\d+\.\d+초)/g, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
+                        .replace(/(완전히 해결|완전 해결)/g, '<span class="font-bold text-green-700">$1</span>')
+                        .replace(/(0건)/g, '<span class="font-bold text-green-700">$1</span>');
+                    
+                    // 프로젝트별 추가 강조 (기존 로직 유지)
+                    if (project.id === 3) {
+                        highlightedResult = highlightedResult
                             .replace(/자연스럽게/g, '<span class="font-semibold text-indigo-700">자연스럽게</span>')
                             .replace(/안정적으로/g, '<span class="font-semibold text-indigo-700">안정적으로</span>')
                             .replace(/안정적인/g, '<span class="font-semibold text-indigo-700">안정적인</span>');
                     } else if (isBilingual) {
-                        highlightedResult = item.result
-                            .replace(/70%/g, '<span class="font-semibold text-rose-700">70%</span>')
-                            .replace(/40%/g, '<span class="font-semibold text-rose-700">40%</span>')
+                        highlightedResult = highlightedResult
                             .replace(/실패율/g, '<span class="font-semibold text-rose-700">실패율</span>')
                             .replace(/비용/g, '<span class="font-semibold text-rose-700">비용</span>');
-                    } else {
-                        highlightedResult = item.result
-                            .replace(/(\d+%)/g, '<span class="font-semibold text-blue-700">$1</span>')
-                            .replace(/(완전히 해결|0건)/g, '<span class="font-semibold text-green-700">$1</span>');
                     }
                     
                     return `
-                        <div class="bg-gradient-to-r ${bgColorResolved} rounded-lg md:rounded-xl p-4 md:p-5 border-l-4 ${borderColorResolved} shadow-sm troubleshooting-item" data-item-index="${index}">
-                            <div class="mb-3">
-                                <h5 class="font-semibold text-red-600 mb-2 flex items-center gap-2 text-sm md:text-base">
-                                    <span class="text-base md:text-lg">⚠️</span>
+                        <div class="bg-gradient-to-r ${bgColorResolved} rounded-lg md:rounded-xl p-3 md:p-4 border-l-4 ${borderColorResolved} shadow-sm troubleshooting-item" data-item-index="${index}">
+                            <div class="mb-2">
+                                <h5 class="font-semibold text-red-600 mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
+                                    <span class="text-sm md:text-base">⚠️</span>
                                     <span>문제 상황</span>
                                 </h5>
-                                <p class="text-gray-700 pl-5 md:pl-6 text-xs md:text-sm leading-relaxed">
+                                <p class="text-gray-700 pl-4 md:pl-5 text-xs md:text-sm leading-relaxed">
                                     ${conciseProblem}
                                 </p>
                             </div>
                             
-                            <div class="mb-3">
-                                <button class="troubleshooting-toggle w-full text-left flex items-center justify-between font-semibold text-blue-600 hover:text-blue-700 transition-colors min-h-[44px] text-sm md:text-base" data-accordion-id="${accordionId}">
-                                    <span class="flex items-center gap-2">
-                                        <span class="text-base md:text-lg">💡</span>
+                            <div class="mb-2">
+                                <button class="troubleshooting-toggle w-full text-left flex items-center justify-between font-semibold text-blue-600 hover:text-blue-700 transition-colors min-h-[40px] text-xs md:text-sm" data-accordion-id="${accordionId}">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="text-sm md:text-base">💡</span>
                                         <span>해결 과정</span>
                                     </span>
-                                    <span class="text-lg md:text-xl transition-transform duration-200" data-arrow>▼</span>
+                                    <span class="text-base md:text-lg transition-transform duration-200" data-arrow>▼</span>
                                 </button>
-                                <div class="troubleshooting-content hidden pl-5 md:pl-6 mt-2" id="${accordionId}" data-mobile-collapsed="true">
+                                <div class="troubleshooting-content hidden pl-4 md:pl-5 mt-1.5" id="${accordionId}" data-mobile-collapsed="true">
                                     <div class="text-gray-700 text-xs md:text-sm leading-relaxed space-y-2">
                                         ${solutionBullets.map(step => {
                                             if (!step) return '';
@@ -544,11 +621,11 @@ function createTechnicalTroubleshooting(project, theme) {
                             </div>
                             
                             <div>
-                                <h5 class="font-semibold text-green-600 mb-2 flex items-center gap-2 text-sm md:text-base">
-                                    <span class="text-base md:text-lg">✅</span>
-                                    <span>결과 및 개선 효과</span>
+                                <h5 class="font-semibold text-green-600 mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
+                                    <span class="text-sm md:text-base">📊</span>
+                                    <span>성능 개선 및 결과</span>
                                 </h5>
-                                <p class="text-gray-700 pl-5 md:pl-6 text-xs md:text-sm leading-relaxed">
+                                <p class="text-gray-700 pl-4 md:pl-5 text-xs md:text-sm leading-relaxed">
                                     ${highlightedResult}
                                 </p>
                             </div>
@@ -577,7 +654,7 @@ function createProjectModal(project) {
             <ul class="list-none text-gray-700 space-y-2">
                 ${project.mainFeatures.slice(0, 5).map(feature => `
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span class="text-sm">${feature}</span>
                     </li>
                 `).join('')}
@@ -590,19 +667,19 @@ function createProjectModal(project) {
             mainFeaturesHTML = `
                 <ul class="list-none text-gray-700 space-y-2 text-sm">
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>3D 미로 구조와 레벨 시스템</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>물리 기반 판 기울기 조작 (키보드·마우스·터치)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>실시간 충돌 감지 및 공 움직임 시뮬레이션</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>레벨 진행 및 타이머 표시</span>
                     </li>
                 </ul>
@@ -611,19 +688,19 @@ function createProjectModal(project) {
             mainFeaturesHTML = `
                 <ul class="list-none text-gray-700 space-y-2 text-sm">
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>이중언어 AI 튜터 (모국어 → 한국어 단계적 설명)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>가정통신문 자동 번역·알림</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>다국어 지원 (베트남어·중국어·우즈벡어·네팔어)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 ${theme.check}">✓</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>정서·문화 멘토링 기능</span>
                     </li>
                 </ul>
@@ -697,7 +774,21 @@ function createProjectModal(project) {
         videosHTML = `
             <div class="mb-6 md:mb-8 modal-section" data-section="media">
                 <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📹 Media</h4>
-                ${project.videos.map(video => `
+                ${project.videos.map(video => {
+                    // Bilingual Buddy 프로젝트(id: 4)는 비디오 확대 기능 제거
+                    if (project.id === 4) {
+                        return `
+                    <div class="${maxWidth} mx-auto rounded-lg md:rounded-xl overflow-hidden shadow-md ${bgColor} mb-3 md:mb-4">
+                        <div class="${aspectRatio}">
+                            <video class="w-full h-full ${objectFit}" controls preload="metadata">
+                                <source src="${video.src}" type="${video.type || 'video/mp4'}">
+                                브라우저가 비디오를 지원하지 않습니다.
+                            </video>
+                        </div>
+                    </div>
+                `;
+                    } else {
+                        return `
                     <div class="${maxWidth} mx-auto rounded-lg md:rounded-xl overflow-hidden shadow-md ${bgColor} mb-3 md:mb-4">
                         <div class="${aspectRatio}">
                             <video class="w-full h-full ${objectFit} enlargeable-media" controls preload="metadata" data-media-type="video" data-src="${video.src}">
@@ -706,7 +797,9 @@ function createProjectModal(project) {
                             </video>
                         </div>
                     </div>
-                `).join('')}
+                `;
+                    }
+                }).join('')}
             </div>
         `;
     }
@@ -832,8 +925,8 @@ function createProjectModal(project) {
         const achievementsHTML = achievements.map(achievement => {
             // ** 기호 제거
             const formatted = achievement.replace(/\*\*/g, '');
-            return `<li class="flex items-start">
-                <span class="inline-block mr-2 mt-1 text-emerald-600">✓</span>
+            return `<li class="flex items-center">
+                <span class="inline-block mr-2 text-emerald-600">✓</span>
                 <span class="text-sm text-gray-800">${formatted}</span>
             </li>`;
         }).join('');
@@ -912,7 +1005,7 @@ function createProjectModal(project) {
                                     if (parts.length === 2) {
                                         return `
                                             <li class="flex items-start">
-                                                <span class="inline-block mr-3 mt-1 ${theme.check} text-base">•</span>
+                                                <span class="flex-shrink-0 mr-3 ${theme.check} text-base leading-none">•</span>
                                                 <div>
                                                     <span class="font-medium text-gray-900">${parts[0]}:</span>
                                                     <span class="text-sm">${parts[1]}</span>
@@ -922,7 +1015,7 @@ function createProjectModal(project) {
                                     }
                                     return `
                                         <li class="flex items-start">
-                                            <span class="inline-block mr-3 mt-1 ${theme.check} text-base">•</span>
+                                            <span class="flex-shrink-0 mr-3 ${theme.check} text-base leading-none">•</span>
                                             <span class="text-sm">${feature}</span>
                                         </li>
                                     `;
@@ -951,13 +1044,50 @@ function createProjectModal(project) {
                     <!-- 4) 사용 기술 & 왜 이 기술을 썼나요? - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="mb-6 md:mb-8 modal-section" data-section="technologies">
                         <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🔧 사용 기술</h4>
-                        ${project.id === 5 ? createGroupedTechStack(project, theme) : `
-                            <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
-                                ${Array.isArray(project.technologies) ? project.technologies.map(tech => `
-                                    <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
-                                `).join('') : ''}
-                            </div>
-                        `}
+                        ${project.id === 5 ? createGroupedTechStack(project, theme) : (() => {
+                            if (!Array.isArray(project.technologies) || project.technologies.length === 0) {
+                                return '<div class="flex flex-wrap gap-2 mb-3 md:mb-4"></div>';
+                            }
+                            
+                            const techs = project.technologies;
+                            const totalCount = techs.length;
+                            
+                            // 기술이 6개 이하면 한 줄로 표시
+                            if (totalCount <= 6) {
+                                return `
+                                    <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
+                                        ${techs.map(tech => `
+                                            <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
+                                        `).join('')}
+                                    </div>
+                                `;
+                            }
+                            
+                            // 7개 이상이면 위아래로 나누기
+                            // 짝수면 반으로 나누고, 홀수면 위쪽에 하나 더 많이
+                            const firstRowCount = Math.ceil(totalCount / 2);
+                            const secondRowCount = totalCount - firstRowCount;
+                            
+                            const firstRow = techs.slice(0, firstRowCount);
+                            const secondRow = techs.slice(firstRowCount);
+                            
+                            return `
+                                <div class="flex flex-col mb-3 md:mb-4" style="gap: 0;">
+                                    <div class="flex flex-wrap gap-2">
+                                        ${firstRow.map(tech => `
+                                            <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
+                                        `).join('')}
+                                    </div>
+                                    ${secondRow.length > 0 ? `
+                                        <div class="flex flex-wrap gap-2 -mt-1">
+                                            ${secondRow.map(tech => `
+                                                <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
+                                            `).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `;
+                        })()}
                         ${project.technologyRationale && project.technologyRationale.length > 0 ? `
                             <div class="mt-3 md:mt-4">
                                 <h5 class="font-semibold mb-2 ${theme.textColor} text-sm md:text-base">왜 이 기술을 썼나요?</h5>
@@ -1014,7 +1144,18 @@ function renderProjectCards() {
     const container = document.getElementById('projects-container');
     if (!container) return;
     
-    container.innerHTML = projectsData.map(project => createProjectCard(project)).join('');
+    // featured=true인 프로젝트를 항상 먼저 배치하고, 나머지는 원래 순서를 유지
+    const sortedProjects = projectsData
+        .map((project, index) => ({ ...project, _originalIndex: index }))
+        .sort((a, b) => {
+            const aFeatured = a.featured ? 1 : 0;
+            const bFeatured = b.featured ? 1 : 0;
+            if (aFeatured !== bFeatured) return bFeatured - aFeatured;
+            return a._originalIndex - b._originalIndex;
+        })
+        .map(({ _originalIndex, ...rest }) => rest);
+    
+    container.innerHTML = sortedProjects.map(project => createProjectCard(project)).join('');
     
     // 카드 클릭 이벤트 추가 - 전체 카드 클릭 가능
     container.querySelectorAll('.project-card-preview').forEach(card => {

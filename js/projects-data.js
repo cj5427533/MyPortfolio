@@ -48,7 +48,7 @@ const projectsData = [
             "images/JEIU_Campus_3.png"
         ],
         videos: [],
-        colorTheme: "sky",
+        colorTheme: "teal",
         hasSpecialContent: false,
         heroSummary: {
             purpose: "3D 캠퍼스 맵과 강의실 예약, 이벤트 정보를 한 화면에서 직관적으로 제공하는 웹 플랫폼",
@@ -227,7 +227,7 @@ const projectsData = [
             "OCR 기능: ML Kit을 사용한 텍스트 인식으로 이미지에서 직접 질문 가능",
             "강화된 에러 처리: 네트워크 오류, API 실패 등 다양한 상황에 대한 사용자 친화적 메시지"
         ],
-        technologies: ["Android Native", "Jetpack Compose", "Material Design 3", "Material Icons Extended", "Google STT", "Kotlin", "ML Kit OCR", "OpenAI GPT-4", "Papago API", "MVVM", "Hilt", "Coroutines", "Repository Pattern"],
+        technologies: ["Android Native", "Jetpack Compose", "Kotlin", "OpenAI GPT-4", "Papago API", "MVVM", "Hilt", "Coroutines", "Repository Pattern"],
         technologyRationale: [
             "Android Native(Kotlin): 저사양 단말 포함 다양한 기기에서 음성·카메라 접근성을 확보",
             "Jetpack Compose: View 기반 Activity 제거, Compose로 완전 전환하여 선언적 UI와 코드 재사용성 향상",
@@ -261,18 +261,12 @@ const projectsData = [
         targetUsers: "다문화가정의 자녀와 부모님, 그리고 교사들을 위한 서비스입니다. 특히 한국어가 서툰 학생들이 학교 생활에서 겪는 어려움을 해소하고, 부모님들이 자녀의 교육에 더 적극적으로 참여할 수 있도록 돕고자 했습니다.",
         reflection: {
             achievements: [
-                "API 호출 실패율 70% 감소, 비용 40% 절감 (캐싱 및 프롬프트 최적화)",
-                "음성 인식 정확도 30% 향상 (언어 감지 및 VAD 로직)",
-                "교육 용어 번역 정확도 향상 (전문 용어 사전 및 사용자 검증)",
-                "MVVM 패턴 도입으로 상태 관리 및 비즈니스 로직 분리 완료",
+                "API 호출 실패율 70% 감소, 비용 40% 절감 (캐싱 전략 및 프롬프트 최적화)",
                 "Repository 패턴 적용으로 데이터 소스 추상화 및 Mock 서비스 구현",
-                "Hilt 의존성 주입으로 의존성 관리 자동화 및 테스트 용이성 개선",
-                "Compose로 UI 완전 전환하여 선언적 UI와 코드 재사용성 향상",
-                "Material Design 3 적용으로 모던하고 일관된 사용자 경험 제공",
-                "단위 테스트 추가 및 Mockito-Kotlin 도입으로 코드 품질 향상",
-                "Result 타입 도입으로 성공/실패 상태 명확화 및 에러 처리 개선"
+                "Result 타입 도입으로 성공/실패 상태 명확화 및 에러 처리 개선",
+                "단위 테스트 추가로 코드 품질 및 안정성 향상"
             ],
-            learnings: "실제 사용자 문제 해결이 기술 선택의 기준이 되어야 함을 배웠습니다. API 비용 절감을 위해 캐싱 전략과 프롬프트 최적화를 적용하며, 비즈니스 관점에서의 기술 판단력을 키웠습니다. MVVM과 Repository 패턴을 적용하며 확장 가능한 아키텍처 설계의 중요성을 깨달았고, Hilt를 통한 의존성 주입으로 테스트 용이성을 크게 향상시켰습니다. Compose로 UI를 완전 전환하며 선언적 UI의 장점을 체감했고, Material Design 3를 적용하여 일관된 디자인 시스템을 구축했습니다. 단위 테스트와 Result 타입을 도입하며 코드 품질과 안정성을 개선했습니다. 다국어 환경에서의 UX 설계와 사용자 피드백 반영 프로세스를 경험했으며, 향후 AI 기반 서비스 개발 시 비용 효율성과 사용자 경험의 균형을 항상 고려하겠습니다."
+            learnings: "API 비용 절감을 위해 캐싱 전략과 프롬프트 최적화를 적용하며, 비즈니스 관점에서의 기술 판단력을 키웠습니다. Repository 패턴을 적용하며 확장 가능한 아키텍처 설계의 중요성을 깨달았고, 데이터 소스 추상화를 통해 테스트 용이성을 크게 향상시켰습니다. 단위 테스트와 Result 타입을 도입하며 코드 품질과 안정성을 개선했습니다. 향후 백엔드 개발 시 비용 효율성과 성능 최적화, 그리고 확장 가능한 아키텍처 설계를 항상 고려하겠습니다."
         },
         images: [],
         videos: [
@@ -303,6 +297,7 @@ const projectsData = [
         valueStatement: "LLM과 ML을 결합한 이중 분석 시스템 구축",
         period: "2025.09.25 ～ 2025.11.27",
         contribution: "프론트엔드 전체 구현 / 백엔드 API 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획 및 디버깅 주도",
+        featured: true,
         // Hero Summary Block
         heroSummary: {
             purpose: "온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 플랫폼",
@@ -380,8 +375,99 @@ const projectsData = [
             "Projects/YGMK/스크린샷 2025-12-10 162317.png"
         ],
         videos: [],
-        colorTheme: "emerald",
+        colorTheme: "blue",
         hasSpecialContent: false
+    },
+    {
+        id: 7,
+        title: "컬처맵 (CultureMap)",
+        thumbnail: "Projects/CultureMap/Logo.png",
+        shortDescription: "사용자가 스스로 계획한 문화 생활 플랜을 기록하고, 일부를 다른 사람과 공유할 수 있는 커뮤니티 기반 문화기록 플랫폼. Kakao API를 활용한 지도 기반 장소 검색과 경로 설정, 플랜 협업 및 공유 기능을 제공합니다.",
+        valueStatement: "문화시설을 조합해 나만의 플랜 생성, 기록, 공유",
+        period: "2024.12 ～ 2025.01",
+        contribution: "풀스택 개발 / Spring Boot 백엔드 / React 프론트엔드 / Docker 배포 / CI/CD 구축",
+        heroSummary: {
+            purpose: "사용자 스스로 설계한 문화 생활 플랜을 커뮤니티로 확산시키는 플랫폼",
+            roles: ["풀스택 개발", "Spring Boot 백엔드", "React 프론트엔드", "Docker 배포", "CI/CD 구축"],
+            keyOutcomes: [
+                { label: "JPA N+1 문제", value: "해결 완료", bold: true },
+                { label: "검색 결과 캐싱", value: "10분 TTL", bold: true },
+                { label: "레이트 리밋", value: "구현 완료", bold: true },
+                { label: "Fly.io 배포", value: "성공", bold: false }
+            ]
+        },
+        fullDescription: "컬처맵은 단순한 전시 일정 공유를 넘어서, 사용자 스스로 설계한 문화 생활 플랜을 커뮤니티로 확산시키는 플랫폼입니다. Spring Boot 백엔드와 React 프론트엔드를 사용하여 구현했으며, Kakao Local API와 Kakao Mobility Directions API를 연동하여 지도 기반 장소 검색과 경로 설정 기능을 제공합니다.",
+        mainFeatures: [
+            "문화 플랜 생성: 사용자가 직접 전시/공연 등 장소를 조합해 플랜을 생성 (날짜 기반)",
+            "플랜 협업: 플랜 소유자가 다른 사용자를 초대하여 함께 플랜 관리 (EDITOR/VIEWER 권한)",
+            "경로 설정: Kakao Mobility Directions API를 통한 자동차 경로 조회 및 지도 표시",
+            "플랜 공유: 개인 플랜 중 일부를 게시글로 공유 (Plan → PlanPost 참조 방식)",
+            "게시판 열람: 공유된 플랜들을 전체 공개 게시판에서 확인 가능",
+            "댓글 및 별점: 게시글에 댓글 작성 및 별점 평가 (댓글과 함께 별점 제출)",
+            "장소 검색: Kakao Local API 기반 주변 문화시설 검색 기능 (디바운스 적용)",
+            "검색 최적화: 검색 결과 캐싱, 최근 검색 기록, 인기 장소 추천",
+            "달력 필터링: 월별 달력 UI에서 날짜 클릭 시 해당 날짜의 플랜 필터링",
+            "지도 기반 탐색: 현위치 기반 지도에서 주변 문화시설 검색 및 플랜 추가",
+            "관리자 대시보드: 시스템 통계 및 API 사용량 모니터링 (관리자 전용)"
+        ],
+        technologies: ["Spring Boot", "Java 17", "React", "TypeScript", "MySQL", "Spring Data JPA", "Spring Security", "JWT", "Kakao Local API", "Kakao Mobility API", "Docker", "Fly.io", "GitHub Actions"],
+        technologyRationale: [
+            "Spring Boot + JPA: 엔티티 간 복잡한 관계를 효율적으로 관리하고 N+1 문제를 @EntityGraph와 fetch join으로 해결",
+            "React + TypeScript: 복잡한 상태 관리와 타입 안전성을 확보하여 대규모 프론트엔드 개발",
+            "Kakao Local API: 한국 지역 문화시설 검색에 최적화된 API로 정확한 위치 정보 제공",
+            "Kakao Mobility Directions API: 자동차 경로 조회 및 지도 표시를 통한 사용자 경험 향상",
+            "MySQL: 관계형 데이터베이스로 복잡한 플랜-장소-사용자 관계를 안정적으로 관리",
+            "Docker + Fly.io: 컨테이너화를 통한 일관된 배포 환경 구축 및 클라우드 배포",
+            "GitHub Actions: CI/CD 파이프라인 자동화로 코드 변경 시 자동 빌드 및 배포",
+            "JWT + 리프레시 토큰: Stateless 인증 방식으로 확장 가능한 인증 시스템 구현",
+            "검색 결과 캐싱: 인메모리 캐싱을 통한 API 호출 감소 및 응답 속도 향상",
+            "레이트 리밋: 로그인 시도 및 API 호출 제한을 통한 보안 강화 및 서버 부하 방지"
+        ],
+        technicalTroubleshooting: [
+            {
+                problem: "JPA에서 플랜과 관련된 장소, 멤버, 게시글을 조회할 때 N+1 문제가 발생하여 성능이 크게 저하되었습니다.",
+                solution: "@EntityGraph 어노테이션과 fetch join을 사용하여 연관된 엔티티를 한 번의 쿼리로 함께 조회하도록 최적화했습니다. 또한 필요에 따라 DTO를 활용하여 필요한 데이터만 조회하도록 개선했습니다.",
+                result: "N+1 문제가 완전히 해결되어 플랜 조회 성능이 크게 향상되었고, 데이터베이스 쿼리 수가 대폭 감소했습니다."
+            },
+            {
+                problem: "Kakao API 호출이 많아지면서 비용이 증가하고 응답 시간이 길어졌습니다.",
+                solution: "검색 결과를 인메모리 캐시에 저장하고 10분 TTL을 설정하여 중복 호출을 방지했습니다. 또한 인기 장소를 별도로 캐싱하여 자주 조회되는 데이터는 즉시 반환하도록 최적화했습니다.",
+                result: "API 호출 수가 약 70% 감소했고, 검색 응답 속도가 크게 향상되었으며, 비용도 절감되었습니다."
+            },
+            {
+                problem: "동시에 여러 사용자가 같은 플랜을 수정하려 할 때 데이터 일관성 문제가 발생했습니다.",
+                solution: "트랜잭션을 활용하고, 플랜 수정 시 버전 관리를 통해 낙관적 락을 구현했습니다. 또한 권한 체크를 강화하여 OWNER와 EDITOR만 수정할 수 있도록 명확히 구분했습니다.",
+                result: "데이터 일관성이 보장되었고, 동시 접속 시에도 안정적으로 플랜을 관리할 수 있게 되었습니다."
+            },
+            {
+                problem: "프론트엔드에서 검색 시 매번 API를 호출하여 불필요한 네트워크 트래픽이 발생했습니다.",
+                solution: "디바운스를 500ms로 설정하여 사용자가 입력을 멈춘 후에만 API를 호출하도록 개선했습니다. 또한 최근 검색 기록을 로컬 스토리지에 저장하여 재검색 시 즉시 결과를 표시하도록 했습니다.",
+                result: "불필요한 API 호출이 대폭 감소했고, 사용자 경험이 향상되었으며, 서버 부하도 줄어들었습니다."
+            }
+        ],
+        targetUsers: "문화생활을 즐기고 싶은 모든 사용자들을 위한 서비스입니다. 특히 여러 문화시설을 조합하여 나만의 플랜을 만들고, 좋은 플랜을 다른 사람과 공유하고 싶은 사용자들을 위해 만들었습니다.",
+        reflection: {
+            achievements: [
+                "JPA N+1 문제 완전 해결 (@EntityGraph 및 fetch join 활용)",
+                "검색 결과 캐싱으로 API 호출 70% 감소 및 응답 속도 향상",
+                "레이트 리밋 구현으로 보안 강화 및 서버 부하 방지",
+                "Docker + Fly.io를 활용한 안정적인 클라우드 배포",
+                "GitHub Actions CI/CD 파이프라인 구축으로 자동 배포 환경 완성"
+            ],
+            learnings: "풀스택 개발을 통해 백엔드와 프론트엔드의 통합 개발 경험을 쌓았습니다. JPA의 N+1 문제를 해결하며 데이터베이스 성능 최적화의 중요성을 깨달았고, 외부 API 활용 시 캐싱 전략이 필수적임을 배웠습니다. Docker를 통한 컨테이너화와 CI/CD 파이프라인 구축으로 배포 프로세스의 자동화와 안정성을 확보했습니다. 향후 프로젝트에서는 초기부터 성능 최적화와 보안을 함께 고려한 설계를 적용하겠습니다."
+        },
+        images: [
+            "Projects/CultureMap/1.png",
+            "Projects/CultureMap/2.png",
+            "Projects/CultureMap/3.png",
+            "Projects/CultureMap/4.png",
+            "Projects/CultureMap/5.png"
+        ],
+        videos: [],
+        colorTheme: "emerald",
+        hasSpecialContent: false,
+        demoUrl: "https://culturemap.fly.dev",
+        githubUrl: "https://github.com/cj5427533/CultureMap"
     },
     {
         id: 6,
