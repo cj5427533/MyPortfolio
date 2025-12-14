@@ -1022,6 +1022,15 @@ function createProjectModal(project) {
                     <!-- GitHub 버튼 - 상단 고정 (githubUrl이 있을 때만 표시) -->
                     ${linksHTML}
                     
+                    ${project.id === 1 ? `
+                        <!-- JEIU 캠퍼스 참고 설명 (링크 버튼 아래) -->
+                        <div class="mb-4 md:mb-6">
+                            <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-sky-400">
+                                <strong>📝 참고:</strong> 이 프로젝트는 <strong>로컬(Node.js + MySQL)</strong>에서 재현 가능하도록 공개했으며, <br>운영 리소스 이슈로 <strong>Live Demo는 미배포</strong> 상태입니다. 실행 방법은 GitHub README를 참고해주세요.
+                            </p>
+                        </div>
+                    ` : ''}
+                    
                     ${project.id === 3 ? `
                         <!-- 미로게임 참고 설명 (깃허브 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
