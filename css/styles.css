@@ -805,4 +805,71 @@ body {
 
 .featured-badge-pulse {
     animation: featured-badge-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 이미지 로딩 최적화 */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: optimize-quality;
+}
+
+/* Lazy loading 이미지 페이드인 효과 */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+img[loading="lazy"].error {
+    opacity: 1;
+    background-color: #f3f4f6;
+}
+
+/* 이미지 로딩 중 플레이스홀더 */
+img[loading="lazy"]:not(.loaded):not(.error) {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* 이미지 컨테이너 최적화 */
+.project-image-container,
+.enlargeable-media {
+    contain: layout style paint;
+    will-change: transform;
+}
+
+/* 이미지 크기 최적화 */
+img.project-image,
+img[class*="swiper-slide"] img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* 로고 이미지 중앙 정렬 (컬쳐맵, 바이링궐 버디) */
+.project-image-container.flex img {
+    width: auto;
+    height: auto;
+}
+
+/* 모바일 이미지 최적화 */
+@media (max-width: 768px) {
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 } 

@@ -6,7 +6,7 @@ const projectsData = [
         thumbnail: "Projects/YGMK/스크린샷 2025-12-10 161923.png",
         shortDescription: "온라인 쇼핑 피해 예방을 위해 이중 분석 시스템을 구축한 웹 애플리케이션. Claude 3.5 Sonnet 기반 리뷰 신뢰도 분석과 Random Forest ML 모델의 피싱 탐지를 결합하여 0~100점 신뢰도 점수를 산출합니다.",
         valueStatement: "LLM과 ML을 결합한 이중 분석 시스템 구축",
-        period: "2025.09.25 ～ 2025.11.27",
+        period: "2025.09.25 ～ 현재",
         contribution: "프론트엔드 전체 구현 / 백엔드 API 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획 및 디버깅 주도",
         featured: true,
         // Hero Summary Block
@@ -95,7 +95,7 @@ const projectsData = [
         thumbnail: "Projects/CultureMap/Logo.png",
         shortDescription: "사용자가 스스로 계획한 문화 생활 플랜을 기록하고, 일부를 다른 사람과 공유할 수 있는 커뮤니티 기반 문화기록 플랫폼입니다. Kakao API를 활용해 지도에서 장소를 검색·추가하고, 이동 경로를 설정할 수 있습니다. 플랜을 다른 사용자와 협업(권한 기반)하거나 게시글로 공유하고, 댓글/별점으로 피드백을 주고받는 흐름까지 한 번에 제공합니다.",
         valueStatement: "문화시설을 조합해 나만의 플랜 생성, 기록, 공유",
-        period: "2025.11.10 ～ 2025.12.19",
+        period: "2025.11.10 ～ 현재",
         contribution: "풀스택 개발 / Spring Boot 백엔드 / React 프론트엔드 / Docker 배포 / CI/CD 구축",
         heroSummary: {
             purpose: "사용자 스스로 설계한 문화 생활 플랜을 커뮤니티로 확산시키는 플랫폼",
@@ -251,6 +251,7 @@ const projectsData = [
         },
         images: [],
         videos: [],
+        githubUrl: "https://github.com/cj5427533/unity_bullet_game",
         colorTheme: "amber",
         hasSpecialContent: true,
         specialContentType: "unity-game",
@@ -325,6 +326,7 @@ const projectsData = [
             }
         ],
         pdfPath: "Projects/BilingualBuddy Project/BilingualBuddy.pdf",
+        githubUrl: "https://github.com/cj5427533/BilingualBuddy",
         colorTheme: "pink",
         hasSpecialContent: false,
         heroSummary: {
@@ -386,6 +388,7 @@ const projectsData = [
             "images/JEIU_Campus_3.png"
         ],
         videos: [],
+        githubUrl: "https://github.com/cj5427533/JEIU-Campus-Explorer-3D",
         colorTheme: "teal",
         hasSpecialContent: false,
         heroSummary: {

@@ -1,3 +1,88 @@
+// 이미지 로딩 최적화 유틸리티
+(function() {
+    'use strict';
+    
+    // Intersection Observer를 사용한 이미지 지연 로딩
+    function initLazyImageLoading() {
+        // 이미 lazy loading 속성이 있는 이미지는 제외
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]:not([data-lazy-loaded])');
+        
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        // 이미지가 이미 로드되었는지 확인
+                        if (!img.complete || img.naturalHeight === 0) {
+                            // 이미지 로드 완료 이벤트 리스너
+                            img.addEventListener('load', () => {
+                                img.classList.add('loaded');
+                            });
+                            img.addEventListener('error', () => {
+                                img.classList.add('error');
+                            });
+                        } else {
+                            img.classList.add('loaded');
+                        }
+                        img.setAttribute('data-lazy-loaded', 'true');
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px' // 뷰포트 50px 전에 미리 로드
+            });
+            
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+        } else {
+            // Intersection Observer를 지원하지 않는 브라우저를 위한 폴백
+            lazyImages.forEach(img => {
+                img.setAttribute('data-lazy-loaded', 'true');
+            });
+        }
+    }
+    
+    // 이미지 프리로딩 (중요한 이미지)
+    function preloadCriticalImages() {
+        const criticalImages = [
+            'images/MyImage.png'
+        ];
+        
+        criticalImages.forEach(src => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = src;
+            link.fetchPriority = 'high';
+            document.head.appendChild(link);
+        });
+    }
+    
+    // DOMContentLoaded 시 초기화
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            preloadCriticalImages();
+            initLazyImageLoading();
+        });
+    } else {
+        preloadCriticalImages();
+        initLazyImageLoading();
+    }
+    
+    // 동적으로 추가된 이미지도 처리
+    const observer = new MutationObserver(() => {
+        initLazyImageLoading();
+    });
+    
+    if (document.body) {
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+})();
+
 // 스크롤에 따라 배경 그라데이션 변경
 window.addEventListener('scroll', function() {
     const dynamicBg = document.getElementById('dynamic-bg');

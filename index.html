@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GyuJin Cheon의 포트폴리오 - 풀스택 개발자">
     <title>GyuJin Cheon - Portfolio</title>
+    <!-- 성능 최적화 메타 태그 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#0EA5E9">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,6 +24,8 @@
     <!-- Typed.js 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <!-- 이미지 최적화: 중요한 이미지 preload -->
+    <link rel="preload" as="image" href="images/MyImage.png" fetchpriority="high">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
     <!-- 오로라 배경 애니메이션 -->
@@ -35,7 +41,7 @@
         <header class="text-center mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20" id="hero-section" data-animate="fade-in">
             <div class="flex flex-col md:flex-row items-center gap-8">
                 <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg" id="hero-image">
-                    <img src="images/MyImage.png" alt="GyuJin Cheon's Profile" class="w-full h-full object-cover">
+                    <img src="images/MyImage.png" alt="GyuJin Cheon's Profile" class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                 </div>
                 <div class="flex-1 text-left">
                     <!-- Headline -->
@@ -328,7 +334,8 @@
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
                                 <iframe src="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"></iframe>
+                                        style="object-fit: contain; object-position: center;"
+                                        loading="lazy"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -353,7 +360,8 @@
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
                                 <iframe src="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"></iframe>
+                                        style="object-fit: contain; object-position: center;"
+                                        loading="lazy"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -378,7 +386,8 @@
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
                                 <iframe src="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"></iframe>
+                                        style="object-fit: contain; object-position: center;"
+                                        loading="lazy"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -403,7 +412,8 @@
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
                                 <iframe src="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"></iframe>
+                                        style="object-fit: contain; object-position: center;"
+                                        loading="lazy"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -429,7 +439,8 @@
                                 <div class="w-full h-full flex items-center justify-center relative">
                                     <iframe src="Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-width&view=FitV&page=1" 
                                             class="pointer-events-none"
-                                            style="width: 100%; height: 100%; display: block; transform: translateY(0);"></iframe>
+                                            style="width: 100%; height: 100%; display: block; transform: translateY(0);"
+                                            loading="lazy"></iframe>
                                 </div>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf')" 
@@ -544,28 +555,33 @@
             </script>
         </footer>
     </div>
+    <!-- 외부 리소스 preconnect -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://giscus.app">
+    
     <!-- Three.js 라이브러리 로드 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
     <!-- 프로젝트 데이터 및 렌더러 -->
-    <script src="js/projects-data.js"></script>
-    <script src="js/projects-renderer.js"></script>
+    <script src="js/projects-data.js" defer></script>
+    <script src="js/projects-renderer.js" defer></script>
 
     <!-- 게임 스크립트 -->
-    <script src="Projects/3D_Maze/maze-game.js"></script>
+    <script src="Projects/3D_Maze/maze-game.js" defer></script>
     
     <!-- 애니메이션 헬퍼 -->
-    <script src="js/animations.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/animations.js" defer></script>
+    <script src="js/main.js" defer></script>
 
     <!-- Swiper.js CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- PDF.js (수상내역 PDF 페이지 렌더링) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js" defer></script>
     
     <!-- Swiper.js JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
     <!-- Modal for enlarged images/videos -->
     <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-[100] hidden">
@@ -705,7 +721,9 @@
                                      alt="PDF 페이지 ${pageImage.pageNum}" 
                                      class="max-w-full h-auto"
                                      style="max-height: 80vh; display: block;"
-                                     loading="eager">
+                                     loading="${index === 0 ? 'eager' : 'lazy'}"
+                                     decoding="async"
+                                     fetchpriority="${index === 0 ? 'high' : 'low'}">
                             </div>
                         </div>
                     </div>
@@ -811,6 +829,8 @@
                 pdf: "Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf",
                 pdfPath: "Projects/YGMK/여기몰까(온라인 쇼핑몰 안전확인 플랫폼).pdf",
                 projectName: "여기몰까 - AI 기반 쇼핑몰 신뢰도 분석 플랫폼",
+                teamName: "여기몰까",
+                role: "팀장 역할 및 풀스택 개발, AI/ML 시스템 설계 및 구현, 데이터 파이프라인 구축, 배포 및 운영",
                 description: "처음으로 풀스택 프로젝트를 단독으로 진행하며, AI/ML을 실제 서비스에 적용하는 도전을 시작했습니다. 초기에는 LLM API 비용과 응답 속도 문제로 고민했지만, 배치 처리와 캐싱 전략을 통해 해결하며 성장했습니다.",
                 mainFeatures: [
                     "이중 분석 파이프라인: Claude 3.5 Sonnet 리뷰 신뢰도 + Random Forest URL 피싱 탐지",
@@ -834,6 +854,8 @@
                 pdf: "Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf",
                 pdfPath: "Projects/CoCo/케어브릿지(은둔형외톨이 상담치료 플랫폼).pdf",
                 projectName: "케어브릿지 - 은둔형 외톨이 상담 치료 플랫폼 (COCO)",
+                teamName: "케어브릿지",
+                role: "팀장 역할 및 문제 정의, 공공/학술 데이터 분석, AI 상담 시나리오 설계, 메타버스 연동 기획",
                 description: "처음으로 심리/정신건강 분야에 도전하며, 단순히 기술을 적용하는 것보다 사용자의 심리적 안전을 고려한 설계가 얼마나 중요한지 배웠습니다. 공공 데이터와 학술 자료를 직접 분석하며 신뢰성 있는 AI 상담 시스템을 설계하는 과정에서 성장했습니다.",
                 mainFeatures: [
                     "AI 상담·커뮤니티: 다마고치처럼 교감하며 자연스러운 AI 상담 경험 제공",
@@ -859,6 +881,8 @@
                 pdf: "Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf",
                 pdfPath: "Projects/Green_Connect/초록잇다(농산물 직거래 연결 서비스 플랫폼).pdf",
                 projectName: "초록잇다 - AI 농산물 직거래 플랫폼",
+                teamName: "초록잇다",
+                role: "팀장 역할 및 사용자 인터뷰 기반 문제 정의, AI 품질 검증 시스템 설계, 비즈니스 모델 설계",
                 description: "처음으로 실제 사용자(부모님)와의 인터뷰를 통해 문제를 정의하는 과정을 경험했습니다. 가설로 시작했던 아이디어를 사용자의 실제 니즈에 맞춰 검증하고 수정하며, 문제 해결 중심의 사고를 배웠습니다.",
                 mainFeatures: [
                     "AI 품질 검사: 근적외선 당도 측정 + 이미지 인식으로 신선도 등급화",
@@ -882,6 +906,8 @@
                 pdf: "Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf",
                 pdfPath: "Projects/What_To_Wear/오늘뭐입지(사용자 맞춤형 코디추천 플랫폼).pdf",
                 projectName: "오늘 뭐 입지? - AI 기반 올인원 패션 플랫폼",
+                teamName: "오늘뭐입지",
+                role: "팀원 역할 및 대규모 설문 기획 및 분석, 페르소나 검증, MVP 전략 수립, 구독 모델 설계",
                 description: "대규모 설문(2000명)을 처음 시도하며 데이터 기반 의사결정의 중요성을 배웠습니다. 초기에는 기능을 많이 넣는 것이 좋다고 생각했지만, MVP 우선 전략과 단계적 확장의 가치를 깨달았습니다.",
                 mainFeatures: [
                     "AI 개인 맞춤 코디 추천: 알림 기반으로 매일 최적 코디 제안",
@@ -906,6 +932,8 @@
                 subtitle: "",
                 pdf: "Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf",
                 projectName: "탐해(탐라의 바다) - 제주도 발전을 위한 스마트 해양 농업 플랫폼",
+                teamName: "탐해",
+                role: "서비스 기획, 피그마 프로토타입 제작, 지자체 운영 관점 설계, 순환 경제 모델 설계",
                 description: "피그마를 처음 본격적으로 사용하며, 아이디어를 시각화하는 과정에서 UX/UI 설계의 중요성을 배웠습니다. 지자체 운영을 가정한 설계를 통해 실제 서비스 운영의 복잡성을 이해하게 되었습니다.",
                 mainFeatures: [
                     "Blue Station 시스템: 제주도 해변마다 설치된 Blue Station에서 QR 코드 스캔을 통해 해양 폐기물 수거 장비 대여",
@@ -991,10 +1019,15 @@
             // 제목
             document.getElementById('awardTitle').textContent = award.title;
             
-            // Header Meta (프로젝트명)
+            // Header Meta (프로젝트명 및 역할)
             let headerMetaHTML = '';
             if (award.projectName) {
-                headerMetaHTML = `<span class="px-2 py-1 md:px-3 md:py-1 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">${award.projectName}</span>`;
+                headerMetaHTML = `<span class="px-2 py-1 md:px-3 md:py-1 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.projectName}</span>`;
+            }
+            if (award.role && award.teamName) {
+                headerMetaHTML += `<span class="px-2 py-1 md:px-3 md:py-1 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.teamName} ${award.role}</span>`;
+            } else if (award.role) {
+                headerMetaHTML += `<span class="px-2 py-1 md:px-3 md:py-1 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.role}</span>`;
             }
             document.getElementById('awardHeaderMeta').innerHTML = headerMetaHTML;
             
@@ -1086,7 +1119,10 @@
                                          class="object-cover w-full h-full enlargeable-media cursor-pointer" 
                                          data-media-type="image" 
                                          data-src="${img}" 
-                                         onclick="enlargeImage('${img}')" />
+                                         onclick="enlargeImage('${img}')"
+                                         loading="${imgIndex === 0 ? 'eager' : 'lazy'}"
+                                         decoding="async"
+                                         fetchpriority="${imgIndex === 0 ? 'high' : 'low'}" />
                                 </div>
                             </div>
                         `).join('')}

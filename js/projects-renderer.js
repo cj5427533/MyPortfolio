@@ -122,10 +122,18 @@ function createProjectCard(project) {
     ` : '';
     
     // 이미지 HTML (인터랙티브 호버 효과 포함) - 모바일 최적화
+    // 컬쳐맵(id: 7)과 바이링궐 버디(id: 4)는 로고 이미지이므로 object-contain과 중앙 정렬 사용
+    const isLogoImage = project.id === 7 || project.id === 4;
+    const imageObjectFit = isLogoImage ? 'object-contain' : 'object-cover';
+    const imageContainerClass = isLogoImage 
+        ? 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container flex items-center justify-center'
+        : 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container';
+    
     const imageHTML = hasImage ? `
-        <div class="aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container">
+        <div class="${imageContainerClass}">
             <img src="${project.thumbnail}" alt="${project.title}" 
-                 class="w-full h-full object-cover transition-transform duration-300 ease-out project-image">
+                 class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
+                 loading="lazy" decoding="async" fetchpriority="low">
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 md:group-hover/image:opacity-100 transition-opacity duration-300 ease-out"></div>
         </div>
     ` : '';
@@ -730,7 +738,12 @@ function createProjectModal(project) {
                                     <div class="swiper-slide">
                                         <div class="flex items-center justify-center bg-gray-50 p-2 md:p-4">
                                             <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${img}">
-                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}" class="max-w-full h-auto" style="max-height: 80vh; display: block;">
+                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}" 
+                                                     class="max-w-full h-auto" 
+                                                     style="max-height: 80vh; display: block;"
+                                                     loading="${index === 0 ? 'eager' : 'lazy'}" 
+                                                     decoding="async"
+                                                     fetchpriority="${index === 0 ? 'high' : 'low'}">
                                             </div>
                                         </div>
                                     </div>
@@ -749,10 +762,16 @@ function createProjectModal(project) {
                 <div class="mb-6 md:mb-8 modal-section" data-section="media">
                     <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ Media</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
-                        ${project.images.map(img => `
+                        ${project.images.map((img, index) => `
                             <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
                                 <div class="aspect-video bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md border ${theme.border} flex items-center justify-center transition-transform duration-300 md:hover:scale-[1.02]">
-                                    <img src="${img}" alt="${project.title}" class="object-cover w-full h-full enlargeable-media cursor-pointer" data-media-type="image" data-src="${img}" />
+                                    <img src="${img}" alt="${project.title}" 
+                                         class="object-cover w-full h-full enlargeable-media cursor-pointer" 
+                                         data-media-type="image" 
+                                         data-src="${img}"
+                                         loading="${index === 0 ? 'eager' : 'lazy'}"
+                                         decoding="async"
+                                         fetchpriority="${index === 0 ? 'high' : 'low'}" />
                                 </div>
                             </div>
                         `).join('')}
@@ -1014,40 +1033,6 @@ function createProjectModal(project) {
                     
                     <!-- Hero Summary - 모든 프로젝트 동일 UI -->
                     ${heroSummaryHTML}
-                    
-                    <!-- 역할 & 업무 섹션 (contribution에서 roles에 없는 것만 태그로 표시) -->
-                    ${(() => {
-                        if (!project.contribution || !project.heroSummary || !project.heroSummary.roles) return '';
-                        
-                        // contribution을 파싱 (/, ·, , 로 분리)
-                        const contributionParts = project.contribution
-                            .split(/[\/·,]/)
-                            .map(part => part.trim())
-                            .filter(part => part.length > 0);
-                        
-                        // heroSummary.roles와 비교해서 없는 것만 필터링
-                        const existingRoles = project.heroSummary.roles.map(r => r.trim().toLowerCase());
-                        const additionalRoles = contributionParts.filter(part => {
-                            const partLower = part.toLowerCase();
-                            // 부분 매칭도 체크 (예: "프론트엔드 개발"과 "프론트엔드 전체 구현")
-                            return !existingRoles.some(existing => 
-                                partLower.includes(existing) || existing.includes(partLower)
-                            );
-                        });
-                        
-                        if (additionalRoles.length === 0) return '';
-                        
-                        return `
-                            <div class="mb-6 md:mb-8 modal-section" data-section="roles">
-                                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">역할 & 업무</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    ${additionalRoles.map(role => `
-                                        <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">${role}</span>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    })()}
                     
                     <!-- 1) 프로젝트 개요 / 요약 - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="mb-6 md:mb-8 modal-section" data-section="overview">
