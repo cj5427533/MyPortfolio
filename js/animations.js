@@ -289,6 +289,64 @@ function initAnimationsFromAttributes() {
     });
 }
 
+// 터치 리플 효과 (Material Design 스타일)
+function initRippleEffect(selector = 'body', options = {}) {
+    const {
+        color = 'rgba(255, 255, 255, 0.6)',
+        duration = 600
+    } = options;
+
+    function createRipple(event) {
+        const element = event.currentTarget;
+        
+        // 터치 이벤트인 경우
+        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+        const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+        
+        const rect = element.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        const size = Math.max(rect.width, rect.height);
+        
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            border-radius: 50%;
+            background: ${color};
+            transform: scale(0);
+            animation: ripple ${duration}ms ease-out;
+            left: ${x - size / 2}px;
+            top: ${y - size / 2}px;
+            pointer-events: none;
+            z-index: 1000;
+        `;
+        
+        // 기존 리플 제거
+        const existingRipples = element.querySelectorAll('.ripple-effect');
+        existingRipples.forEach(r => r.remove());
+        
+        ripple.classList.add('ripple-effect');
+        element.style.position = 'relative';
+        element.style.overflow = 'hidden';
+        element.appendChild(ripple);
+        
+        // 애니메이션 완료 후 제거
+        setTimeout(() => {
+            ripple.remove();
+        }, duration);
+    }
+
+    // 선택된 요소들에 리플 효과 적용
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        el.addEventListener('click', createRipple);
+        el.addEventListener('touchstart', createRipple, { passive: true });
+    });
+}
+
 // 모든 애니메이션 초기화
 function initAllAnimations() {
     // data-animate 속성 기반 자동 초기화 (가장 먼저 실행)
@@ -309,6 +367,12 @@ function initAllAnimations() {
     
     // 프로젝트 이미지 zoom (overflow-hidden이 있는 컨테이너 내부)
     initImageZoom('.project-image-container .project-image', { scale: 1.05, duration: 0.3 });
+    
+    // 터치 리플 애니메이션
+    initRippleEffect('button, a, .cta-button, .submit-button, .project-card-preview, .award-card', {
+        color: 'rgba(14, 165, 233, 0.4)',
+        duration: 600
+    });
 }
 
 // DOM 로드 완료 시 초기화

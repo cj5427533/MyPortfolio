@@ -779,4 +779,30 @@ body {
         line-height: 28px;
         font-size: 11px;
     }
+}
+
+/* 리플 효과 애니메이션 */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.ripple-effect {
+    will-change: transform, opacity;
+}
+
+/* Featured 배지 약한 깜빡임 효과 */
+@keyframes featured-badge-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.85;
+    }
+}
+
+.featured-badge-pulse {
+    animation: featured-badge-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 } 

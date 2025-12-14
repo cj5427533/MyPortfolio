@@ -115,8 +115,8 @@ function createProjectCard(project) {
     const gradientBarHeight = isFeatured ? 'h-2.5' : 'h-1.5';
     const badgeHTML = isFeatured ? `
         <div class="mb-3">
-            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold shadow-md animate-pulse">
-                ✨ Featured · AI 쇼핑몰 신뢰도
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold shadow-md featured-badge-pulse">
+                ✨ Featured · 주요 프로젝트
             </span>
         </div>
     ` : '';
@@ -151,8 +151,8 @@ function createProjectCard(project) {
                     <p class="text-xs md:text-sm font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
                 ` : ''}
                 
-                <!-- 짧은 설명 (1-2줄) -->
-                <p class="text-gray-700 text-sm md:text-base mb-3 md:mb-4 leading-relaxed line-clamp-2">${project.shortDescription}</p>
+                <!-- 짧은 설명 (컬쳐맵/탄막 슈팅만 더 길게, 나머지는 2줄) -->
+                <p class="text-gray-700 text-sm md:text-base mb-3 md:mb-4 leading-relaxed ${(project.id === 7 || project.id === 6) ? 'line-clamp-3 md:line-clamp-4' : 'line-clamp-2'}">${project.shortDescription}</p>
                 
                 <!-- 메타데이터 -->
                 <div class="mb-3 md:mb-4 text-xs md:text-sm text-gray-500">
@@ -975,18 +975,79 @@ function createProjectModal(project) {
                             <div class="flex-1 pr-2">
                                 <h3 class="text-xl md:text-2xl font-semibold ${theme.text} title-emphasis mb-2 md:mb-3">${project.title}</h3>
                                 <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
+                                    ${(() => {
+                                        // 팀 프로젝트: id 1, 5, 6
+                                        const isTeamProject = [1, 5, 6].includes(project.id);
+                                        let teamRole = '';
+                                        if (isTeamProject) {
+                                            // contribution에서 역할 추출 (간단한 버전)
+                                            if (project.id === 1) {
+                                                teamRole = '프론트엔드 전체 구현 / 백엔드 연동 / UI 기획 및 디버깅 주도';
+                                            } else if (project.id === 5) {
+                                                teamRole = '풀스택 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획';
+                                            } else if (project.id === 6) {
+                                                teamRole = '맵 제작 및 설계 / 충돌 판정 시스템 / 피격 처리 구현';
+                                            }
+                                            return `<span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">팀 프로젝트 - ${teamRole}</span>`;
+                                        } else {
+                                            return `<span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">개인 프로젝트</span>`;
+                                        }
+                                    })()}
                                     <span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium"><strong>기간</strong>: ${project.period}</span>
-                                    <span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">${project.contribution}</span>
                                 </div>
                             </div>
                             <button class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors" data-project-id="${project.id}">&times;</button>
                         </div>
                     </div>
                     
+                    <!-- GitHub 버튼 - 상단 고정 (githubUrl이 있을 때만 표시) -->
                     ${linksHTML}
+                    
+                    ${project.id === 3 ? `
+                        <!-- 미로게임 참고 설명 (깃허브 버튼 아래) -->
+                        <div class="mb-4 md:mb-6">
+                            <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-purple-400">
+                                <strong>📝 참고:</strong> 이 게임은 포트폴리오 웹 사이트에 내장된 데모 게임입니다. 깃허브 링크는 포트폴리오 웹 저장소를 가리키며, 게임 소스코드는 <code class="px-1 py-0.5 bg-gray-200 rounded text-xs">Projects/3D_Maze/maze-game.js</code> 파일에서 확인하실 수 있습니다.
+                            </p>
+                        </div>
+                    ` : ''}
                     
                     <!-- Hero Summary - 모든 프로젝트 동일 UI -->
                     ${heroSummaryHTML}
+                    
+                    <!-- 역할 & 업무 섹션 (contribution에서 roles에 없는 것만 태그로 표시) -->
+                    ${(() => {
+                        if (!project.contribution || !project.heroSummary || !project.heroSummary.roles) return '';
+                        
+                        // contribution을 파싱 (/, ·, , 로 분리)
+                        const contributionParts = project.contribution
+                            .split(/[\/·,]/)
+                            .map(part => part.trim())
+                            .filter(part => part.length > 0);
+                        
+                        // heroSummary.roles와 비교해서 없는 것만 필터링
+                        const existingRoles = project.heroSummary.roles.map(r => r.trim().toLowerCase());
+                        const additionalRoles = contributionParts.filter(part => {
+                            const partLower = part.toLowerCase();
+                            // 부분 매칭도 체크 (예: "프론트엔드 개발"과 "프론트엔드 전체 구현")
+                            return !existingRoles.some(existing => 
+                                partLower.includes(existing) || existing.includes(partLower)
+                            );
+                        });
+                        
+                        if (additionalRoles.length === 0) return '';
+                        
+                        return `
+                            <div class="mb-6 md:mb-8 modal-section" data-section="roles">
+                                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">역할 & 업무</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    ${additionalRoles.map(role => `
+                                        <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium">${role}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    })()}
                     
                     <!-- 1) 프로젝트 개요 / 요약 - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="mb-6 md:mb-8 modal-section" data-section="overview">
