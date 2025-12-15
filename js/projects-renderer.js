@@ -131,8 +131,10 @@ function createProjectCard(project) {
     
     const imageHTML = hasImage ? `
         <div class="${imageContainerClass}">
-            <img src="${project.thumbnail}" alt="${project.title}" 
+            <img src="${project.thumbnail}" alt="${project.title}"
                  class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
+                 loading="lazy"
+                 onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);"
                  loading="lazy" decoding="async" fetchpriority="low">
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 md:group-hover/image:opacity-100 transition-opacity duration-300 ease-out"></div>
         </div>
@@ -738,7 +740,9 @@ function createProjectModal(project) {
                                     <div class="swiper-slide">
                                         <div class="flex items-center justify-center bg-gray-50 p-2 md:p-4">
                                             <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${img}">
-                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}" 
+                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}"
+                                                     loading="lazy"
+                                                     onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);" 
                                                      class="max-w-full h-auto" 
                                                      style="max-height: 80vh; display: block;"
                                                      loading="${index === 0 ? 'eager' : 'lazy'}" 
@@ -1427,6 +1431,11 @@ function showProjectModal(projectId) {
                     const img = document.createElement('img');
                     img.src = mediaSrc;
                     img.classList.add('max-w-full', 'max-h-[80vh]', 'object-contain', 'rounded-lg');
+                    img.loading = 'lazy';
+                    img.onload = function() {
+                        this.setAttribute('width', this.naturalWidth);
+                        this.setAttribute('height', this.naturalHeight);
+                    };
                     modalContent.appendChild(img);
                 } else if (mediaType === 'video') {
                     const video = document.createElement('video');

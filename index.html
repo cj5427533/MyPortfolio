@@ -8,9 +8,11 @@
     <!-- 성능 최적화 메타 태그 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#0EA5E9">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS - async로 비동기 로드하여 렌더링 차단 최소화 -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script" crossorigin>
     <script>
-        tailwind.config = {
+        // Tailwind config는 즉시 설정
+        window.tailwindConfig = {
             theme: {
                 extend: {
                     colors: {
@@ -19,10 +21,18 @@
                     }
                 }
             }
-        }
+        };
     </script>
-    <!-- Typed.js 라이브러리 -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.tailwindcss.com" async onload="if(typeof tailwind !== 'undefined' && window.tailwindConfig) { tailwind.config = window.tailwindConfig; }"></script>
+    <!-- FOUC 방지를 위한 기본 스타일 -->
+    <style>
+        /* Tailwind 로드 전 기본 스타일 */
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .container { max-width: 1024px; margin: 0 auto; padding: 1rem; }
+    </style>
+    <!-- Typed.js 라이브러리 - defer로 렌더링 차단 방지 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
     <link rel="stylesheet" href="css/styles.css">
     <!-- 이미지 최적화: 중요한 이미지 preload -->
     <link rel="preload" as="image" href="images/MyImage.png" fetchpriority="high">
@@ -37,11 +47,11 @@
     <!-- 매우 은은한 그리드 텍스처 (선택적) -->
     <div class="fixed inset-0 opacity-[0.06] pointer-events-none -z-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23cbd5e1\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     
-    <div class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
+    <main class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
         <header class="text-center mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20" id="hero-section" data-animate="fade-in">
             <div class="flex flex-col md:flex-row items-center gap-8">
                 <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg" id="hero-image">
-                    <img src="images/MyImage.png" alt="GyuJin Cheon's Profile" class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async">
+                    <img src="images/MyImage.png" alt="GyuJin Cheon's Profile" class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async" width="192" height="192">
                 </div>
                 <div class="flex-1 text-left">
                     <!-- Headline -->
@@ -335,7 +345,8 @@
                                 <iframe src="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
                                         style="object-fit: contain; object-position: center;"
-                                        loading="lazy"></iframe>
+                                        loading="lazy"
+                                        title="2025 재능대 컴퓨터소프트웨어학과 캡스톤 대상 수상 증명서"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -361,7 +372,8 @@
                                 <iframe src="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
                                         style="object-fit: contain; object-position: center;"
-                                        loading="lazy"></iframe>
+                                        loading="lazy"
+                                        title="2024 인천전문대 연합 아이디어톤 최우수상 수상 증명서"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -387,7 +399,8 @@
                                 <iframe src="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
                                         style="object-fit: contain; object-position: center;"
-                                        loading="lazy"></iframe>
+                                        loading="lazy"
+                                        title="2024 NextGen 창업경진대회 우승 수상 증명서"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -413,7 +426,8 @@
                                 <iframe src="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
                                         class="w-full h-full pointer-events-none"
                                         style="object-fit: contain; object-position: center;"
-                                        loading="lazy"></iframe>
+                                        loading="lazy"
+                                        title="2025 U300 창업경진대회 전국 50팀 선정 증명서"></iframe>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf')" 
                                         class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
@@ -440,7 +454,8 @@
                                     <iframe src="Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-width&view=FitV&page=1" 
                                             class="pointer-events-none"
                                             style="width: 100%; height: 100%; display: block; transform: translateY(0);"
-                                            loading="lazy"></iframe>
+                                            loading="lazy"
+                                            title="2025 제주도 AWS 해커톤 수료증"></iframe>
                                 </div>
                                 <!-- 확대 버튼 -->
                                 <button onclick="event.stopPropagation(); enlargePdf('Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf')" 
@@ -554,7 +569,7 @@
                     async>
             </script>
         </footer>
-    </div>
+    </main>
     <!-- 외부 리소스 preconnect -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -1325,7 +1340,7 @@
             const modalContent = document.getElementById('modalContent');
             modalContent.innerHTML = `
                 <div class="bg-white w-full h-full flex items-center justify-center p-2">
-                    <iframe src="${pdfSrc}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit&view=FitV" class="w-full h-full border-0" style="min-height: 100%;"></iframe>
+                    <iframe src="${pdfSrc}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit&view=FitV" class="w-full h-full border-0" style="min-height: 100%;" title="${pdfSrc.split('/').pop().replace('.pdf', '')} PDF 문서"></iframe>
                 </div>
             `;
             modal.classList.remove('hidden');
