@@ -246,15 +246,92 @@ body {
 }
 
 /* 프로젝트 카드 프리뷰 스타일 */
+/* 프로젝트 카드 비주얼 강화 */
 .project-card-preview {
-    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     min-height: 300px;
+    border: 1px solid #e5efff;
+    border-left-width: 6px;
+    border-top: none; /* 상단 border 제거 - 그라데이션 바가 대신 표시 */
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px -14px rgba(37, 99, 235, 0.35);
+    overflow: hidden; /* 핵심: 내부 요소가 카드 모서리를 넘지 않도록 */
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.project-card-preview:hover {
+    transform: translateY(-4px);
+    border-color: #b7d8ff;
+    box-shadow: 0 16px 32px -16px rgba(37, 99, 235, 0.45);
+}
+
+/* 상단 그라데이션 바 - 카드와 완전히 통합 */
+.project-card-preview > .bg-gradient-to-r {
+    height: 14px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    display: block;
+    flex-shrink: 0; /* flex에서 축소 방지 */
+    line-height: 0; /* 인라인 요소 간격 완전 제거 */
+    font-size: 0; /* 인라인 요소 간격 완전 제거 */
+    vertical-align: top; /* 인라인 요소 정렬 */
+}
+
+/* 본문을 그라데이션 바 바로 아래에 완전히 붙이기 */
+.project-card-preview .card-inner {
+    padding-top: 0;
+    margin-top: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.project-card-preview:hover {
-    transform: translateY(-5px);
+/* 이미지 컨테이너 라운딩 및 그림자 정리 */
+.project-card-preview .project-image-container {
+    margin-top: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px -14px rgba(0, 0, 0, 0.35);
+    background: #f8fbff;
+}
+
+/* 카드 내부 여백 조정 - 그라데이션 바와 완전히 붙이기 */
+.project-card-preview .card-inner {
+    padding-top: 0;
+    margin-top: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    flex: 1; /* 남은 공간 채우기 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 첫 번째 자식 요소에만 상단 여백 추가 */
+.project-card-preview .card-inner > *:first-child {
+    margin-top: 1rem;
+}
+
+/* 모바일에서도 동일하게 */
+@media (min-width: 768px) {
+    .project-card-preview .card-inner {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .project-card-preview .card-inner > *:first-child {
+        margin-top: 1.5rem;
+    }
 }
 
 /* 카드 내부 콘텐츠가 공간을 채우도록 */
@@ -428,16 +505,10 @@ body {
     z-index: 101 !important;
 }
 
-/* 프로젝트 카드 애니메이션 */
+/* 프로젝트 카드 등장 애니메이션 */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .project-card-preview {
@@ -458,24 +529,16 @@ body {
 }
 
 /* 프로젝트 카드 애니메이션 */
-.project-card-item {
-    will-change: opacity, transform;
-}
-
+.project-card-item { will-change: opacity, transform; }
 .project-card-item.visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
-/* 프로젝트 카드 호버 효과 - 통일된 UX */
-.project-card-preview {
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-left-width 0.3s ease-out;
-}
-
-.project-card-preview:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -5px rgba(0, 0, 0, 0.1);
+/* 모바일에서는 호버 이동 최소화 */
+@media (max-width: 768px) {
+    .project-card-preview:hover { transform: none; box-shadow: 0 12px 28px -14px rgba(37, 99, 235, 0.35); }
 }
 
 /* 프로젝트 이미지 호버 효과 */

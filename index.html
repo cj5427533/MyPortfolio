@@ -1340,7 +1340,7 @@
             const modalContent = document.getElementById('modalContent');
             modalContent.innerHTML = `
                 <div class="bg-white w-full h-full flex items-center justify-center p-2">
-                    <iframe src="${pdfSrc}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit&view=FitV" class="w-full h-full border-0" style="min-height: 100%;" title="${pdfSrc.split('/').pop().replace('.pdf', '')} PDF 문서"></iframe>
+                    <iframe src="${pdfSrc}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit&view=FitV" class="w-full h-full border-0" style="min-height: 100%;"></iframe>
                 </div>
             `;
             modal.classList.remove('hidden');

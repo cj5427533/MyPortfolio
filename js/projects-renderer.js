@@ -133,9 +133,8 @@ function createProjectCard(project) {
         <div class="${imageContainerClass}">
             <img src="${project.thumbnail}" alt="${project.title}"
                  class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
-                 loading="lazy"
-                 onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);"
-                 loading="lazy" decoding="async" fetchpriority="low">
+                 loading="lazy" decoding="async" fetchpriority="low"
+                 onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 md:group-hover/image:opacity-100 transition-opacity duration-300 ease-out"></div>
         </div>
     ` : '';
@@ -149,7 +148,7 @@ function createProjectCard(project) {
              data-project-id="${project.id}">
             <!-- 그라데이션 상단 바 -->
             <div class="bg-gradient-to-r ${theme.gradient} ${gradientBarHeight}"></div>
-            <div class="p-4 md:p-6">
+            <div class="card-inner">
                 ${badgeHTML}
                 ${imageHTML}
                 
