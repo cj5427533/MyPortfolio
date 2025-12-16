@@ -33,14 +33,16 @@ const projectsData = [
             frontend: ["React", "Recharts", "shadcn/ui", "Tailwind CSS", "TypeScript"],
             backend: ["Express.js", "JWT", "Node.js", "PostgreSQL", "Supabase"],
             aiMl: ["Claude 3.5 Sonnet", "Python scikit-learn", "Random Forest"],
-            infra: ["Docker", "GCP", "GitHub Actions"]
+            infra: ["Docker", "GCP", "GitHub Actions"],
+            tools: ["Cursor"]
         },
         technologyRationale: [
             "Claude 3.5 Sonnet: 리뷰 텍스트의 맥락 이해도를 높여 가짜 리뷰 판별 정밀도 확보 (GPT-4 대비 비용 효율성)",
             "Random Forest(scikit-learn): URL 특성 기반 피싱 탐지에서 해석 가능성과 속도를 확보 (신경망 대비 빠른 추론)",
             "PostgreSQL Full-Text Search: 한국어 형태소 분석과 pg_trgm 확장으로 초성 검색 및 유사도 검색 지원",
             "Node.js + Python 분리: ML 모델은 Python Flask 서버로 분리, Node.js는 API 게이트웨이로 활용하여 각 언어의 장점 극대화",
-            "Docker + GCP: 컨테이너화로 개발/프로덕션 환경 일관성 확보 및 GCP의 Auto-scaling으로 트래픽 대응"
+            "Docker + GCP: 컨테이너화로 개발/프로덕션 환경 일관성 확보 및 GCP의 Auto-scaling으로 트래픽 대응",
+            "Cursor: AI 기반 코드 생성과 리팩토링으로 복잡한 React 컴포넌트와 API 통합 로직을 빠르게 구현하고, Claude API 통합 시 프롬프트 엔지니어링과 에러 처리 패턴을 효율적으로 설계했습니다."
         ],
         technicalTroubleshooting: [
             {
@@ -63,7 +65,7 @@ const projectsData = [
             },
             {
                 problem: "React에서 복잡한 폼 상태 관리와 파일 업로드가 결합되며 코드 복잡도가 증가했습니다.",
-                solution: "React Hook Form으로 폼 상태를 단순화하고, Zod로 타입 안전한 유효성 검사를 구현했습니다. 파일 업로드를 별도 컴포넌트로 분리하고, Supabase Storage 업로드 로직을 커스텀 훅으로 재사용 가능하게 설계했습니다.",
+                solution: "React Hook Form으로 폼 상태를 단순화하고, Zod로 타입 안전한 유효성 검사를 구현했습니다. 파일 업로드를 별도 컴포넌트로 분리하고, Supabase Storage 업로드 로직을 커스텀 훅으로 재사용 가능하게 설계했습니다. Cursor의 AI 기반 코드 생성 기능을 활용하여 복잡한 폼 로직과 타입 안전성을 보장하는 패턴을 빠르게 도입하고 검증했습니다.",
                 result: "폼 관련 코드 50% 감소, 유효성 검사 로직 명확화로 버그 감소",
                 expanded: true
             }
@@ -76,7 +78,7 @@ const projectsData = [
                 "피싱 탐지 정확도 85% 달성 (Random Forest ML 모델)",
                 "폼 관련 코드 50% 감소 (React Hook Form 및 Zod 통합)"
             ],
-            learnings: "LLM과 ML을 실서비스에 통합하며 데이터 파이프라인 설계의 중요성을 깊이 이해했습니다. 배치 처리와 캐싱 전략으로 비용과 성능을 동시에 최적화하며, 확장 가능한 아키텍처 설계 역량을 키웠습니다. Node.js와 Python을 분리해 각 언어의 장점을 활용하는 마이크로서비스 사고를 배웠습니다. 향후 AI/ML 프로젝트에서는 초기부터 비용 효율성과 성능을 함께 고려한 설계를 적용하겠습니다."
+            learnings: "LLM과 ML을 실서비스에 통합하며 데이터 파이프라인 설계의 중요성을 깊이 이해했습니다. 배치 처리와 캐싱 전략으로 비용과 성능을 동시에 최적화하며, 확장 가능한 아키텍처 설계 역량을 키웠습니다. Node.js와 Python을 분리해 각 언어의 장점을 활용하는 마이크로서비스 사고를 배웠습니다. Cursor를 활용한 AI 증강 개발(AI Augmented Development)을 통해 복잡한 React 컴포넌트 설계와 Claude API 통합 로직을 효율적으로 구현하며, AI 도구를 활용한 개발 생산성 향상과 코드 품질 개선의 중요성을 체감했습니다. 향후 AI/ML 프로젝트에서는 초기부터 비용 효율성과 성능을 함께 고려한 설계를 적용하겠습니다."
         },
         images: [
             "Projects/YGMK/스크린샷 2025-12-10 161923.png",
@@ -134,18 +136,19 @@ const projectsData = [
             "지도 기반 탐색: 현위치 기반 지도에서 주변 문화시설 검색 및 플랜 추가",
             "관리자 대시보드: 시스템 통계 및 API 사용량 모니터링 (관리자 전용)"
         ],
-        technologies: ["Spring Boot", "Java 17", "React", "TypeScript", "MySQL", "Spring Data JPA", "Spring Security", "JWT", "Kakao Local API", "Kakao Mobility API", "Docker", "Fly.io", "GitHub Actions"],
+        technologies: ["Cursor", "Docker", "Fly.io", "GitHub Actions", "Java 17", "JWT", "Kakao Local API", "Kakao Mobility API", "MySQL", "React", "Spring Boot", "Spring Data JPA", "Spring Security", "TypeScript"],
         technologyRationale: [
             "Spring Boot + JPA: 엔티티 간 복잡한 관계를 효율적으로 관리하고 N+1 문제를 @EntityGraph와 fetch join으로 해결",
             "JWT + 리프레시 토큰: Stateless 인증 방식으로 확장 가능한 인증 시스템 구현 (세션 기반 대비 서버 부하 감소)",
             "Kakao Local API + Mobility API: 한국 지역 문화시설 검색과 경로 조회에 최적화된 API 활용",
             "Fly.io: Docker 기반 배포로 Heroku 대비 비용 효율적이며, 글로벌 CDN으로 응답 속도 향상",
-            "Spring Security: 인증/인가를 프레임워크 레벨에서 처리하여 보안 취약점 최소화"
+            "Spring Security: 인증/인가를 프레임워크 레벨에서 처리하여 보안 취약점 최소화",
+            "Cursor: JPA N+1 문제 해결을 위한 @EntityGraph 패턴과 복잡한 엔티티 관계 설계를 AI의 제안을 받아 최적화했습니다. 풀스택 개발 과정에서 백엔드와 프론트엔드 통합 로직을 효율적으로 구현하며 개발 생산성을 크게 향상시켰습니다."
         ],
         technicalTroubleshooting: [
             {
                 problem: "JPA에서 플랜과 관련된 장소, 멤버, 게시글을 조회할 때 N+1 문제가 발생하여 성능이 크게 저하되었습니다.",
-                solution: "@EntityGraph 어노테이션과 fetch join을 사용하여 연관된 엔티티를 한 번의 쿼리로 함께 조회하도록 최적화했습니다. 또한 필요에 따라 DTO를 활용하여 필요한 데이터만 조회하도록 개선했습니다.",
+                solution: "@EntityGraph 어노테이션과 fetch join을 사용하여 연관된 엔티티를 한 번의 쿼리로 함께 조회하도록 최적화했습니다. 또한 필요에 따라 DTO를 활용하여 필요한 데이터만 조회하도록 개선했습니다. Cursor의 AI 기반 코드 분석과 제안을 통해 최적의 @EntityGraph 패턴과 fetch join 전략을 빠르게 도입하고 검증했습니다.",
                 result: "N+1 문제가 완전히 해결되어 플랜 조회 성능이 크게 향상되었고, 데이터베이스 쿼리 수가 대폭 감소했습니다."
             },
             {
@@ -173,7 +176,7 @@ const projectsData = [
                 "Docker + Fly.io를 활용한 안정적인 클라우드 배포",
                 "GitHub Actions CI/CD 파이프라인 구축으로 자동 배포 환경 완성"
             ],
-            learnings: "풀스택 개발을 통해 백엔드와 프론트엔드의 통합 개발 경험을 쌓았습니다. JPA의 N+1 문제를 해결하며 데이터베이스 성능 최적화의 중요성을 깨달았고, 외부 API 활용 시 캐싱 전략이 필수적임을 배웠습니다. Docker를 통한 컨테이너화와 CI/CD 파이프라인 구축으로 배포 프로세스의 자동화와 안정성을 확보했습니다. 향후 프로젝트에서는 초기부터 성능 최적화와 보안을 함께 고려한 설계를 적용하겠습니다."
+            learnings: "풀스택 개발을 통해 백엔드와 프론트엔드의 통합 개발 경험을 쌓았습니다. JPA의 N+1 문제를 해결하며 데이터베이스 성능 최적화의 중요성을 깨달았고, 외부 API 활용 시 캐싱 전략이 필수적임을 배웠습니다. Docker를 통한 컨테이너화와 CI/CD 파이프라인 구축으로 배포 프로세스의 자동화와 안정성을 확보했습니다. Cursor를 활용한 AI 증강 개발(AI Augmented Development)을 통해 복잡한 엔티티 관계 설계와 성능 최적화 패턴을 효율적으로 학습하고 적용하며, AI 도구를 활용한 개발 생산성 향상과 코드 품질 개선의 가치를 체감했습니다. 향후 프로젝트에서는 초기부터 성능 최적화와 보안을 함께 고려한 설계를 적용하겠습니다."
         },
         images: [
             "Projects/CultureMap/1.png",
@@ -194,7 +197,7 @@ const projectsData = [
         thumbnail: "Projects/Bullet_Game/스크린샷 2025-12-11 160338.png",
         thumbnailWebp: "Projects/Bullet_Game/스크린샷 2025-12-11 160338.webp",
         shortDescription: "Unity 엔진으로 개발한 3D 탄막 슈팅 게임입니다. 플레이어는 회전 스포너에서 발사되는 탄막을 피하며 최대한 오래 생존하는 것이 목표입니다. 10초 단위 페이즈 진행으로 탄막 속도/난이도가 점진적으로 상승하며, 체력 회복·무적·점수 아이템으로 플레이 변수를 만들었습니다. 실시간 UI(점수/생명력/페이즈)와 씬 전환 시 데이터 유지(싱글톤/저장)까지 포함해 완성도를 높였습니다.",
-        valueStatement: "Unity 3D 게임 개발과 점진적 난이도 시스템 구현",
+        valueStatement: "Unity 3D 게임 개발과 난이도 시스템 구현",
         period: "2024.11.04 ~ 2024.12.16",
         contribution: "맵 제작 및 설계, 캐릭터·탄막 간 충돌 판정 및 피격 처리 시스템 구현",
         typeTag: { label: "개인 프로젝트", emoji: "👤" },
@@ -352,7 +355,7 @@ const projectsData = [
         thumbnail: "images/JEIU_Campus_1.png",
         thumbnailWebp: "images/JEIU_Campus_1.webp",
         shortDescription: "3D 공간에서 캠퍼스 정보를 직관적으로 탐색할 수 있도록 설계한 웹 애플리케이션. Three.js로 구현한 인터랙티브 맵에서 건물 클릭 시 이벤트 정보 확인 및 강의실 예약 기능을 제공합니다.",
-        valueStatement: "복잡한 캠퍼스 구조를 3D 시각화로 직관적으로 탐색",
+        valueStatement: "복잡한 캠퍼스 구조를 3D 시각화로 직관적 탐색",
         period: "2025.03.26 ~ 2025.04.16",
         contribution: "프론트엔드 전체 구현 / 백엔드 연동 / UI 기획 및 디버깅 주도",
         typeTag: { label: "팀 프로젝트", emoji: "👥" },
@@ -510,13 +513,14 @@ const projectsData = [
             "CI/CD 자동화: Netlify와 GitHub 연동으로 코드 푸시 시 자동 빌드 및 배포",
             "실서비스 운영: 실제 URL을 통한 배포로 사용자 피드백 수집 및 성능 모니터링"
         ],
-        technologies: ["Cloudflare Workers", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
+        technologies: ["Cloudflare Workers", "Cursor", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
         technologyRationale: [
             "데이터 드리븐 렌더링: `projects-data.js` → `projects-renderer.js`로 카드/모달 자동 생성 (수동 HTML 작성 대비 유지보수성)",
             "Cloudflare Worker: 서버 없이 폼 데이터 수집·검증 및 Discord/D1 전달 (서버리스 아키텍처로 비용 절감)",
             "Node 서버(gzip/wasm): Unity WebGL 빌드의 올바른 MIME 타입과 Content-Encoding 헤더 설정 (정적 호스팅 대비 필수)",
             "Netlify CI/CD: GitHub 연동으로 코드 푸시 시 자동 빌드 및 배포 (수동 배포 대비 개발 효율성)",
-            "PDF.js: 브라우저 네이티브 PDF 뷰어 대비 페이지별 슬라이드 뷰와 커스텀 UI 제공"
+            "PDF.js: 브라우저 네이티브 PDF 뷰어 대비 페이지별 슬라이드 뷰와 커스텀 UI 제공",
+            "Cursor: 데이터 드리븐 렌더링 아키텍처 설계와 복잡한 모달 UI 로직을 AI와 협업하여 효율적으로 구현했습니다. 프로젝트 데이터 구조와 렌더링 로직의 확장성을 고려한 설계 패턴을 빠르게 도입하고 검증했습니다."
         ],
         technicalTroubleshooting: [
             {
@@ -541,7 +545,7 @@ const projectsData = [
             },
             {
                 problem: "프로젝트 카드가 늘어날 때 스타일 일관성이 무너질 위험.",
-                solution: "색상 테마 매핑과 데이터 기반 렌더러(`projects-renderer.js`)로 카드/모달 UI를 통일.",
+                solution: "색상 테마 매핑과 데이터 기반 렌더러(`projects-renderer.js`)로 카드/모달 UI를 통일. Cursor의 AI 기반 코드 생성과 리팩토링 기능을 활용하여 확장 가능한 렌더링 아키텍처를 설계하고, 복잡한 조건부 렌더링 로직을 효율적으로 구현했습니다.",
                 result: "데이터 추가만으로도 동일한 UI 패턴을 유지하며 확장 가능."
             }
         ],
@@ -554,7 +558,7 @@ const projectsData = [
                 "Git 기반 CI/CD 파이프라인 구축으로 코드 변경 시 자동 배포 환경 완성",
                 "실서비스 배포를 통해 이미지 최적화 및 성능 개선 적용"
             ],
-            learnings: "정적 사이트에서도 데이터 주도 설계와 올바른 헤더 설정만으로 WebGL·3D·폼 백엔드를 안정적으로 제공할 수 있음을 확인했습니다. 배포 환경에 맞춰 CORS·헤더·리소스 경로를 일관되게 관리하는 중요성을 체감했습니다. Netlify와 GitHub를 연동한 CI/CD 파이프라인을 구축하며, 코드 변경 시 자동으로 빌드 및 배포가 이루어지는 자동화 경험을 했습니다. 특히 빌드 과정에서 발생하는 submodule 및 경로 오류를 해결하며 배포 환경 안정화 역량을 키웠습니다. 실제 서비스 운영을 통해 이미지 최적화, 라우팅 설정, 성능 모니터링 등을 적용하며 실전 프론트엔드 최적화 경험을 쌓았고, 실제 사용자 피드백을 반영하여 지속적으로 개선하는 프로세스를 경험했습니다."
+            learnings: "정적 사이트에서도 데이터 주도 설계와 올바른 헤더 설정만으로 WebGL·3D·폼 백엔드를 안정적으로 제공할 수 있음을 확인했습니다. 배포 환경에 맞춰 CORS·헤더·리소스 경로를 일관되게 관리하는 중요성을 체감했습니다. Netlify와 GitHub를 연동한 CI/CD 파이프라인을 구축하며, 코드 변경 시 자동으로 빌드 및 배포가 이루어지는 자동화 경험을 했습니다. 특히 빌드 과정에서 발생하는 submodule 및 경로 오류를 해결하며 배포 환경 안정화 역량을 키웠습니다. Cursor를 활용한 AI 증강 개발(AI Augmented Development)을 통해 데이터 드리븐 렌더링 아키텍처와 복잡한 UI 로직을 효율적으로 설계하고 구현하며, AI 도구를 활용한 개발 생산성 향상과 코드 품질 개선의 가치를 깊이 체감했습니다. 실제 서비스 운영을 통해 이미지 최적화, 라우팅 설정, 성능 모니터링 등을 적용하며 실전 프론트엔드 최적화 경험을 쌓았고, 실제 사용자 피드백을 반영하여 지속적으로 개선하는 프로세스를 경험했습니다."
         },
         images: [
             "images/portfolio-screenshot.png"

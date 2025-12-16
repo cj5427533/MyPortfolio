@@ -47,14 +47,20 @@
                 });
             }
             
+            // DOM 준비되면 즉시 표시 (클릭 가능하도록)
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', markAsLoaded);
+                document.addEventListener('DOMContentLoaded', function() {
+                    // 짧은 지연 후 표시 (스타일 적용 시간 확보)
+                    setTimeout(markAsLoaded, 50);
+                });
             } else {
-                markAsLoaded();
+                setTimeout(markAsLoaded, 50);
             }
             
             // 추가 안전장치: 모든 리소스 로드 완료 후에도 확인
-            window.addEventListener('load', markAsLoaded);
+            window.addEventListener('load', function() {
+                markAsLoaded();
+            });
         })();
     </script>
     <!-- FOUC 방지를 위한 기본 스타일 -->
@@ -64,34 +70,11 @@
             margin: 0; 
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(to bottom right, #f0f9ff, #e0f2fe, #cffafe);
+            background: linear-gradient(to bottom right, #f0f9ff, #e0f2fe, #cffafe) !important;
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        .container { max-width: 1024px; margin: 0 auto; padding: 1rem; }
-        /* 초기 로딩 시 콘텐츠 숨김 */
-        body:not(.loaded) main {
-            opacity: 0;
-            visibility: hidden;
-        }
-        body.loaded main {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.3s ease-in;
-        }
-        /* 프로젝트 섹션 초기 숨김 */
-        #projects-container {
-            opacity: 0;
-            visibility: hidden;
-        }
-        /* 이미지 초기 숨김 - 로드 완료 전까지 (lazy loading만) */
-        img[loading="lazy"]:not([data-loaded="true"]) {
-            opacity: 0;
-            transition: opacity 0.3s ease-in;
-        }
-        img[data-loaded="true"],
-        img[loading="eager"] {
-            opacity: 1;
-        }
+        /* 메인과 모달은 기본 표시, 각 요소의 기본 hidden/opacity 속성에 맡김 */
     </style>
     <!-- Typed.js 라이브러리 - defer로 렌더링 차단 방지 -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
@@ -396,25 +379,17 @@
                      onmouseleave="handleCarouselMouseUp(event)"
                      onscroll="updateDragBar()">
                     <!-- 수상·제출물 미리보기 카드들 -->
-                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="0"
                          onmousedown="handleCardMouseDown(event, 0)"
                          onclick="handleCardClick(event, 0)">
-                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <iframe src="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                <iframe src="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit&view=FitV&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"
+                                        style="object-fit: contain; object-position: center; background: transparent; background-color: transparent;"
                                         loading="lazy"
                                         title="2025 재능대 컴퓨터소프트웨어학과 캡스톤 대상 수상 증명서"></iframe>
-                                <!-- 확대 버튼 -->
-                                <button onclick="event.stopPropagation(); enlargePdf('Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf')" 
-                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
-                                        title="자료 크게 보기">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                    </svg>
-                                </button>
                                 <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
@@ -423,25 +398,17 @@
                             <p class="text-sm text-gray-600 text-center mt-1">온라인 쇼핑몰 안전 확인 플랫폼</p>
                         </div>
                     </div>
-                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="1"
                          onmousedown="handleCardMouseDown(event, 1)"
                          onclick="handleCardClick(event, 1)">
-                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <iframe src="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                <iframe src="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit&view=FitV&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"
+                                        style="object-fit: contain; object-position: center; background: transparent; background-color: transparent;"
                                         loading="lazy"
                                         title="2024 인천전문대 연합 아이디어톤 최우수상 수상 증명서"></iframe>
-                                <!-- 확대 버튼 -->
-                                <button onclick="event.stopPropagation(); enlargePdf('Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf')" 
-                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
-                                        title="자료 크게 보기">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                    </svg>
-                                </button>
                                 <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
@@ -450,25 +417,17 @@
                             <p class="text-sm text-gray-600 text-center mt-1">은둔형 외톨이 상담·치료 플랫폼</p>
                         </div>
                     </div>
-                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="2"
                          onmousedown="handleCardMouseDown(event, 2)"
                          onclick="handleCardClick(event, 2)">
-                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <iframe src="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                <iframe src="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit&view=FitV&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"
+                                        style="object-fit: contain; object-position: center; background: transparent; background-color: transparent;"
                                         loading="lazy"
                                         title="2024 NextGen 창업경진대회 우승 수상 증명서"></iframe>
-                                <!-- 확대 버튼 -->
-                                <button onclick="event.stopPropagation(); enlargePdf('Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf')" 
-                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
-                                        title="자료 크게 보기">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                    </svg>
-                                </button>
                                 <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
@@ -477,25 +436,17 @@
                             <p class="text-sm text-gray-600 text-center mt-1">AI 기반 농산물 직거래 플랫폼</p>
                         </div>
                     </div>
-                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="3"
                          onmousedown="handleCardMouseDown(event, 3)"
                          onclick="handleCardClick(event, 3)">
-                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
                             <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <iframe src="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf#toolbar=0&navpanes=0&scrollbar=0&page=1" 
+                                <iframe src="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit&view=FitV&page=1" 
                                         class="w-full h-full pointer-events-none"
-                                        style="object-fit: contain; object-position: center;"
+                                        style="object-fit: contain; object-position: center; background: transparent; background-color: transparent;"
                                         loading="lazy"
                                         title="2025 U300 창업경진대회 전국 50팀 선정 증명서"></iframe>
-                                <!-- 확대 버튼 -->
-                                <button onclick="event.stopPropagation(); enlargePdf('Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf')" 
-                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
-                                        title="자료 크게 보기">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                    </svg>
-                                </button>
                                 <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
@@ -504,27 +455,19 @@
                             <p class="text-sm text-gray-600 text-center mt-1">사용자 맞춤형 코디 추천 플랫폼</p>
                         </div>
                     </div>
-                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="4"
                          onmousedown="handleCardMouseDown(event, 4)"
                          onclick="handleCardClick(event, 4)">
-                        <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg p-4 border-2 border-yellow-200 hover:border-yellow-400 transition-colors h-full flex flex-col items-center justify-center">
-                            <div class="aspect-[4/3] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative border-4 border-blue-300 w-full" style="border-style: double;">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full flex flex-col items-center justify-center relative">
+                            <div class="aspect-[4/3] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative border-4 border-primary/40 w-full" style="border-style: double;">
                                 <div class="w-full h-full flex items-center justify-center relative">
                                     <iframe src="Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&zoom=page-width&view=FitV&page=1" 
                                             class="pointer-events-none"
-                                            style="width: 100%; height: 100%; display: block; transform: translateY(0);"
+                                            style="width: 100%; height: 100%; display: block; transform: translateY(0); background: transparent; background-color: transparent;"
                                             loading="lazy"
                                             title="2025 제주도 AWS 해커톤 수료증"></iframe>
                                 </div>
-                                <!-- 확대 버튼 -->
-                                <button onclick="event.stopPropagation(); enlargePdf('Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf')" 
-                                        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10" 
-                                        title="자료 크게 보기">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                    </svg>
-                                </button>
                                 <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
@@ -573,36 +516,13 @@
                     </svg>
                     메시지 보내기
                 </button>
-                <p class="text-center text-sm text-gray-500 mt-2">메시지를 보내면 Discord로 실시간 알림이 전송됩니다!</p>
+                <p class="text-center text-sm text-gray-500 mt-2">여기 메시지를 남겨주시면 디스코드 알림을 받아 즉시 확인 가능합니다.</p>
             </form>
             <div id="formStatus" class="mt-4 text-center hidden">
                 <p class="text-green-600 bg-green-50 p-3 rounded-md border border-green-200" id="successMessage">메시지가 성공적으로 전송되었습니다!</p>
                 <p class="text-red-600 bg-red-50 p-3 rounded-md border border-red-200" id="errorMessage"></p>
             </div>
             
-            <!-- Links 섹션 -->
-            <div class="mt-8 pt-8 border-t border-gray-200">
-                <h3 class="text-2xl font-bold mb-4 text-primary">
-                    <span class="relative inline-block">
-                        🔗 Links
-                        <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
-                    </span>
-                </h3>
-                <div class="flex gap-4">
-                    <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                        </svg>
-                        GitHub
-                    </a>
-                    <a href="mailto:cj542753303@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        Email
-                    </a>
-                </div>
-            </div>
         </section>
 
         <!-- Giscus 댓글 푸터 -->
@@ -628,6 +548,23 @@
                     crossorigin="anonymous"
                     async>
             </script>
+            <!-- GitHub 및 Email 링크 -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <div class="flex gap-4">
+                    <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="mailto:cj542753303@gmail.com" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Email
+                    </a>
+                </div>
+            </div>
         </footer>
     </main>
     <!-- 외부 리소스 preconnect -->
@@ -660,8 +597,8 @@
 
     <!-- Modal for enlarged images/videos -->
     <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-[100] hidden">
+        <button id="closeModal" class="fixed top-4 right-4 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-[101] transition-none">&times;</button>
         <div class="relative bg-white rounded-lg shadow-2xl w-full h-[95vh] max-w-[95vw] max-h-[95vh] overflow-hidden flex flex-col">
-            <button id="closeModal" class="absolute top-2 right-2 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-[101]">&times;</button>
             <div id="modalContent" class="flex items-center justify-center flex-1 w-full h-full overflow-auto">
                 <!-- Image or video will be loaded here -->
             </div>
@@ -671,18 +608,26 @@
     <!-- Modal for Awards - Project 모달과 동일한 UI/UX -->
     <div id="awardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 hidden award-modal modal-overlay" style="opacity: 0;">
         <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container" style="opacity: 0; transform: scale(0.97) translateY(8px);">
-            <div class="bg-gradient-to-r from-yellow-400 to-amber-500 h-2"></div>
+            <div class="bg-gradient-to-r from-primary to-secondary h-2"></div>
             <div class="overflow-y-auto flex-1 p-4 md:p-6">
                 <!-- Header - Project 모달과 동일한 구조 -->
                 <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
-                    <div class="flex justify-between items-start">
+                    <div class="flex justify-between items-start gap-3">
                         <div class="flex-1 pr-2">
-                            <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis mb-2 md:mb-3"></h3>
+                            <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis mb-3 md:mb-5"></h3>
                             <div id="awardHeaderMeta" class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
                                 <!-- 동적으로 채워짐 -->
                             </div>
                         </div>
-                        <button id="closeAwardModal" class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors">&times;</button>
+                        <div class="flex flex-col items-end gap-2">
+                            <button id="awardPdfEnlargeBtn" class="hidden bg-white text-gray-700 border border-primary/30 shadow-sm rounded-full px-3 py-1.5 text-xs font-semibold flex items-center gap-1 hover:bg-slate-50 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                </svg>
+                                <span>상장 크게 보기</span>
+                            </button>
+                            <button id="closeAwardModal" class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors">&times;</button>
+                        </div>
                     </div>
                 </div>
                 
@@ -1003,7 +948,7 @@
                 images: []
             },
             {
-                title: "2025 제주도 AWS 해커톤 수료",
+                title: "2025 제주도 AWS 해커톤 수료증",
                 subtitle: "",
                 pdf: "Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf",
                 projectName: "탐해(탐라의 바다) - 제주도 발전을 위한 스마트 해양 농업 플랫폼",
@@ -1075,6 +1020,25 @@
                 event.stopPropagation();
             }
             
+            currentAwardIndex = index;
+            const award = awardsData[index];
+            
+            const pdfEnlargeBtn = document.getElementById('awardPdfEnlargeBtn');
+            if (pdfEnlargeBtn) {
+                const enlargeTarget = award.pdf || award.pdfPath;
+                if (enlargeTarget) {
+                    pdfEnlargeBtn.classList.remove('hidden');
+                    pdfEnlargeBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        enlargePdf(enlargeTarget);
+                    };
+                } else {
+                    pdfEnlargeBtn.classList.add('hidden');
+                    pdfEnlargeBtn.onclick = null;
+                }
+            }
+            
             // 기존 PDF Swiper 인스턴스 정리
             Object.keys(pdfSwiperInstances).forEach(containerId => {
                 if (pdfSwiperInstances[containerId]) {
@@ -1087,8 +1051,6 @@
                 }
             });
             
-            currentAwardIndex = index;
-            const award = awardsData[index];
             const modal = document.getElementById('awardModal');
             
             // 제목
@@ -1097,7 +1059,7 @@
             // Header Meta (프로젝트명 및 역할)
             let headerMetaHTML = '';
             if (award.projectName) {
-                headerMetaHTML = `<span class="px-2 py-1 md:px-3 md:py-1 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.projectName}</span>`;
+                headerMetaHTML = `<span class="px-2 py-1 md:px-3 md:py-1 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.projectName}</span>`;
             }
             if (award.role && award.teamName) {
                 headerMetaHTML += `<span class="px-2 py-1 md:px-3 md:py-1 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium inline-flex items-center">${award.teamName} · ${award.role}</span>`;
@@ -1109,32 +1071,32 @@
             // Hero Summary (선택적 - 여기몰까 프로젝트만)
             if (index === 0 && award.projectName && award.projectName.includes('여기몰까')) {
                 document.getElementById('awardHeroSummary').innerHTML = `
-                    <div class="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg md:rounded-xl p-4 md:p-6 mb-6 md:mb-8 border-l-4 border-amber-500 shadow-sm modal-section" data-section="hero-summary">
+                    <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg md:rounded-xl p-4 md:p-6 mb-6 md:mb-8 border-l-4 border-primary shadow-sm modal-section" data-section="hero-summary">
                         <div class="mb-3 md:mb-4">
                             <p class="text-base md:text-lg font-semibold text-gray-800 leading-relaxed">온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 플랫폼</p>
                         </div>
                         <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
-                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">풀스택 개발</span>
-                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">AI/ML 시스템 설계</span>
-                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">데이터베이스 설계</span>
-                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs md:text-sm font-medium">UI/UX 기획</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium">풀스택 개발</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium">AI/ML 시스템 설계</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium">데이터베이스 설계</span>
+                            <span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs md:text-sm font-medium">UI/UX 기획</span>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-3 md:pt-4 border-t border-amber-200">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-3 md:pt-4 border-t border-primary/30">
                             <div class="text-center">
                                 <div class="text-xs text-gray-600 mb-1">API 비용</div>
-                                <div class="text-base md:text-lg font-bold text-amber-700">60% 절감</div>
+                                <div class="text-base md:text-lg font-bold text-primary">60% 절감</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-xs text-gray-600 mb-1">응답 속도</div>
-                                <div class="text-base md:text-lg font-bold text-amber-700">3초 → 0.5초</div>
+                                <div class="text-base md:text-lg font-bold text-primary">3초 → 0.5초</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-xs text-gray-600 mb-1">검색 속도</div>
-                                <div class="text-base md:text-lg font-bold text-amber-700">10배 개선</div>
+                                <div class="text-base md:text-lg font-bold text-primary">10배 개선</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-xs text-gray-600 mb-1">피싱 탐지 정확도</div>
-                                <div class="text-base md:text-lg font-bold text-amber-700">85%</div>
+                                <div class="text-base md:text-lg font-bold text-primary">85%</div>
                             </div>
                         </div>
                     </div>
@@ -1156,7 +1118,7 @@
                     if (parts.length === 2) {
                         return `
                             <li class="flex items-start">
-                                <span class="inline-block mr-3 mt-1 text-amber-600 text-base">•</span>
+                                <span class="inline-block mr-3 mt-1 text-primary text-base">•</span>
                                 <div>
                                     <span class="font-medium text-gray-900">${parts[0]}:</span>
                                     <span class="text-sm">${parts[1]}</span>
@@ -1166,7 +1128,7 @@
                     }
                     return `
                         <li class="flex items-start">
-                            <span class="inline-block mr-2 mt-1 text-amber-600">✓</span>
+                            <span class="inline-block mr-2 mt-1 text-primary">✓</span>
                             <span class="text-sm">${feature}</span>
                         </li>
                     `;
@@ -1185,7 +1147,7 @@
             // 이미지 갤러리
             if (award.images && award.images.length > 0) {
                 mediaHTML = `
-                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🖼️ 시연 자료</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🖼️ 플랫폼 이미지</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
                         ${award.images.map((img, imgIndex) => `
                             <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
@@ -1269,7 +1231,7 @@
                     techHTML = `
                         <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
                             ${techs.map(tech => 
-                                `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                                `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
                             ).join('')}
                         </div>
                     `;
@@ -1286,13 +1248,13 @@
                         <div class="flex flex-col mb-3 md:mb-4" style="gap: 0;">
                             <div class="flex flex-wrap gap-2">
                                 ${firstRow.map(tech => 
-                                    `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                                    `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
                                 ).join('')}
                             </div>
                             ${secondRow.length > 0 ? `
                                 <div class="flex flex-wrap gap-2 -mt-1">
                                     ${secondRow.map(tech => 
-                                        `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-amber-100 text-amber-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
+                                        `<span class="px-2 py-1 md:px-3 md:py-1.5 bg-sky-100 text-sky-700 rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>`
                                     ).join('')}
                                 </div>
                             ` : ''}
@@ -1312,14 +1274,14 @@
             if (award.experiencePoints && award.experiencePoints.length > 0) {
                 const experienceHTML = award.experiencePoints.map(point => 
                     `<li class="flex items-start">
-                        <span class="inline-block mr-2 mt-1 text-amber-600">💡</span>
+                        <span class="inline-block mr-2 mt-1 text-primary">💡</span>
                         <span class="text-sm text-gray-700 leading-relaxed">${point}</span>
                     </li>`
                 ).join('');
                 
                 document.getElementById('awardTroubleshooting').innerHTML = `
                     <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🧠 주요 경험 포인트</h4>
-                    <ul class="list-none space-y-2 md:space-y-3 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg md:rounded-xl p-4 md:p-5 border-l-4 border-amber-400">
+                    <ul class="list-none space-y-2 md:space-y-3 bg-gradient-to-r from-sky-50 to-cyan-50 rounded-lg md:rounded-xl p-4 md:p-5 border-l-4 border-primary">
                         ${experienceHTML}
                     </ul>
                 `;
@@ -1340,7 +1302,7 @@
             // 7) 회고
             if (award.reflection) {
                 document.getElementById('awardReflection').innerHTML = `
-                    <div class="bg-gradient-to-r from-amber-50 to-yellow-50 p-4 md:p-6 rounded-lg border-l-4 border-amber-400 reflection-box modal-section" data-section="reflection">
+                    <div class="bg-gradient-to-r from-sky-50 to-cyan-50 p-4 md:p-6 rounded-lg border-l-4 border-primary reflection-box modal-section" data-section="reflection">
                         <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">💬 회고</h4>
                         <p class="text-gray-700 text-sm leading-relaxed">${award.reflection}</p>
                     </div>
@@ -1383,6 +1345,37 @@
             
             // 섹션 스크롤 애니메이션 초기화
             initAwardModalSectionAnimations(modal);
+        }
+        
+        // 스크롤바 너비 계산 및 레이아웃 시프트 방지
+        function preventLayoutShift() {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) {
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+                // Awards 모달이 열려있으면 그것도 고정
+                const awardModal = document.getElementById('awardModal');
+                if (awardModal && !awardModal.classList.contains('hidden')) {
+                    awardModal.style.paddingRight = `${scrollbarWidth}px`;
+                }
+            }
+        }
+        
+        function restoreLayoutShift() {
+            document.body.style.paddingRight = '';
+            // Awards 모달의 padding도 제거 (단, Awards 모달이 닫혀있을 때만)
+            const awardModal = document.getElementById('awardModal');
+            if (awardModal && awardModal.classList.contains('hidden')) {
+                awardModal.style.paddingRight = '';
+            }
+        }
+        
+        function restoreLayoutShiftForAwardModal() {
+            // Awards 모달을 닫을 때만 호출 - body와 Awards 모달의 padding 모두 제거
+            document.body.style.paddingRight = '';
+            const awardModal = document.getElementById('awardModal');
+            if (awardModal) {
+                awardModal.style.paddingRight = '';
+            }
         }
         
         // 이미지 확대 함수
@@ -1442,6 +1435,8 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.body.style.overflow = '';
+                // Awards 모달의 padding 제거
+                restoreLayoutShiftForAwardModal();
             }, duration * 1000);
         }
         
@@ -1596,41 +1591,52 @@
                     }
                 });
                 
-                // thumb 드래그 시작
+                // thumb 드래그 시작 (마우스 및 터치)
                 if (dragBarThumb) {
-                    dragBarThumb.addEventListener('mousedown', function(e) {
+                    const startDrag = function(e) {
                         isDraggingBar = true;
-                        dragBarStartX = e.clientX;
+                        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                        dragBarStartX = clientX;
                         dragBarStartScroll = carousel.scrollLeft;
                         dragBarThumb.style.cursor = 'grabbing';
                         e.preventDefault();
                         e.stopPropagation();
-                    });
+                    };
+                    
+                    dragBarThumb.addEventListener('mousedown', startDrag);
+                    dragBarThumb.addEventListener('touchstart', startDrag, { passive: false });
                 }
 
-                document.addEventListener('mousemove', function(e) {
+                const handleMove = function(e) {
                     if (!isDraggingBar || !carousel) return;
                     
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                     const dragBarRect = dragBar.getBoundingClientRect();
                     const dragBarWidth = dragBarRect.width;
                     const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
                     
                     if (scrollWidth <= 0) return;
                     
-                    const deltaX = e.clientX - dragBarStartX;
+                    const deltaX = clientX - dragBarStartX;
                     const scrollDelta = (deltaX / dragBarWidth) * carousel.scrollWidth;
                     carousel.scrollLeft = Math.max(0, Math.min(scrollWidth, dragBarStartScroll + scrollDelta));
                     updateDragBar();
-                });
-
-                document.addEventListener('mouseup', function() {
+                    e.preventDefault();
+                };
+                
+                const handleEnd = function() {
                     if (isDraggingBar) {
                         isDraggingBar = false;
                         if (dragBarThumb) {
                             dragBarThumb.style.cursor = 'grab';
                         }
                     }
-                });
+                };
+                
+                document.addEventListener('mousemove', handleMove);
+                document.addEventListener('touchmove', handleMove, { passive: false });
+                document.addEventListener('mouseup', handleEnd);
+                document.addEventListener('touchend', handleEnd);
             }
             
             // 캐러셀 터치 이벤트

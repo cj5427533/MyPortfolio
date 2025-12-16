@@ -222,8 +222,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.getElementById('closeModal');
     const modalContent = document.getElementById('modalContent');
 
+    // 스크롤바 너비 계산 및 레이아웃 시프트 방지
+    function preventLayoutShift() {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbarWidth > 0) {
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            // Awards 모달이 열려있으면 그것도 고정
+            const awardModal = document.getElementById('awardModal');
+            if (awardModal && !awardModal.classList.contains('hidden')) {
+                awardModal.style.paddingRight = `${scrollbarWidth}px`;
+            }
+        }
+    }
+    
+    function restoreLayoutShift() {
+        document.body.style.paddingRight = '';
+        // Awards 모달의 padding도 제거 (단, Awards 모달이 닫혀있을 때만)
+        const awardModal = document.getElementById('awardModal');
+        if (awardModal && awardModal.classList.contains('hidden')) {
+            awardModal.style.paddingRight = '';
+        }
+    }
+
     enlargeableMedia.forEach(media => {
         media.addEventListener('click', () => {
+            // 스크롤바 너비를 overflow-hidden 추가 전에 먼저 계산
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            
             const mediaSrc = media.dataset.src;
             const mediaType = media.dataset.mediaType;
 
@@ -245,22 +270,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             enlargeModal.classList.remove('hidden');
+            
+            // padding을 먼저 추가 (스크롤바가 사라지기 전)
+            if (scrollbarWidth > 0) {
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+                // Awards 모달이 열려있으면 그것도 고정
+                const awardModal = document.getElementById('awardModal');
+                if (awardModal && !awardModal.classList.contains('hidden')) {
+                    awardModal.style.paddingRight = `${scrollbarWidth}px`;
+                }
+            }
+            
+            // 그 다음 overflow-hidden 추가 (스크롤바가 사라짐)
             document.body.classList.add('overflow-hidden'); // Prevent scrolling body when modal is open
         });
     });
 
-    closeModalBtn.addEventListener('click', () => {
+    function closeEnlargeModal() {
         enlargeModal.classList.add('hidden');
         modalContent.innerHTML = ''; // Clear content when closing
-        document.body.classList.remove('overflow-hidden'); // Restore body scrolling
-    });
+        
+        // Awards 모달이 열려있으면 body의 padding을 유지 (Awards 모달이 닫힐 때 제거됨)
+        const awardModal = document.getElementById('awardModal');
+        const isAwardModalOpen = awardModal && !awardModal.classList.contains('hidden');
+        
+        if (!isAwardModalOpen) {
+            // 먼저 padding 제거 (레이아웃 시프트 방지)
+            restoreLayoutShift();
+            // 그 다음 overflow-hidden 제거 (스크롤바가 다시 나타남)
+            // 동기적으로 처리하여 레이아웃이 즉시 복원되도록 함
+            document.body.classList.remove('overflow-hidden'); // Restore body scrolling
+        } else {
+            // Awards 모달이 열려있으면 body의 overflow만 제거하고 padding은 유지
+            // (Awards 모달이 닫힐 때 restoreLayoutShiftForAwardModal이 호출됨)
+            document.body.classList.remove('overflow-hidden');
+            // body의 padding은 유지 (Awards 모달이 닫힐 때 제거됨)
+            // awardModal의 padding도 유지 (Awards 모달이 닫힐 때 제거됨)
+        }
+    }
+
+    closeModalBtn.addEventListener('click', closeEnlargeModal);
 
     // Close modal when clicking outside of the content (on the overlay)
     enlargeModal.addEventListener('click', (e) => {
         if (e.target === enlargeModal) {
-            enlargeModal.classList.add('hidden');
-            modalContent.innerHTML = '';
-            document.body.classList.remove('overflow-hidden');
+            closeEnlargeModal();
+        }
+    });
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !enlargeModal.classList.contains('hidden')) {
+            closeEnlargeModal();
         }
     });
 });

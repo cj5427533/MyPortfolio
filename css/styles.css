@@ -266,6 +266,7 @@ body {
     box-shadow: 0 12px 28px -14px rgba(37, 99, 235, 0.35);
     overflow: hidden; /* 핵심: 내부 요소가 카드 모서리를 넘지 않도록 */
     transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    pointer-events: auto !important; /* 클릭 가능하도록 명시적 설정 */
 }
 
 .project-card-preview:hover {
@@ -397,14 +398,17 @@ body {
 .project-modal {
     opacity: 0;
     transition: opacity 0.25s ease-out;
+    pointer-events: auto;
 }
 
 .modal-overlay {
     backdrop-filter: blur(2px);
+    pointer-events: auto;
 }
 
 .modal-container {
     will-change: opacity, transform;
+    pointer-events: auto;
 }
 
 /* 모달 스크롤 */
@@ -412,19 +416,101 @@ body {
     max-height: calc(90vh - 2rem);
 }
 
-/* 모달 섹션 간격 조정 */
-.project-modal .modal-section {
-    margin-bottom: 2rem;
+/* ============================================
+   일관된 타이포그래피 시스템
+   ============================================ */
+
+/* 모달 섹션 간격 통일 */
+.project-modal .modal-section,
+.modal-section {
+    margin-bottom: 1.5rem; /* 24px */
 }
 
-.project-modal .modal-section:last-child {
+@media (min-width: 768px) {
+    .project-modal .modal-section,
+    .modal-section {
+        margin-bottom: 2rem; /* 32px */
+    }
+}
+
+.project-modal .modal-section:last-child,
+.modal-section:last-child {
     margin-bottom: 0;
 }
 
-/* 섹션 타이틀 강조 */
+/* 섹션 타이틀 통일 (h4) */
 .modal-section h4 {
+    font-size: 1rem; /* 16px */
     font-weight: 600;
     letter-spacing: -0.01em;
+    margin-bottom: 0.75rem; /* 12px */
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .modal-section h4 {
+        font-size: 1.125rem; /* 18px */
+        margin-bottom: 1rem; /* 16px */
+    }
+}
+
+/* 모달 제목 (h3) 통일 */
+.project-modal h3 {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.5rem; /* 8px */
+}
+
+@media (min-width: 768px) {
+    .project-modal h3 {
+        font-size: 1.5rem; /* 24px */
+        margin-bottom: 0.75rem; /* 12px */
+    }
+}
+
+/* 소제목 (h5) 통일 */
+.modal-section h5 {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 0.5rem; /* 8px */
+}
+
+@media (min-width: 768px) {
+    .modal-section h5 {
+        font-size: 1rem; /* 16px */
+        margin-bottom: 0.75rem; /* 12px */
+    }
+}
+
+/* 본문 텍스트 통일 */
+.modal-section p,
+.modal-section li {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.625; /* 26px */
+}
+
+@media (min-width: 768px) {
+    .modal-section p,
+    .modal-section li {
+        font-size: 1rem; /* 16px */
+        line-height: 1.625; /* 26px */
+    }
+}
+
+/* 작은 텍스트 통일 */
+.modal-section .text-xs,
+.modal-section small {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .modal-section .text-xs,
+    .modal-section small {
+        font-size: 0.875rem; /* 14px */
+    }
 }
 
 /* 아이콘 크기 조정 */
@@ -436,7 +522,6 @@ body {
 /* 모달 섹션 애니메이션 */
 .modal-section {
     will-change: opacity, transform;
-    margin-bottom: 2rem;
 }
 
 /* 여기몰까 프로젝트 특별 스타일 */
@@ -533,6 +618,9 @@ body {
 
 #enlargeModal #closeModal {
     z-index: 101 !important;
+    position: fixed !important;
+    top: 1rem !important;
+    right: 1rem !important;
 }
 
 /* 프로젝트 카드 등장 애니메이션 */
@@ -559,11 +647,15 @@ body {
 }
 
 /* 프로젝트 카드 애니메이션 */
-.project-card-item { will-change: opacity, transform; }
+.project-card-item { 
+    will-change: opacity, transform;
+    pointer-events: auto !important; /* 클릭 가능하도록 명시적 설정 */
+}
 .project-card-item.visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    pointer-events: auto !important;
 }
 
 /* 모바일에서는 호버 이동 최소화 */
@@ -966,4 +1058,16 @@ img[class*="swiper-slide"] img {
         max-width: 100%;
         height: auto;
     }
+}
+
+/* Awards & Submissions 섹션 - PDF iframe 배경색 제거 */
+.award-card iframe {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* PDF 뷰어 내부 배경색 제거 */
+.award-card iframe[src*=".pdf"] {
+    background: transparent !important;
+    background-color: transparent !important;
 } 

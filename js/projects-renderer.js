@@ -179,7 +179,7 @@ function createProjectCard(project) {
     
     return `
         <div class="project-card-preview bg-white rounded-xl overflow-hidden border-l-4 transition-all duration-300 ease-out opacity-0 translate-y-4 project-card-item cursor-pointer w-full ${cardEmphasisClasses}" 
-             style="border-left-color: ${accentColor};"
+             style="border-left-color: ${accentColor}; pointer-events: auto;"
              data-project-id="${project.id}">
             <!-- 그라데이션 상단 바 -->
             <div class="bg-gradient-to-r ${theme.gradient} ${gradientBarHeight}"></div>
@@ -192,20 +192,20 @@ function createProjectCard(project) {
                 
                 <!-- 한 줄 가치 설명 -->
                 ${valueStatement ? `
-                    <p class="value-statement text-xs md:text-sm font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
+                    <p class="value-statement font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
                 ` : ''}
                 
                 <!-- 짧은 설명 (줄수 통일) -->
-                <p class="short-description text-gray-700 text-sm md:text-base mb-3 md:mb-4 leading-relaxed line-clamp-3 md:line-clamp-4">${project.shortDescription}</p>
+                <p class="short-description text-gray-700 mb-3 md:mb-4 leading-relaxed line-clamp-3 md:line-clamp-4">${project.shortDescription}</p>
                 
                 <!-- 메타데이터 -->
-                <div class="mb-3 md:mb-4 text-xs md:text-sm text-gray-500">
+                <div class="mb-3 md:mb-4 text-gray-500">
                     <span>${project.period}</span>
                 </div>
                 
                 <!-- CTA 링크 -->
                 <div class="pt-3 md:pt-4 border-t border-gray-100 mt-auto">
-                    <div class="group/cta flex items-center gap-2 text-sm md:text-base ${theme.text} font-semibold min-h-[44px]">
+                    <div class="group/cta flex items-center gap-2 ${theme.text} font-semibold min-h-[44px]">
                         <span>자세히 보기</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -238,12 +238,12 @@ function createExecutiveSummary(project) {
         outcomes.push('3D 캠퍼스 맵과 강의실 예약, 이벤트 정보를 한 화면에서 직관적으로 제공');
         
         return `
-            <div class="bg-blue-50 rounded-xl p-5 mb-6 border-l-4 border-blue-500 modal-section" data-section="executive-summary">
-                <h4 class="font-bold text-lg mb-3 text-blue-900 flex items-center gap-2">
+            <div class="bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500 modal-section" data-section="executive-summary">
+                <h4 class="font-bold text-blue-900 flex items-center gap-2">
                     <span>🔍</span>
                     <span>핵심 성과 요약</span>
                 </h4>
-                <ul class="space-y-2 text-sm">
+                <ul class="space-y-2 mt-3">
                     ${outcomes.map(outcome => `
                         <li class="flex items-start text-gray-800">
                             <span class="text-blue-600 mr-2 mt-1">•</span>
@@ -263,12 +263,12 @@ function createExecutiveSummary(project) {
         ];
         
         return `
-            <div class="bg-violet-50 rounded-xl p-5 mb-6 border-l-4 border-violet-500 modal-section" data-section="executive-summary">
-                <h4 class="font-bold text-lg mb-3 text-violet-900 flex items-center gap-2">
+            <div class="bg-violet-50 rounded-xl p-5 border-l-4 border-violet-500 modal-section" data-section="executive-summary">
+                <h4 class="font-bold text-violet-900 flex items-center gap-2">
                     <span>🎮</span>
                     <span>핵심 포인트 요약</span>
                 </h4>
-                <ul class="space-y-2 text-sm">
+                <ul class="space-y-2 mt-3">
                     ${outcomes.map(outcome => `
                         <li class="flex items-start text-gray-800">
                             <span class="text-violet-600 mr-2 mt-1">•</span>
@@ -287,12 +287,12 @@ function createExecutiveSummary(project) {
         ];
 
         return `
-            <div class="bg-rose-50 rounded-xl p-5 mb-6 border-l-4 border-rose-500 modal-section" data-section="executive-summary">
-                <h4 class="font-bold text-lg mb-3 text-rose-900 flex items-center gap-2">
+            <div class="bg-rose-50 rounded-xl p-5 border-l-4 border-rose-500 modal-section" data-section="executive-summary">
+                <h4 class="font-bold text-rose-900 flex items-center gap-2">
                     <span>🌟</span>
                     <span>핵심 성과 요약</span>
                 </h4>
-                <ul class="space-y-2 text-sm">
+                <ul class="space-y-2 mt-3">
                     ${outcomes.map(outcome => `
                         <li class="flex items-start text-gray-800">
                             <span class="text-rose-600 mr-2 mt-1">•</span>
@@ -375,23 +375,42 @@ function createHeroSummary(project, theme) {
     
     const colors = colorMap[project.colorTheme] || colorMap.sky;
     
+    // 색상 코드 매핑 (배경 블록용)
+    const colorCodeMap = {
+        sky: '#0ea5e9',
+        purple: '#a855f7',
+        pink: '#ec4899',
+        emerald: '#10b981',
+        indigo: '#6366f1',
+        amber: '#f59e0b',
+        blue: '#3b82f6',
+        teal: '#14b8a6'
+    };
+    const accentColor = colorCodeMap[project.colorTheme] || colorCodeMap.sky;
+    
     return `
-        <div class="bg-gradient-to-br ${colors.gradient} rounded-lg md:rounded-xl p-4 md:p-6 mb-6 md:mb-8 border-l-4 ${colors.border} shadow-sm modal-section" data-section="hero-summary">
-            <div class="mb-3 md:mb-4">
-                <p class="text-base md:text-lg font-semibold text-gray-800 leading-relaxed">${purpose}</p>
-            </div>
-            <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
-                ${roles.map(role => `
-                    <span class="px-2 py-1 md:px-3 md:py-1.5 ${colors.bg} ${colors.text} rounded-full text-xs md:text-sm font-medium">${role}</span>
-                `).join('')}
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-3 md:pt-4 border-t ${colors.borderT}">
-                ${keyOutcomes.map(outcome => `
-                    <div class="text-center">
-                        <div class="text-xs text-gray-600 mb-1">${outcome.label}</div>
-                        <div class="text-base md:text-lg font-bold ${outcome.bold ? colors.text : 'text-gray-800'}">${outcome.value}</div>
-                    </div>
-                `).join('')}
+        <div class="bg-white rounded-xl md:rounded-2xl p-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden relative modal-section" data-section="hero-summary">
+            <!-- 대각선 색상 블록 -->
+            <div class="absolute top-0 left-0 w-8 md:w-16 h-8 md:h-16" style="background: ${accentColor}; clip-path: polygon(0 0, 100% 0, 0 100%);"></div>
+            
+            <!-- 내용 영역 -->
+            <div class="relative z-10 p-5 md:p-7 pt-8 md:pt-10">
+                <div class="mb-4 md:mb-5">
+                    <p class="text-lg md:text-xl font-semibold text-gray-800 leading-relaxed">${purpose}</p>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-4 md:mb-5">
+                    ${roles.map(role => `
+                        <span class="px-3 py-1.5 md:px-4 md:py-2 ${colors.bg} ${colors.text} rounded-full font-medium shadow-sm">${role}</span>
+                    `).join('')}
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 pt-4 md:pt-5 border-t-2 ${colors.borderT}">
+                    ${keyOutcomes.map(outcome => `
+                        <div class="text-center">
+                            <div class="text-gray-600 mb-2">${outcome.label}</div>
+                            <div class="text-lg md:text-xl font-bold ${outcome.bold ? colors.text : 'text-gray-800'}">${outcome.value}</div>
+                        </div>
+                    `).join('')}
+                </div>
             </div>
         </div>
     `;
@@ -402,8 +421,8 @@ function createCollapsibleChallenges(project, theme) {
     if (!project.technicalTroubleshooting || project.technicalTroubleshooting.length === 0) return '';
     
     return `
-        <div class="mb-8 modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold mb-6 ${theme.textColor} text-xl">🔧 기술적 도전과 해결</h4>
+                <div class="modal-section" data-section="troubleshooting">
+            <h4 class="font-semibold ${theme.textColor}">🔧 기술적 도전과 해결</h4>
             <div class="space-y-4">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const cardId = `challenge-${project.id}-${index}`;
@@ -419,9 +438,9 @@ function createCollapsibleChallenges(project, theme) {
                             <button class="challenge-toggle w-full text-left p-5 flex items-center justify-between hover:bg-gray-50 transition-colors" data-card-id="${cardId}">
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-emerald-400 font-semibold text-sm">문제</span>
+                                        <span class="text-emerald-400 font-semibold">문제</span>
                                     </div>
-                                    <p class="text-gray-800 text-sm leading-relaxed">${item.problem}</p>
+                                    <p class="text-gray-800 leading-relaxed">${item.problem}</p>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-4 flex-shrink-0 challenge-arrow transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" data-arrow="${cardId}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -431,15 +450,15 @@ function createCollapsibleChallenges(project, theme) {
                                 <div class="px-5 pb-5 space-y-4 border-t border-gray-100">
                                     <div>
                                         <div class="flex items-center gap-2 mb-2 mt-4">
-                                            <span class="text-blue-600 font-semibold text-sm">해결</span>
+                                            <span class="text-blue-600 font-semibold">해결</span>
                                         </div>
-                                        <p class="text-gray-700 text-sm leading-relaxed">${item.solution}</p>
+                                        <p class="text-gray-700 leading-relaxed">${item.solution}</p>
                                     </div>
                                     <div class="bg-emerald-50 rounded-lg p-4 border-l-4 border-emerald-400">
                                         <div class="flex items-center gap-2 mb-2">
-                                            <span class="text-emerald-700 font-semibold text-sm">성과</span>
+                                            <span class="text-emerald-700 font-semibold">성과</span>
                                         </div>
-                                        <p class="text-gray-800 text-sm leading-relaxed">${resultHTML}</p>
+                                        <p class="text-gray-800 leading-relaxed">${resultHTML}</p>
                                     </div>
                                 </div>
                             </div>
@@ -467,7 +486,7 @@ function createGroupedTechStack(project, theme) {
         return '';
     }
     
-    const { frontend, backend, aiMl, infra } = project.technologies;
+    const { frontend, backend, aiMl, infra, tools } = project.technologies;
     
     return `
         <div class="space-y-4">
@@ -496,13 +515,23 @@ function createGroupedTechStack(project, theme) {
                 </div>
             </div>
             <div>
-                <h5 class="text-xs md:text-sm font-semibold text-gray-600 mb-2">Infra & Tools</h5>
+                <h5 class="text-xs md:text-sm font-semibold text-gray-600 mb-2">Infra</h5>
                 <div class="flex flex-wrap gap-2">
                     ${infra.map(tech => `
                         <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
                     `).join('')}
                 </div>
             </div>
+            ${tools && tools.length > 0 ? `
+            <div>
+                <h5 class="text-xs md:text-sm font-semibold text-gray-600 mb-2">Tools</h5>
+                <div class="flex flex-wrap gap-2">
+                    ${tools.map(tech => `
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 ${theme.bg} ${theme.text} rounded-full tech-tag text-xs md:text-sm font-medium">${tech}</span>
+                    `).join('')}
+                </div>
+            </div>
+            ` : ''}
         </div>
     `;
 }
@@ -513,16 +542,25 @@ function createTechnicalTroubleshooting(project, theme) {
     
     // 모든 프로젝트 동일한 구조 사용 (⚠️ 문제, 💡 해결, ✅ 결과 + 아코디언)
     
-    // 게임 프로젝트는 다른 배경색 사용
-    const bgColor = project.id === 3 ? 'from-violet-50 to-purple-50' : 'from-sky-50 to-blue-50';
-    const borderColor = project.id === 3 ? 'border-violet-400' : 'border-blue-400';
-        const isBilingual = project.id === 4;
-        const bgColorResolved = isBilingual ? 'from-rose-50 to-rose-100' : bgColor;
-        const borderColorResolved = isBilingual ? 'border-rose-400' : borderColor;
+    // 프로젝트별 색상 테마에 맞춘 배경색과 테두리 색상
+    const colorThemeMap = {
+        sky: { bg: 'from-sky-50 to-blue-50', border: 'border-sky-400' },
+        indigo: { bg: 'from-indigo-50 to-purple-50', border: 'border-indigo-400' },
+        purple: { bg: 'from-purple-50 to-pink-50', border: 'border-purple-400' },
+        pink: { bg: 'from-pink-50 to-rose-50', border: 'border-pink-400' },
+        emerald: { bg: 'from-emerald-50 to-teal-50', border: 'border-emerald-400' },
+        amber: { bg: 'from-amber-50 to-orange-50', border: 'border-amber-400' },
+        blue: { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-400' },
+        teal: { bg: 'from-teal-50 to-cyan-50', border: 'border-teal-400' }
+    };
+    
+    const themeColors = colorThemeMap[project.colorTheme] || colorThemeMap.sky;
+    const bgColorResolved = themeColors.bg;
+    const borderColorResolved = themeColors.border;
     
     return `
-        <div class="mb-5 md:mb-6 modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🛠️ 트러블 슈팅</h4>
+        <div class="modal-section" data-section="troubleshooting">
+            <h4 class="font-semibold ${theme.textColor}">🛠️ 트러블 슈팅</h4>
             <div class="space-y-3">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const accordionId = `troubleshooting-${project.id}-${index}`;
@@ -590,15 +628,18 @@ function createTechnicalTroubleshooting(project, theme) {
                         /(\d+%\s*(?:단축|감소|절감|향상|개선))/g
                     ];
                     
-                    // 프로젝트별 테마 색상 설정
-                    let performanceColor = 'text-blue-700';
-                    if (project.id === 3) {
-                        performanceColor = 'text-indigo-700';
-                    } else if (isBilingual) {
-                        performanceColor = 'text-rose-700';
-                    } else if (project.id === 5) {
-                        performanceColor = 'text-emerald-700';
-                    }
+                    // 프로젝트별 테마 색상 설정 (프로젝트 고유 색상 사용)
+                    const performanceColorMap = {
+                        sky: 'text-sky-700',
+                        indigo: 'text-indigo-700',
+                        purple: 'text-purple-700',
+                        pink: 'text-pink-700',
+                        emerald: 'text-emerald-700',
+                        amber: 'text-amber-700',
+                        blue: 'text-blue-700',
+                        teal: 'text-teal-700'
+                    };
+                    const performanceColor = performanceColorMap[project.colorTheme] || 'text-blue-700';
                     
                     // 성능 수치 강조
                     highlightedResult = highlightedResult
@@ -611,53 +652,62 @@ function createTechnicalTroubleshooting(project, theme) {
                         .replace(/(완전히 해결|완전 해결)/g, '<span class="font-bold text-green-700">$1</span>')
                         .replace(/(0건)/g, '<span class="font-bold text-green-700">$1</span>');
                     
-                    // 프로젝트별 추가 강조 (기존 로직 유지)
-                    if (project.id === 3) {
-                        highlightedResult = highlightedResult
-                            .replace(/자연스럽게/g, '<span class="font-semibold text-indigo-700">자연스럽게</span>')
-                            .replace(/안정적으로/g, '<span class="font-semibold text-indigo-700">안정적으로</span>')
-                            .replace(/안정적인/g, '<span class="font-semibold text-indigo-700">안정적인</span>');
-                    } else if (isBilingual) {
-                        highlightedResult = highlightedResult
-                            .replace(/실패율/g, '<span class="font-semibold text-rose-700">실패율</span>')
-                            .replace(/비용/g, '<span class="font-semibold text-rose-700">비용</span>');
-                    }
+                    // 프로젝트별 추가 강조 (프로젝트 테마 색상 사용)
+                    const highlightColorMap = {
+                        sky: 'text-sky-700',
+                        indigo: 'text-indigo-700',
+                        purple: 'text-purple-700',
+                        pink: 'text-pink-700',
+                        emerald: 'text-emerald-700',
+                        amber: 'text-amber-700',
+                        blue: 'text-blue-700',
+                        teal: 'text-teal-700'
+                    };
+                    const highlightColor = highlightColorMap[project.colorTheme] || 'text-blue-700';
+                    
+                    // 특정 키워드 강조 (프로젝트 테마 색상 적용)
+                    highlightedResult = highlightedResult
+                        .replace(/자연스럽게/g, `<span class="font-semibold ${highlightColor}">자연스럽게</span>`)
+                        .replace(/안정적으로/g, `<span class="font-semibold ${highlightColor}">안정적으로</span>`)
+                        .replace(/안정적인/g, `<span class="font-semibold ${highlightColor}">안정적인</span>`)
+                        .replace(/실패율/g, `<span class="font-semibold ${highlightColor}">실패율</span>`)
+                        .replace(/비용/g, `<span class="font-semibold ${highlightColor}">비용</span>`);
                     
                     return `
                         <div class="bg-gradient-to-r ${bgColorResolved} rounded-lg md:rounded-xl p-3 md:p-4 border-l-4 ${borderColorResolved} shadow-sm troubleshooting-item" data-item-index="${index}">
                             <div class="mb-2">
-                                <h5 class="font-semibold text-red-600 mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
-                                    <span class="text-sm md:text-base">⚠️</span>
+                                <h5 class="font-semibold text-red-600 mb-1.5 flex items-center gap-1.5">
+                                    <span>⚠️</span>
                                     <span>문제 상황</span>
                                 </h5>
-                                <p class="text-gray-700 pl-4 md:pl-5 text-xs md:text-sm leading-relaxed">
+                                <p class="text-gray-700 pl-4 md:pl-5 leading-relaxed">
                                     ${conciseProblem}
                                 </p>
                             </div>
                             
                             <div class="mb-2">
-                                <button class="troubleshooting-toggle w-full text-left flex items-center justify-between font-semibold text-blue-600 hover:text-blue-700 transition-colors min-h-[40px] text-xs md:text-sm" data-accordion-id="${accordionId}">
+                                <button class="troubleshooting-toggle w-full text-left flex items-center justify-between font-semibold ${theme.textColor} hover:opacity-80 transition-colors min-h-[40px]" data-accordion-id="${accordionId}">
                                     <span class="flex items-center gap-1.5">
-                                        <span class="text-sm md:text-base">💡</span>
+                                        <span>💡</span>
                                         <span>해결 과정</span>
                                     </span>
-                                    <span class="text-base md:text-lg transition-transform duration-200" data-arrow>▼</span>
+                                    <span class="text-lg transition-transform duration-200" data-arrow>▼</span>
                                 </button>
                                 <div class="troubleshooting-content hidden pl-4 md:pl-5 mt-1.5" id="${accordionId}" data-mobile-collapsed="true">
-                                    <div class="text-gray-700 text-xs md:text-sm leading-relaxed space-y-2">
+                                    <div class="text-gray-700 leading-relaxed space-y-2">
                                         ${solutionBullets.map(step => {
                                             if (!step) return '';
-                                            // 핵심 키워드 강조
+                                            // 핵심 키워드 강조 (프로젝트 테마 색상 사용)
                                             let highlighted = step
-                                                .replace(/AABB/g, '<span class="font-semibold text-blue-600">AABB</span>')
-                                                .replace(/requestAnimationFrame/g, '<span class="font-semibold text-blue-600">requestAnimationFrame</span>')
-                                                .replace(/frustum culling/g, '<span class="font-semibold text-blue-600">frustum culling</span>')
-                                                .replace(/InputManager/g, '<span class="font-semibold text-blue-600">InputManager</span>')
-                                                .replace(/GLTFLoader/g, '<span class="font-semibold text-blue-600">GLTFLoader</span>')
-                                                .replace(/LOD/g, '<span class="font-semibold text-blue-600">LOD</span>')
-                                                .replace(/트랜잭션/g, '<span class="font-semibold text-blue-600">트랜잭션</span>')
-                                                .replace(/SELECT FOR UPDATE/g, '<span class="font-semibold text-blue-600">SELECT FOR UPDATE</span>')
-                                                .replace(/Raycasting/g, '<span class="font-semibold text-blue-600">Raycasting</span>');
+                                                .replace(/AABB/g, `<span class="font-semibold ${theme.textColor}">AABB</span>`)
+                                                .replace(/requestAnimationFrame/g, `<span class="font-semibold ${theme.textColor}">requestAnimationFrame</span>`)
+                                                .replace(/frustum culling/g, `<span class="font-semibold ${theme.textColor}">frustum culling</span>`)
+                                                .replace(/InputManager/g, `<span class="font-semibold ${theme.textColor}">InputManager</span>`)
+                                                .replace(/GLTFLoader/g, `<span class="font-semibold ${theme.textColor}">GLTFLoader</span>`)
+                                                .replace(/LOD/g, `<span class="font-semibold ${theme.textColor}">LOD</span>`)
+                                                .replace(/트랜잭션/g, `<span class="font-semibold ${theme.textColor}">트랜잭션</span>`)
+                                                .replace(/SELECT FOR UPDATE/g, `<span class="font-semibold ${theme.textColor}">SELECT FOR UPDATE</span>`)
+                                                .replace(/Raycasting/g, `<span class="font-semibold ${theme.textColor}">Raycasting</span>`);
                                             return `<p>• ${highlighted}</p>`;
                                         }).filter(s => s).join('')}
                                     </div>
@@ -665,11 +715,11 @@ function createTechnicalTroubleshooting(project, theme) {
                             </div>
                             
                             <div>
-                                <h5 class="font-semibold text-green-600 mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
-                                    <span class="text-sm md:text-base">📊</span>
+                                <h5 class="font-semibold text-green-600 mb-1.5 flex items-center gap-1.5">
+                                    <span>📊</span>
                                     <span>성능 개선 및 결과</span>
                                 </h5>
-                                <p class="text-gray-700 pl-4 md:pl-5 text-xs md:text-sm leading-relaxed">
+                                <p class="text-gray-700 pl-4 md:pl-5 leading-relaxed">
                                     ${highlightedResult}
                                 </p>
                             </div>
@@ -699,7 +749,7 @@ function createProjectModal(project) {
                 ${project.mainFeatures.slice(0, 5).map(feature => `
                     <li class="flex items-start">
                         <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span class="text-sm">${feature}</span>
+                        <span>${feature}</span>
                     </li>
                 `).join('')}
             </ul>
@@ -709,7 +759,7 @@ function createProjectModal(project) {
         if (project.id === 3) {
             // 3D 공 굴리기 게임의 경우 bullet list로 변환
             mainFeaturesHTML = `
-                <ul class="list-none text-gray-700 space-y-2 text-sm">
+                <ul class="list-none text-gray-700 space-y-2">
                     <li class="flex items-start">
                         <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>3D 미로 구조와 레벨 시스템</span>
@@ -730,7 +780,7 @@ function createProjectModal(project) {
             `;
         } else if (project.id === 4) {
             mainFeaturesHTML = `
-                <ul class="list-none text-gray-700 space-y-2 text-sm">
+                <ul class="list-none text-gray-700 space-y-2">
                     <li class="flex items-start">
                         <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
                         <span>이중언어 AI 튜터 (모국어 → 한국어 단계적 설명)</span>
@@ -751,7 +801,7 @@ function createProjectModal(project) {
             `;
         } else {
             const conciseFeatures = project.mainFeatures.replace(/서비스입니다/g, '').trim();
-            mainFeaturesHTML = `<p class="text-gray-700 text-sm leading-relaxed">${conciseFeatures}</p>`;
+            mainFeaturesHTML = `<p class="text-gray-700 leading-relaxed">${conciseFeatures}</p>`;
         }
     }
     
@@ -766,8 +816,8 @@ function createProjectModal(project) {
         if (hasOnlyImages) {
             // Swiper.js 사용 (이미지만 있는 경우)
             imagesHTML = `
-                <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ 시연 자료</h4>
+                <div class="modal-section" data-section="media">
+                    <h4 class="font-semibold ${theme.textColor}">🖼️ 플랫폼 이미지</h4>
                     <div id="${imageContainerId}" class="project-images-swiper-container">
                         <div class="swiper project-images-swiper-${project.id}">
                             <div class="swiper-wrapper">
@@ -816,8 +866,8 @@ function createProjectModal(project) {
         } else {
             // 기존 방식 (비디오나 게임이 있는 경우)
             imagesHTML = `
-                <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                    <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ 시연 자료</h4>
+                <div class="modal-section" data-section="media">
+                    <h4 class="font-semibold ${theme.textColor}">🖼️ 플랫폼 이미지</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
                         ${project.images.map((img, index) => {
                             const webp = imagesWebp[index];
@@ -865,8 +915,8 @@ function createProjectModal(project) {
         const objectFit = project.id === 4 ? 'object-contain' : 'object-cover';
         
         videosHTML = `
-            <div class="mb-6 md:mb-8 modal-section" data-section="media">
-                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📹 시연 영상</h4>
+            <div class="modal-section" data-section="media">
+                <h4 class="font-semibold ${theme.textColor}">📹 시연 영상</h4>
                 ${project.videos.map(video => {
                     // Bilingual Buddy 프로젝트(id: 4)는 비디오 확대 기능 제거
                     if (project.id === 4) {
@@ -919,8 +969,8 @@ function createProjectModal(project) {
     } else if (project.hasSpecialContent && project.specialContentType === 'unity-game') {
         // Unity WebGL 게임 컨테이너
         specialContentHTML = `
-            <div class="mb-6 md:mb-8 modal-section" data-section="unity-game">
-                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🎮 게임 플레이</h4>
+            <div class="modal-section" data-section="unity-game">
+                <h4 class="font-semibold ${theme.textColor}">🎮 게임 플레이</h4>
                 <div
                     class="w-full bg-gray-900 rounded-lg relative flex items-center justify-center"
                     id="unity-game-container-${project.id}"
@@ -943,7 +993,7 @@ function createProjectModal(project) {
                         style="position: relative;"
                     ></div>
                 </div>
-                <p class="text-center text-sm text-gray-600 mt-3">WASD 또는 방향키로 이동하세요!</p>
+                            <p class="text-center text-gray-600 mt-3">WASD 또는 방향키로 이동하세요!</p>
             </div>
         `;
     }
@@ -1026,16 +1076,16 @@ function createProjectModal(project) {
         
         reflectionHTML = `
             <div class="bg-gradient-to-r ${theme.reflectionGradient} p-4 md:p-6 rounded-lg border-l-4 ${theme.reflectionBorder} reflection-box modal-section" data-section="reflection">
-                <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📊 성과 및 배운 점</h4>
+                <h4 class="font-semibold ${theme.textColor}">📊 성과 및 배운 점</h4>
                 <div class="mb-5">
-                    <h5 class="font-semibold mb-3 text-gray-800 text-base">주요 성과</h5>
+                    <h5 class="font-semibold text-gray-800">주요 성과</h5>
                     <ul class="list-none space-y-2">
                         ${achievementsHTML}
                     </ul>
                 </div>
                 <div class="pt-4 border-t border-gray-200">
-                    <h5 class="font-semibold mb-3 text-gray-800 text-base">회고 및 향후 계획</h5>
-                    <p class="text-gray-700 text-sm leading-relaxed">${learnings}</p>
+                    <h5 class="font-semibold text-gray-800">회고 및 향후 계획</h5>
+                    <p class="text-gray-700 leading-relaxed">${learnings}</p>
                 </div>
             </div>
         `;
@@ -1048,8 +1098,8 @@ function createProjectModal(project) {
         
         reflectionHTML = `
             <div class="bg-gradient-to-r ${theme.reflectionGradient} p-4 md:p-6 rounded-lg border-l-4 ${theme.reflectionBorder} reflection-box modal-section" data-section="reflection">
-                <h4 class="font-semibold mb-2 md:mb-3 ${theme.textColor} text-base md:text-lg">💬 회고</h4>
-                <p class="text-gray-700 text-sm leading-relaxed">${conciseReflection}</p>
+                <h4 class="font-semibold ${theme.textColor}">💬 회고</h4>
+                <p class="text-gray-700 leading-relaxed">${conciseReflection}</p>
             </div>
         `;
     }
@@ -1058,15 +1108,15 @@ function createProjectModal(project) {
     const technicalTroubleshootingHTML = createTechnicalTroubleshooting(project, theme);
 
     return `
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 project-modal modal-overlay" data-project-id="${project.id}" style="opacity: 0;">
-            <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container" style="opacity: 0; transform: scale(0.97) translateY(8px);">
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 project-modal modal-overlay" data-project-id="${project.id}">
+            <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container">
                 <div class="bg-gradient-to-r ${theme.gradient} h-2"></div>
                 <div class="overflow-y-auto flex-1 p-4 md:p-6">
                     <!-- Header - 모바일 최적화 -->
                     <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
                         <div class="flex justify-between items-start">
                             <div class="flex-1 pr-2">
-                                <h3 class="text-xl md:text-2xl font-semibold ${theme.text} title-emphasis mb-2 md:mb-3">${project.title}</h3>
+                                <h3 class="font-semibold ${theme.text} title-emphasis">${project.title}</h3>
                                 <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
                                     ${(() => {
                                         // 팀 프로젝트: id 1, 5, 6
@@ -1099,7 +1149,7 @@ function createProjectModal(project) {
                     ${project.id === 1 ? `
                         <!-- JEIU 캠퍼스 참고 설명 (링크 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
-                            <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-sky-400">
+                            <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 border-sky-400">
                                 <strong>📝 참고:</strong> 이 프로젝트는 <strong>로컬(Node.js + MySQL)</strong>에서 재현 가능하도록 공개했으며, <br>운영 리소스 이슈로 <strong>Live Demo는 현재 제공하지 않습니다.</strong> 실행 방법은 GitHub README를 참고해주세요.
                             </p>
                         </div>
@@ -1108,7 +1158,7 @@ function createProjectModal(project) {
                     ${project.id === 3 ? `
                         <!-- 미로게임 참고 설명 (GitHub 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
-                            <p class="text-gray-600 text-xs md:text-sm p-3 bg-gray-50 rounded-lg border-l-4 border-purple-400">
+                            <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 border-purple-400">
                                 <strong>📝 참고:</strong> 이 게임은 포트폴리오 웹사이트에 내장된 데모입니다. GitHub 링크는 포트폴리오 웹 저장소를 가리키며, 게임 소스 코드는 <code class="px-1 py-0.5 bg-gray-200 rounded text-xs">Projects/3D_Maze/maze-game.js</code>에서 확인하실 수 있습니다.
                             </p>
                         </div>
@@ -1118,14 +1168,14 @@ function createProjectModal(project) {
                     ${heroSummaryHTML}
                     
                     <!-- 1) 프로젝트 개요 / 요약 - 모든 프로젝트 동일 (모바일 최적화) -->
-                    <div class="mb-6 md:mb-8 modal-section" data-section="overview">
-                        <h4 class="font-semibold mb-2 md:mb-3 ${theme.textColor} text-base md:text-lg">프로젝트 개요</h4>
-                        <p class="text-gray-700 text-sm leading-relaxed line-clamp-3 md:line-clamp-none">${conciseDescription}</p>
+                    <div class="modal-section" data-section="overview">
+                        <h4 class="font-semibold ${theme.textColor}">프로젝트 개요</h4>
+                        <p class="text-gray-700 leading-relaxed line-clamp-3 md:line-clamp-none">${conciseDescription}</p>
                     </div>
                     
                     <!-- 2) 주요 기능 (bullet list) - 모든 프로젝트 동일 (모바일 최적화) -->
-                    <div class="mb-6 md:mb-8 modal-section" data-section="features">
-                        <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📌 주요 기능</h4>
+                    <div class="modal-section" data-section="features">
+                        <h4 class="font-semibold ${theme.textColor}">📌 주요 기능</h4>
                         ${project.id === 5 ? `
                             <ul class="list-none text-gray-700 space-y-3">
                                 ${project.mainFeatures.map(feature => {
@@ -1134,18 +1184,18 @@ function createProjectModal(project) {
                                     if (parts.length === 2) {
                                         return `
                                             <li class="flex items-start">
-                                                <span class="flex-shrink-0 mr-3 ${theme.check} text-base leading-none">•</span>
+                                                <span class="flex-shrink-0 mr-3 ${theme.check} leading-none">•</span>
                                                 <div>
                                                     <span class="font-medium text-gray-900">${parts[0]}:</span>
-                                                    <span class="text-sm">${parts[1]}</span>
+                                                    <span>${parts[1]}</span>
                                                 </div>
                                             </li>
                                         `;
                                     }
                                     return `
                                         <li class="flex items-start">
-                                            <span class="flex-shrink-0 mr-3 ${theme.check} text-base leading-none">•</span>
-                                            <span class="text-sm">${feature}</span>
+                                            <span class="flex-shrink-0 mr-3 ${theme.check} leading-none">•</span>
+                                            <span>${feature}</span>
                                         </li>
                                     `;
                                 }).join('')}
@@ -1160,10 +1210,10 @@ function createProjectModal(project) {
                     
                     <!-- Gameplay / Screenshot (게임 프로젝트의 경우) -->
                     ${project.id === 3 && project.hasSpecialContent ? `
-                        <div class="mb-6 modal-section" data-section="gameplay">
-                            <h4 class="font-semibold mb-3 ${theme.textColor} text-lg">🎮 게임 플레이</h4>
+                        <div class="modal-section" data-section="gameplay">
+                            <h4 class="font-semibold ${theme.textColor}">🎮 게임 플레이</h4>
                             ${specialContentHTML}
-                            <p class="text-center text-sm text-gray-600 mt-3">방향키 또는 마우스로 판을 기울여 공을 굴리세요!</p>
+                            <p class="text-center text-gray-600 mt-3">방향키 또는 마우스로 판을 기울여 공을 굴리세요!</p>
                         </div>
                     ` : ''}
                     
@@ -1171,8 +1221,8 @@ function createProjectModal(project) {
                     ${project.hasSpecialContent && project.specialContentType === 'unity-game' ? specialContentHTML : ''}
                     
                     <!-- 4) 사용 기술 & 왜 이 기술을 썼나요? - 모든 프로젝트 동일 (모바일 최적화) -->
-                    <div class="mb-6 md:mb-8 modal-section" data-section="technologies">
-                        <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🔧 사용 기술</h4>
+                    <div class="modal-section" data-section="technologies">
+                        <h4 class="font-semibold ${theme.textColor}">🔧 사용 기술</h4>
                         ${project.id === 5 ? createGroupedTechStack(project, theme) : (() => {
                             if (!Array.isArray(project.technologies) || project.technologies.length === 0) {
                                 return '<div class="flex flex-wrap gap-2 mb-3 md:mb-4"></div>';
@@ -1219,8 +1269,8 @@ function createProjectModal(project) {
                         })()}
                         ${project.technologyRationale && project.technologyRationale.length > 0 ? `
                             <div class="mt-3 md:mt-4">
-                                <h5 class="font-semibold mb-2 ${theme.textColor} text-sm md:text-base">왜 이 기술을 썼나요?</h5>
-                                <ul class="list-none text-gray-700 space-y-1.5 text-xs md:text-sm">
+                                <h5 class="font-semibold ${theme.textColor}">왜 이 기술을 썼나요?</h5>
+                                <ul class="list-none text-gray-700 space-y-1.5">
                                     ${project.technologyRationale.map(item => `
                                         <li class="flex items-start">
                                             <span class="inline-block mr-2 mt-1 ${theme.check}">•</span>
@@ -1236,9 +1286,9 @@ function createProjectModal(project) {
                     ${technicalTroubleshootingHTML}
                     
                     <!-- 6) 대상 사용자 - 모든 프로젝트 동일 (모바일 최적화) -->
-                    <div class="mb-6 md:mb-8 modal-section" data-section="target-users">
-                        <h4 class="font-semibold mb-2 md:mb-3 ${theme.textColor} text-base md:text-lg">👥 대상 사용자</h4>
-                        <p class="text-gray-700 text-sm leading-relaxed">${conciseTargetUsers}</p>
+                    <div class="modal-section" data-section="target-users">
+                        <h4 class="font-semibold ${theme.textColor}">👥 대상 사용자</h4>
+                        <p class="text-gray-700 leading-relaxed">${conciseTargetUsers}</p>
                     </div>
                     
                     <!-- 7) 회고 - 모든 프로젝트 동일 -->
@@ -1246,11 +1296,11 @@ function createProjectModal(project) {
                     
                     <!-- 8) 프로젝트 자료 (PDF) - Bilingual Buddy 프로젝트만 특별히 추가 -->
                     ${project.pdfPath ? `
-                        <div class="mb-6 md:mb-8 modal-section" data-section="pdf">
-                            <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">📄 프로젝트 자료</h4>
+                        <div class="modal-section" data-section="pdf">
+                            <h4 class="font-semibold ${theme.textColor}">📄 프로젝트 자료</h4>
                             <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
                                 <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
-                                    <span class="text-xs md:text-sm font-medium text-gray-700">${project.title}</span>
+                                    <span class="font-medium text-gray-700">${project.title}</span>
                                     <div class="flex items-center gap-3">
                                         <span class="text-xs text-gray-500" id="project-pdf-page-info-${project.id}">로딩 중...</span>
                                         <a href="${encodeURI(project.pdfPath)}" target="_blank" class="text-xs ${theme.textColor} hover:underline">새 탭에서 열기</a>
@@ -1287,18 +1337,32 @@ function renderProjectCards() {
     // 프로젝트 컨테이너 초기 숨김
     container.style.opacity = '0';
     container.style.visibility = 'hidden';
+    container.style.pointerEvents = 'auto'; // 클릭 가능하도록 설정
     
     container.innerHTML = sortedProjects.map(project => createProjectCard(project)).join('');
     
-    // 카드 클릭 이벤트 추가 - 전체 카드 클릭 가능
-    container.querySelectorAll('.project-card-preview').forEach(card => {
-        card.addEventListener('click', function(e) {
+    // 카드 클릭 이벤트 추가 - 이벤트 위임 사용 (더 안정적)
+    // 기존 이벤트 리스너 제거 (중복 방지)
+    const existingHandler = container._clickHandler;
+    if (existingHandler) {
+        container.removeEventListener('click', existingHandler);
+    }
+    
+    const clickHandler = function(e) {
+        // 클릭된 요소가 프로젝트 카드인지 확인
+        const card = e.target.closest('.project-card-preview');
+        if (card) {
             e.preventDefault();
             e.stopPropagation();
-            const projectId = parseInt(this.dataset.projectId);
-            showProjectModal(projectId);
-        });
-    });
+            const projectId = parseInt(card.dataset.projectId);
+            if (projectId && !isNaN(projectId)) {
+                showProjectModal(projectId);
+            }
+        }
+    };
+    
+    container._clickHandler = clickHandler; // 참조 저장
+    container.addEventListener('click', clickHandler);
     
     // 스크롤 애니메이션 초기화
     initProjectCardAnimations();
@@ -1315,6 +1379,7 @@ function renderProjectCards() {
         container.style.transition = 'opacity 0.3s ease-in, visibility 0.3s ease-in';
         container.style.opacity = '1';
         container.style.visibility = 'visible';
+        container.style.pointerEvents = 'auto'; // 클릭 가능하도록 명시적 설정
     });
 }
 
@@ -1406,10 +1471,14 @@ function showProjectModal(projectId) {
     const yDistance = isMobile ? 4 : 8;
     const duration = isMobile ? 0.2 : 0.25;
     
+    // 초기 상태 설정
     overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'auto';
     container.style.opacity = '0';
     container.style.transform = `scale(0.97) translateY(${yDistance}px)`;
+    container.style.pointerEvents = 'auto';
     
+    // 애니메이션 적용
     requestAnimationFrame(() => {
         overlay.style.transition = 'opacity 0.2s ease-out';
         container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
