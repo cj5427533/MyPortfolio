@@ -4,11 +4,13 @@ const projectsData = [
         id: 5,
         title: "여기몰까 - AI 기반 쇼핑몰 신뢰도 분석 플랫폼",
         thumbnail: "Projects/YGMK/스크린샷 2025-12-10 161923.png",
+        thumbnailWebp: "Projects/YGMK/스크린샷 2025-12-10 161923.webp",
         shortDescription: "온라인 쇼핑 피해 예방을 위해 이중 분석 시스템을 구축한 웹 애플리케이션. Claude 3.5 Sonnet 기반 리뷰 신뢰도 분석과 Random Forest ML 모델의 피싱 탐지를 결합하여 0~100점 신뢰도 점수를 산출합니다.",
         valueStatement: "LLM과 ML을 결합한 이중 분석 시스템 구축",
         period: "2025.09.25 ~ 현재",
         contribution: "프론트엔드 전체 구현 / 백엔드 API 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획 및 디버깅 주도",
         featured: true,
+        typeTag: { label: "팀 프로젝트", emoji: "👥" },
         // Hero Summary Block
         heroSummary: {
             purpose: "온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 플랫폼",
@@ -84,6 +86,14 @@ const projectsData = [
             "Projects/YGMK/스크린샷 2025-12-10 162250.png",
             "Projects/YGMK/스크린샷 2025-12-10 162317.png"
         ],
+        imagesWebp: [
+            "Projects/YGMK/스크린샷 2025-12-10 161923.webp",
+            "Projects/YGMK/스크린샷 2025-12-10 162016.webp",
+            "Projects/YGMK/스크린샷 2025-12-10 162101.webp",
+            "Projects/YGMK/스크린샷 2025-12-10 162140.webp",
+            "Projects/YGMK/스크린샷 2025-12-10 162250.webp",
+            "Projects/YGMK/스크린샷 2025-12-10 162317.webp"
+        ],
         videos: [],
         githubUrl: "https://github.com/cj5427533/CapstoneProject",
         demoUrl: "https://www.ygmk.app/",
@@ -94,10 +104,12 @@ const projectsData = [
         id: 7,
         title: "컬처맵 (CultureMap)",
         thumbnail: "Projects/CultureMap/Logo.png",
+        thumbnailWebp: "Projects/CultureMap/Logo.webp",
         shortDescription: "사용자가 스스로 계획한 문화 생활 플랜을 기록하고, 일부를 다른 사람과 공유할 수 있는 커뮤니티 기반 문화기록 플랫폼입니다. Kakao API를 활용해 지도에서 장소를 검색·추가하고, 이동 경로를 설정할 수 있습니다. 플랜을 다른 사용자와 협업(권한 기반)하거나 게시글로 공유하고, 댓글/별점으로 피드백을 주고받는 흐름까지 한 번에 제공합니다.",
         valueStatement: "문화시설을 조합해 나만의 플랜 생성, 기록, 공유",
         period: "2025.11.10 ~ 현재",
         contribution: "풀스택 개발 / Spring Boot 백엔드 / React 프론트엔드 / Docker 배포 / CI/CD 구축",
+        typeTag: { label: "팀 프로젝트", emoji: "👥" },
         heroSummary: {
             purpose: "사용자 스스로 설계한 문화 생활 플랜을 커뮤니티로 확산시키는 플랫폼",
             roles: ["풀스택 개발", "Spring Boot 백엔드", "React 프론트엔드", "Docker 배포", "CI/CD 구축"],
@@ -180,10 +192,12 @@ const projectsData = [
         id: 6,
         title: "탄막 슈팅 게임",
         thumbnail: "Projects/Bullet_Game/스크린샷 2025-12-11 160338.png",
+        thumbnailWebp: "Projects/Bullet_Game/스크린샷 2025-12-11 160338.webp",
         shortDescription: "Unity 엔진으로 개발한 3D 탄막 슈팅 게임입니다. 플레이어는 회전 스포너에서 발사되는 탄막을 피하며 최대한 오래 생존하는 것이 목표입니다. 10초 단위 페이즈 진행으로 탄막 속도/난이도가 점진적으로 상승하며, 체력 회복·무적·점수 아이템으로 플레이 변수를 만들었습니다. 실시간 UI(점수/생명력/페이즈)와 씬 전환 시 데이터 유지(싱글톤/저장)까지 포함해 완성도를 높였습니다.",
         valueStatement: "Unity 3D 게임 개발과 점진적 난이도 시스템 구현",
         period: "2024.11.04 ~ 2024.12.16",
         contribution: "맵 제작 및 설계, 캐릭터·탄막 간 충돌 판정 및 피격 처리 시스템 구현",
+        typeTag: { label: "개인 프로젝트", emoji: "👤" },
         heroSummary: {
             purpose: "Unity 3D 엔진을 활용한 탄막 슈팅 게임으로 점진적 난이도 증가와 정확한 충돌 판정 시스템을 구현",
             roles: ["맵 제작 및 설계", "충돌 판정 시스템", "피격 처리 구현", "게임 밸런싱"],
@@ -255,10 +269,12 @@ const projectsData = [
         id: 4,
         title: "Bilingual Buddy",
         thumbnail: "Projects/BilingualBuddy Project/BilingualBuddy_logo.png",
+        thumbnailWebp: "Projects/BilingualBuddy Project/BilingualBuddy_logo.webp",
         shortDescription: "언어 장벽으로 인한 학습 격차를 해소하기 위해 설계한 Android 애플리케이션. GPT-4와 Papago API를 연동하여 모국어 질문에 한국 교과 개념을 모국어로 설명하고, 가정통신문 자동 번역 기능을 제공합니다.",
         valueStatement: "AI 기반 다문화 아동 이중언어 학습 도우미",
         period: "2025.06.11 ~ 2025.06.17",
         contribution: "기획부터 구현까지 전체 개발",
+        typeTag: { label: "개인 프로젝트", emoji: "👤" },
         fullDescription: "다문화가정 자녀의 학습 장벽을 해소하기 위한 AI 기반 이중 언어 학습 도우미 플랫폼입니다. Material Design 3 기반의 모던한 UI와 MVVM 아키텍처를 적용하여 확장 가능하고 유지보수하기 쉬운 구조로 설계되었습니다. Mock 서비스를 통해 API 키 없이도 테스트 가능하며, 질문 유형별 맞춤 답변과 강화된 에러 처리를 통해 안정적인 사용자 경험을 제공합니다.",
         mainFeatures: [
             "이중언어 AI 튜터: 모국어 질문 → 한국 교과 개념 모국어로 설명 → 한국어 재설명",
@@ -334,10 +350,12 @@ const projectsData = [
         id: 1,
         title: "JEIU 캠퍼스 익스플로러 3D",
         thumbnail: "images/JEIU_Campus_1.png",
+        thumbnailWebp: "images/JEIU_Campus_1.webp",
         shortDescription: "3D 공간에서 캠퍼스 정보를 직관적으로 탐색할 수 있도록 설계한 웹 애플리케이션. Three.js로 구현한 인터랙티브 맵에서 건물 클릭 시 이벤트 정보 확인 및 강의실 예약 기능을 제공합니다.",
         valueStatement: "복잡한 캠퍼스 구조를 3D 시각화로 직관적으로 탐색",
         period: "2025.03.26 ~ 2025.04.16",
         contribution: "프론트엔드 전체 구현 / 백엔드 연동 / UI 기획 및 디버깅 주도",
+        typeTag: { label: "팀 프로젝트", emoji: "👥" },
         fullDescription: "재능대학교 캠퍼스를 3D로 구현한 웹 플랫폼입니다. 학생들이 강의실을 예약하고 각 건물의 이벤트·캠페인 정보를 시각적으로 확인할 수 있는 서비스입니다.",
         mainFeatures: "Three.js로 3D 캠퍼스를 시각화하고, 건물 클릭 시 이벤트 정보 확인 및 강의실 예약이 가능한 서비스입니다.",
         technologies: ["Express.js", "HTML/CSS", "JavaScript", "MySQL", "Three.js"],
@@ -377,6 +395,11 @@ const projectsData = [
             "images/JEIU_Campus_2.png",
             "images/JEIU_Campus_3.png"
         ],
+        imagesWebp: [
+            "images/JEIU_Campus_1.webp",
+            "images/JEIU_Campus_2.webp",
+            "images/JEIU_Campus_3.webp"
+        ],
         videos: [],
         githubUrl: "https://github.com/cj5427533/JEIU-Campus-Explorer-3D",
         colorTheme: "teal",
@@ -396,10 +419,12 @@ const projectsData = [
         id: 3,
         title: "공 굴리기 미로 게임",
         thumbnail: "Projects/3D_Maze/스크린샷 2025-12-11 192508.png",
+        thumbnailWebp: "Projects/3D_Maze/스크린샷 2025-12-11 192508.webp",
         shortDescription: "사용자 입력에 반응하는 물리 기반 인터랙션을 구현한 3D 미로 게임. Three.js 물리 엔진으로 실시간 판 기울기와 공의 움직임을 시뮬레이션하며, 키보드·마우스·터치 입력을 모두 지원합니다.",
         valueStatement: "물리 시뮬레이션을 통한 실시간 인터랙션 구현",
         period: "2025.05.17 ~ 2025.05.20",
         contribution: "기획부터 구현까지 전체 개발",
+        typeTag: { label: "개인 프로젝트", emoji: "👤" },
         fullDescription: "Three.js를 활용한 인터랙티브 3D 공 굴리기 미로 게임입니다. 사용자의 마우스나 키보드 조작에 반응하여 판을 기울이고 공을 굴려 목적지에 도달하는 게임입니다.",
         mainFeatures: "Three.js를 활용한 3D 미로에서 물리 시뮬레이션을 통해 공을 굴려 목적지에 도달하는 인터랙티브 게임입니다.",
         technologies: ["HTML/CSS", "JavaScript", "물리 시뮬레이션", "Three.js"],
@@ -457,10 +482,12 @@ const projectsData = [
         id: 2,
         title: "Portfolio Web <br> 인터랙티브 포트폴리오",
         thumbnail: "images/portfolio-screenshot.png",
+        thumbnailWebp: "images/portfolio-screenshot.webp",
         shortDescription: "히어로·프로젝트·수상·연락처를 한 페이지에 담고, Three.js 데모, Unity WebGL, PDF 뷰어, Cloudflare Worker 폼을 통합한 인터랙티브 포트폴리오.",
         valueStatement: "실사용 가능한 3D·게임·폼·자료 뷰를 정적 페이지에 통합해 한눈에 역량을 보여주는 쇼케이스",
         period: "2025.05.20 ~ 현재까지",
         contribution: "기획·디자인·프론트엔드·3D/게임 데모 연동·백엔드 폼 연동을 단독 수행",
+        typeTag: { label: "개인 프로젝트", emoji: "👤" },
         heroSummary: {
             purpose: "인터랙티브 웹 포트폴리오로 프로젝트·수상·연락을 한 번에 전달",
             roles: ["기획/디자인", "프론트엔드 개발", "3D·게임 데모 통합", "CI/CD 구축", "배포/운영"],
@@ -531,6 +558,9 @@ const projectsData = [
         },
         images: [
             "images/portfolio-screenshot.png"
+        ],
+        imagesWebp: [
+            "images/portfolio-screenshot.webp"
         ],
         videos: [],
         colorTheme: "indigo",

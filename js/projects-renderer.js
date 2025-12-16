@@ -88,12 +88,24 @@ const colorThemes = {
 function createProjectCard(project) {
     const theme = colorThemes[project.colorTheme];
     const isFeatured = project.featured === true;
+    const typeTag = project.typeTag;
+    const typeTagStylesMap = {
+        sky:   { bg: 'bg-sky-50',    text: 'text-sky-700',    border: 'border-sky-200' },
+        indigo:{ bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
+        purple:{ bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+        pink:  { bg: 'bg-pink-50',   text: 'text-pink-700',   border: 'border-pink-200' },
+        emerald:{bg: 'bg-emerald-50',text: 'text-emerald-700',border: 'border-emerald-200' },
+        amber: { bg: 'bg-amber-50',  text: 'text-amber-700',  border: 'border-amber-200' },
+        blue:  { bg: 'bg-blue-50',   text: 'text-blue-700',   border: 'border-blue-200' },
+        teal:  { bg: 'bg-teal-50',   text: 'text-teal-700',   border: 'border-teal-200' },
+    };
     
     // 이미지가 없거나 logo.png이거나 빈 문자열인 경우 이미지 영역을 비움
     const hasImage = project.thumbnail && 
                      project.thumbnail !== "images/logo.png" && 
                      project.thumbnail.trim() !== "" &&
                      project.thumbnail.trim().length > 0;
+    const thumbnailWebp = project.thumbnailWebp;
     
     // 프로젝트별 악센트 색상 (그라데이션에서 첫 번째 색상 사용)
     const accentColorMap = {
@@ -113,11 +125,24 @@ function createProjectCard(project) {
         ? 'ring-2 ring-blue-200 shadow-[0_10px_30px_-12px_rgba(59,130,246,0.6)] hover:-translate-y-1 hover:shadow-2xl'
         : 'shadow-md';
     const gradientBarHeight = isFeatured ? 'h-2.5' : 'h-1.5';
-    const badgeHTML = isFeatured ? `
-        <div class="mb-3">
-            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold shadow-md featured-badge-pulse">
-                ✨ 주요 프로젝트
-            </span>
+    const tagStyle = typeTag ? (typeTagStylesMap[project.colorTheme] || { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200' }) : null;
+    const typeTagHTMLInner = typeTag ? `
+        <span class="project-type-tag inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold ${tagStyle.bg} ${tagStyle.text} ${tagStyle.border}">
+            <span>${typeTag.emoji}</span>
+            <span>${typeTag.label}</span>
+        </span>
+    ` : '';
+
+    const badgeHTMLInner = isFeatured ? `
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md featured-badge-pulse">
+            ✨ 주요 프로젝트
+        </span>
+    ` : '';
+
+    const tagRowHTML = (typeTagHTMLInner || badgeHTMLInner) ? `
+        <div class="tag-row flex items-center gap-1.5 mb-5 md:mb-6 w-full flex-wrap">
+            ${badgeHTMLInner}
+            ${typeTagHTMLInner}
         </div>
     ` : '';
     
@@ -131,10 +156,20 @@ function createProjectCard(project) {
     
     const imageHTML = hasImage ? `
         <div class="${imageContainerClass}">
-            <img src="${project.thumbnail}" alt="${project.title}"
-                 class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
-                 loading="lazy" decoding="async" fetchpriority="low"
-                 onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
+            ${thumbnailWebp ? `
+                <picture>
+                    <source srcset="${thumbnailWebp}" type="image/webp">
+                    <img src="${project.thumbnail}" alt="${project.title}"
+                         class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
+                         loading="lazy" decoding="async" fetchpriority="low"
+                         onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
+                </picture>
+            ` : `
+                <img src="${project.thumbnail}" alt="${project.title}"
+                     class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
+                     loading="lazy" decoding="async" fetchpriority="low"
+                     onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
+            `}
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 md:group-hover/image:opacity-100 transition-opacity duration-300 ease-out"></div>
         </div>
     ` : '';
@@ -149,7 +184,7 @@ function createProjectCard(project) {
             <!-- 그라데이션 상단 바 -->
             <div class="bg-gradient-to-r ${theme.gradient} ${gradientBarHeight}"></div>
             <div class="card-inner">
-                ${badgeHTML}
+                ${tagRowHTML}
                 ${imageHTML}
                 
                 <!-- 프로젝트 제목 (시각적 앵커) -->
@@ -157,11 +192,11 @@ function createProjectCard(project) {
                 
                 <!-- 한 줄 가치 설명 -->
                 ${valueStatement ? `
-                    <p class="text-xs md:text-sm font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
+                    <p class="value-statement text-xs md:text-sm font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
                 ` : ''}
                 
-                <!-- 짧은 설명 (컬쳐맵/탄막 슈팅만 더 길게, 나머지는 2줄) -->
-                <p class="text-gray-700 text-sm md:text-base mb-3 md:mb-4 leading-relaxed ${(project.id === 7 || project.id === 6) ? 'line-clamp-3 md:line-clamp-4' : 'line-clamp-2'}">${project.shortDescription}</p>
+                <!-- 짧은 설명 (줄수 통일) -->
+                <p class="short-description text-gray-700 text-sm md:text-base mb-3 md:mb-4 leading-relaxed line-clamp-3 md:line-clamp-4">${project.shortDescription}</p>
                 
                 <!-- 메타데이터 -->
                 <div class="mb-3 md:mb-4 text-xs md:text-sm text-gray-500">
@@ -169,7 +204,7 @@ function createProjectCard(project) {
                 </div>
                 
                 <!-- CTA 링크 -->
-                <div class="pt-3 md:pt-4 border-t border-gray-100">
+                <div class="pt-3 md:pt-4 border-t border-gray-100 mt-auto">
                     <div class="group/cta flex items-center gap-2 text-sm md:text-base ${theme.text} font-semibold min-h-[44px]">
                         <span>자세히 보기</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -724,6 +759,7 @@ function createProjectModal(project) {
     // 이미지만 있고 비디오나 게임이 없는 경우 Swiper.js 사용
     let imagesHTML = '';
     if (project.images && project.images.length > 0) {
+        const imagesWebp = project.imagesWebp || [];
         const hasOnlyImages = !project.videos && !project.hasSpecialContent;
         const imageContainerId = `project-images-swiper-${project.id}`;
         
@@ -735,10 +771,26 @@ function createProjectModal(project) {
                     <div id="${imageContainerId}" class="project-images-swiper-container">
                         <div class="swiper project-images-swiper-${project.id}">
                             <div class="swiper-wrapper">
-                                ${project.images.map((img, index) => `
+                                ${project.images.map((img, index) => {
+                                    const webp = imagesWebp[index];
+                                    const preferredSrc = webp || img;
+                                    return `
                                     <div class="swiper-slide">
                                         <div class="flex items-center justify-center bg-gray-50 p-2 md:p-4">
-                                            <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${img}">
+                                            <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${preferredSrc}">
+                                                ${webp ? `
+                                                <picture>
+                                                    <source srcset="${webp}" type="image/webp">
+                                                    <img src="${img}" alt="${project.title} - 이미지 ${index + 1}"
+                                                         loading="lazy"
+                                                         onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);" 
+                                                         class="max-w-full h-auto" 
+                                                         style="max-height: 80vh; display: block;"
+                                                         loading="${index === 0 ? 'eager' : 'lazy'}" 
+                                                         decoding="async"
+                                                         fetchpriority="${index === 0 ? 'high' : 'low'}">
+                                                </picture>
+                                                ` : `
                                                 <img src="${img}" alt="${project.title} - 이미지 ${index + 1}"
                                                      loading="lazy"
                                                      onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);" 
@@ -747,10 +799,12 @@ function createProjectModal(project) {
                                                      loading="${index === 0 ? 'eager' : 'lazy'}" 
                                                      decoding="async"
                                                      fetchpriority="${index === 0 ? 'high' : 'low'}">
+                                                `}
                                             </div>
                                         </div>
                                     </div>
-                                `).join('')}
+                                `;
+                                }).join('')}
                             </div>
                             <div class="swiper-pagination project-images-pagination-${project.id}"></div>
                             <div class="swiper-button-prev project-images-prev-${project.id}"></div>
@@ -765,19 +819,36 @@ function createProjectModal(project) {
                 <div class="mb-6 md:mb-8 modal-section" data-section="media">
                     <h4 class="font-semibold mb-3 md:mb-4 ${theme.textColor} text-base md:text-lg">🖼️ 시연 자료</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
-                        ${project.images.map((img, index) => `
+                        ${project.images.map((img, index) => {
+                            const webp = imagesWebp[index];
+                            const preferredSrc = webp || img;
+                            return `
                             <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
                                 <div class="aspect-video bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md border ${theme.border} flex items-center justify-center transition-transform duration-300 md:hover:scale-[1.02]">
+                                    ${webp ? `
+                                    <picture>
+                                        <source srcset="${webp}" type="image/webp">
+                                        <img src="${img}" alt="${project.title}" 
+                                             class="object-cover w-full h-full enlargeable-media cursor-pointer" 
+                                             data-media-type="image" 
+                                             data-src="${preferredSrc}"
+                                             loading="${index === 0 ? 'eager' : 'lazy'}"
+                                             decoding="async"
+                                             fetchpriority="${index === 0 ? 'high' : 'low'}" />
+                                    </picture>
+                                    ` : `
                                     <img src="${img}" alt="${project.title}" 
                                          class="object-cover w-full h-full enlargeable-media cursor-pointer" 
                                          data-media-type="image" 
-                                         data-src="${img}"
+                                         data-src="${preferredSrc}"
                                          loading="${index === 0 ? 'eager' : 'lazy'}"
                                          decoding="async"
                                          fetchpriority="${index === 0 ? 'high' : 'low'}" />
+                                    `}
                                 </div>
                             </div>
-                        `).join('')}
+                        `;
+                        }).join('')}
                     </div>
                 </div>
             `;
@@ -1213,6 +1284,10 @@ function renderProjectCards() {
         })
         .map(({ _originalIndex, ...rest }) => rest);
     
+    // 프로젝트 컨테이너 초기 숨김
+    container.style.opacity = '0';
+    container.style.visibility = 'hidden';
+    
     container.innerHTML = sortedProjects.map(project => createProjectCard(project)).join('');
     
     // 카드 클릭 이벤트 추가 - 전체 카드 클릭 가능
@@ -1234,6 +1309,13 @@ function renderProjectCards() {
             window.reinitAnimations();
         }, 100);
     }
+    
+    // 프로젝트 컨테이너 표시
+    requestAnimationFrame(() => {
+        container.style.transition = 'opacity 0.3s ease-in, visibility 0.3s ease-in';
+        container.style.opacity = '1';
+        container.style.visibility = 'visible';
+    });
 }
 
 // 모달 열 때 스크롤을 맨 위로 리셋

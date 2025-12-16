@@ -17,12 +17,15 @@
                             // 이미지 로드 완료 이벤트 리스너
                             img.addEventListener('load', () => {
                                 img.classList.add('loaded');
+                                img.setAttribute('data-loaded', 'true');
                             });
                             img.addEventListener('error', () => {
                                 img.classList.add('error');
+                                img.setAttribute('data-loaded', 'true');
                             });
                         } else {
                             img.classList.add('loaded');
+                            img.setAttribute('data-loaded', 'true');
                         }
                         img.setAttribute('data-lazy-loaded', 'true');
                         observer.unobserve(img);

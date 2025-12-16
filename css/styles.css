@@ -247,10 +247,16 @@ body {
 
 /* 프로젝트 카드 프리뷰 스타일 */
 /* 프로젝트 카드 비주얼 강화 */
+#projects-container {
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+}
+
 .project-card-preview {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
     min-height: 300px;
     border: 1px solid #e5efff;
     border-left-width: 6px;
@@ -316,9 +322,33 @@ body {
     flex-direction: column;
 }
 
+.project-card-preview .badge-slot {
+    min-height: 38px;
+}
+
+.project-card-preview .type-tag-slot {
+    min-height: 32px;
+}
+
+.project-type-tag {
+    box-shadow: 0 6px 12px -10px rgba(15, 23, 42, 0.35);
+}
+
+.project-card-preview h3 {
+    min-height: 2.8rem;
+}
+
+.project-card-preview .value-statement {
+    min-height: 1.4rem;
+}
+
+.project-card-preview .short-description {
+    min-height: 4.8rem;
+}
+
 /* 첫 번째 자식 요소에만 상단 여백 추가 */
 .project-card-preview .card-inner > *:first-child {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
 }
 
 /* 모바일에서도 동일하게 */
@@ -330,7 +360,7 @@ body {
     }
     
     .project-card-preview .card-inner > *:first-child {
-        margin-top: 1.5rem;
+        margin-top: 1.75rem;
     }
 }
 
@@ -558,6 +588,7 @@ body {
 .group\/cta {
     will-change: gap;
 }
+
 
 .cta-button {
     will-change: transform;
