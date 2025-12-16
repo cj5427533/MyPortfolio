@@ -557,6 +557,7 @@ function createTechnicalTroubleshooting(project, theme) {
     const themeColors = colorThemeMap[project.colorTheme] || colorThemeMap.sky;
     const bgColorResolved = themeColors.bg;
     const borderColorResolved = themeColors.border;
+    const isBilingual = project.id === 4; // 바이링궐 버디 전용 분기에서 ReferenceError 방지
     
     return `
         <div class="modal-section" data-section="troubleshooting">
@@ -1341,28 +1342,27 @@ function renderProjectCards() {
     
     container.innerHTML = sortedProjects.map(project => createProjectCard(project)).join('');
     
-    // 카드 클릭 이벤트 추가 - 이벤트 위임 사용 (더 안정적)
-    // 기존 이벤트 리스너 제거 (중복 방지)
-    const existingHandler = container._clickHandler;
-    if (existingHandler) {
-        container.removeEventListener('click', existingHandler);
-    }
-    
-    const clickHandler = function(e) {
-        // 클릭된 요소가 프로젝트 카드인지 확인
-        const card = e.target.closest('.project-card-preview');
-        if (card) {
+    // 카드 클릭 이벤트 추가 - 각 카드에 직접 이벤트 리스너 추가 (더 확실한 방법)
+    const cards = container.querySelectorAll('.project-card-preview');
+    cards.forEach(card => {
+        // 기존 이벤트 리스너 제거 (중복 방지)
+        const existingHandler = card._clickHandler;
+        if (existingHandler) {
+            card.removeEventListener('click', existingHandler);
+        }
+        
+        const clickHandler = function(e) {
             e.preventDefault();
             e.stopPropagation();
             const projectId = parseInt(card.dataset.projectId);
             if (projectId && !isNaN(projectId)) {
                 showProjectModal(projectId);
             }
-        }
-    };
-    
-    container._clickHandler = clickHandler; // 참조 저장
-    container.addEventListener('click', clickHandler);
+        };
+        
+        card._clickHandler = clickHandler; // 참조 저장
+        card.addEventListener('click', clickHandler);
+    });
     
     // 스크롤 애니메이션 초기화
     initProjectCardAnimations();
