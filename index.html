@@ -1441,10 +1441,16 @@
                 }
                 
                 modalContent.innerHTML = `
-                    <div class="bg-white w-full h-full overflow-auto p-4 flex flex-col items-center">
+                    <div class="bg-white w-full h-full overflow-auto p-4 flex flex-col items-center justify-center">
                         ${imagesHTML}
                     </div>
                 `;
+                // 이미지 크기 조정 - 브라우저에 맞게
+                modalContent.querySelectorAll('img').forEach(img => {
+                    img.style.maxHeight = '85vh';
+                    img.style.width = 'auto';
+                    img.style.objectFit = 'contain';
+                });
             } catch (e) {
                 console.error('PDF 렌더링 실패:', e);
                 modalContent.innerHTML = `
