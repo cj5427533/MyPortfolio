@@ -85,7 +85,7 @@ const colorThemes = {
 };
 
 // 프로젝트 카드 프리뷰 생성
-function createProjectCard(project) {
+function createProjectCard(project, index = 0) {
     const theme = colorThemes[project.colorTheme];
     const isFeatured = project.featured === true;
     const typeTag = project.typeTag;
@@ -154,6 +154,10 @@ function createProjectCard(project) {
         ? 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container flex items-center justify-center'
         : 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container';
     
+    // 첫 3개 카드는 즉시 로딩 (로딩 시 깜빡임 방지)
+    const loadingAttr = index < 3 ? 'eager' : 'lazy';
+    const fetchPriority = index < 3 ? 'high' : 'low';
+    
     const imageHTML = hasImage ? `
         <div class="${imageContainerClass}">
             ${thumbnailWebp ? `
@@ -161,13 +165,13 @@ function createProjectCard(project) {
                     <source srcset="${thumbnailWebp}" type="image/webp">
                     <img src="${project.thumbnail}" alt="${project.title}"
                          class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
-                         loading="lazy" decoding="async" fetchpriority="low"
+                         loading="${loadingAttr}" decoding="async" fetchpriority="${fetchPriority}"
                          onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
                 </picture>
             ` : `
                 <img src="${project.thumbnail}" alt="${project.title}"
                      class="w-full h-full ${imageObjectFit} object-center transition-transform duration-300 ease-out project-image"
-                     loading="lazy" decoding="async" fetchpriority="low"
+                     loading="${loadingAttr}" decoding="async" fetchpriority="${fetchPriority}"
                      onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);">
             `}
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 md:group-hover/image:opacity-100 transition-opacity duration-300 ease-out"></div>
@@ -1340,7 +1344,7 @@ function renderProjectCards() {
     container.style.visibility = 'hidden';
     container.style.pointerEvents = 'auto'; // 클릭 가능하도록 설정
     
-    container.innerHTML = sortedProjects.map(project => createProjectCard(project)).join('');
+    container.innerHTML = sortedProjects.map((project, index) => createProjectCard(project, index)).join('');
     
     // 카드 클릭 이벤트 추가 - 각 카드에 직접 이벤트 리스너 추가 (더 확실한 방법)
     const cards = container.querySelectorAll('.project-card-preview');
