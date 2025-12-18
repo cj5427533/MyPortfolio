@@ -71,6 +71,168 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preload" as="image" href="images/MyImage.webp" fetchpriority="high" type="image/webp">
+    
+    <!-- Awards 이벤트 핸들러 함수 정의 (HTML 요소보다 먼저 실행되도록 head에 배치) -->
+    <script>
+        // 전역 변수 선언
+        let currentAwardIndex = -1;
+        let cardMouseDownX = 0;
+        let cardMouseDownY = 0;
+        let cardHasMoved = false;
+        let isDragging = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let carouselElement = null;
+        let hasMoved = false;
+        
+        // 전역 함수 선언 (HTML inline 이벤트 핸들러에서 사용)
+        function handleCardMouseDown(event, index) {
+            cardMouseDownX = event.clientX;
+            cardMouseDownY = event.clientY;
+            cardHasMoved = false;
+            
+            // 카드 내에서 마우스 이동 감지
+            const cardElement = event.currentTarget;
+            const handleCardMouseMove = (e) => {
+                const deltaX = Math.abs(e.clientX - cardMouseDownX);
+                const deltaY = Math.abs(e.clientY - cardMouseDownY);
+                if (deltaX > 5 || deltaY > 5) {
+                    cardHasMoved = true;
+                }
+            };
+            
+            const handleCardMouseUp = () => {
+                cardElement.removeEventListener('mousemove', handleCardMouseMove);
+                cardElement.removeEventListener('mouseup', handleCardMouseUp);
+                cardElement.removeEventListener('mouseleave', handleCardMouseUp);
+            };
+            
+            cardElement.addEventListener('mousemove', handleCardMouseMove);
+            cardElement.addEventListener('mouseup', handleCardMouseUp);
+            cardElement.addEventListener('mouseleave', handleCardMouseUp);
+        }
+
+        function handleCardClick(event, index) {
+            // Canvas나 다른 자식 요소에서 발생한 클릭도 처리
+            const target = event.target;
+            if (target.tagName === 'CANVAS' || target.classList.contains('award-pdf-canvas')) {
+                // Canvas 클릭도 카드 클릭으로 처리
+                event.stopPropagation();
+            }
+            
+            // 마우스가 많이 움직였으면 클릭으로 간주하지 않음
+            const deltaX = Math.abs(event.clientX - cardMouseDownX);
+            const deltaY = Math.abs(event.clientY - cardMouseDownY);
+            
+            if (deltaX > 5 || deltaY > 5) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+            
+            // 캐러셀 드래그 중이면 모달 열지 않음
+            if (hasMoved) {
+                hasMoved = false;
+                return false;
+            }
+            
+            // 카드 자체 드래그 체크
+            if (cardHasMoved) {
+                cardHasMoved = false;
+                return false;
+            }
+            
+            // openAwardModal 함수 호출 (body에서 정의됨)
+            // 함수가 아직 정의되지 않았을 수 있으므로 약간의 지연 후 시도
+            if (typeof openAwardModal === 'function' && typeof awardsData !== 'undefined' && awardsData && awardsData.length > 0) {
+                openAwardModal(index, event);
+            } else {
+                // awardsData가 로드될 때까지 대기 후 재시도
+                setTimeout(() => {
+                    if (typeof openAwardModal === 'function' && typeof awardsData !== 'undefined' && awardsData && awardsData.length > 0) {
+                        openAwardModal(index, event);
+                    } else {
+                        console.warn('openAwardModal 또는 awardsData가 아직 준비되지 않았습니다.');
+                    }
+                }, 100);
+            }
+        }
+
+        function handleCarouselMouseDown(e) {
+            carouselElement = document.getElementById('awardsCarousel');
+            if (!carouselElement) return;
+            
+            isDragging = true;
+            hasMoved = false;
+            carouselElement.style.cursor = 'grabbing';
+            startX = e.pageX - carouselElement.offsetLeft;
+            scrollLeft = carouselElement.scrollLeft;
+        }
+
+        function handleCarouselMouseMove(e) {
+            if (!isDragging || !carouselElement) return;
+            
+            const x = e.pageX - carouselElement.offsetLeft;
+            const walk = (x - startX) * 2; // 스크롤 속도 조절
+            
+            if (Math.abs(walk) > 5) {
+                hasMoved = true;
+            }
+            
+            carouselElement.scrollLeft = scrollLeft - walk;
+            updateDragBar();
+            e.preventDefault();
+        }
+
+        function handleCarouselMouseUp(e) {
+            if (!carouselElement) return;
+            
+            isDragging = false;
+            carouselElement.style.cursor = 'grab';
+            
+            // 드래그가 발생했다면 클릭 이벤트 방지
+            if (hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+
+        function updateDragBar() {
+            const carousel = document.getElementById('awardsCarousel');
+            const dragBarThumb = document.getElementById('dragBarThumb');
+            if (!carousel || !dragBarThumb) return;
+            
+            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+            if (scrollWidth <= 0) {
+                dragBarThumb.style.width = '100%';
+                dragBarThumb.style.left = '0%';
+                return;
+            }
+            
+            const thumbWidth = (carousel.clientWidth / carousel.scrollWidth) * 100;
+            const maxThumbWidth = 100;
+            const minThumbWidth = 15;
+            const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
+            
+            const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
+            const maxLeft = 100 - finalThumbWidth;
+            const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
+            
+            dragBarThumb.style.width = finalThumbWidth + '%';
+            dragBarThumb.style.left = finalLeft + '%';
+        }
+        
+        // openAwardModal 함수 선언 (나중에 body에서 정의됨)
+        // 실제 함수는 body 끝의 스크립트에서 정의됩니다
+        function openAwardModal(index, event) {
+            // awardsData가 로드되었는지 확인
+            if (typeof awardsData === 'undefined' || !awardsData || awardsData.length === 0) {
+                console.warn('openAwardModal: awardsData가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
+                return;
+            }
+            // 실제 함수가 정의되면 이 부분은 실행되지 않습니다
+        }
+    </script>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
     <div class="aurora-background pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -91,7 +253,7 @@
                 </div>
                 <div class="flex-1 text-left">
                     <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary" id="hero-headline" data-animate="stagger-child" data-stagger-index="0">
-                        인터랙티브한 경험을<br class="sm:hidden"> 설계하는<br class="hidden sm:inline lg:hidden"> 풀스택 지향 개발자, <span class="title-emphasis">천규진</span>입니다.
+                        인터랙티브한 경험을<br class="sm:hidden"> 설계하는<br class="hidden sm:inline lg:inline"> 풀스택 지향 개발자, <span class="title-emphasis">천규진</span>입니다.
                     </h1>
                     
                     <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium" id="hero-tagline" data-animate="stagger-child" data-stagger-index="1">
@@ -357,9 +519,9 @@
                          onmousedown="handleCardMouseDown(event, 0)"
                          onclick="handleCardClick(event, 0)">
                         <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
-                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf"></canvas>
-                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative" style="pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/YGMK/2025_재능대컴소과_캡스톤대상.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
                             </div>
@@ -372,9 +534,9 @@
                          onmousedown="handleCardMouseDown(event, 1)"
                          onclick="handleCardClick(event, 1)">
                         <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
-                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf"></canvas>
-                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative" style="pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/CoCo/2024_인천전문대연합_아이디어톤_최우수상.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
                             </div>
@@ -387,9 +549,9 @@
                          onmousedown="handleCardMouseDown(event, 2)"
                          onclick="handleCardClick(event, 2)">
                         <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
-                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf"></canvas>
-                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative" style="pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/Green_Connect/2024_NextGen창업경진대회_우승.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
                             </div>
@@ -402,9 +564,9 @@
                          onmousedown="handleCardMouseDown(event, 3)"
                          onclick="handleCardClick(event, 3)">
                         <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
-                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative">
-                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf"></canvas>
-                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative" style="pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/What_To_Wear/2025_U300창업경진대회_전국50팀.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
                             </div>
@@ -417,9 +579,9 @@
                          onmousedown="handleCardMouseDown(event, 4)"
                          onclick="handleCardClick(event, 4)">
                         <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full flex flex-col items-center justify-center relative">
-                            <div class="aspect-[4/3] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative border-4 border-primary/40 w-full" style="border-style: double;">
-                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf"></canvas>
-                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                            <div class="aspect-[4/3] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative border-4 border-primary/40 w-full" style="border-style: double; pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/Tamhae/2025_제주도_AWS해커톤_수료증.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
                                     <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
                                 </div>
                             </div>
@@ -540,22 +702,24 @@
     <div id="awardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 hidden award-modal modal-overlay" style="opacity: 0;">
         <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container" style="opacity: 0; transform: scale(0.97) translateY(8px);">
             <div class="bg-gradient-to-r from-primary to-secondary h-2"></div>
+            <button id="closeAwardModal" class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors" style="line-height: 1; display: flex; align-items: center; justify-content: center;">&times;</button>
             <div class="overflow-y-auto flex-1 p-4 md:p-6">
-                <div class="static md:sticky md:top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:pb-0 modal-section" data-section="header">
-                    <div class="flex justify-between items-start gap-3">
-                        <div class="flex-1 pr-2">
-                            <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis mb-3 md:mb-5"></h3>
-                            <div id="awardHeaderMeta" class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
+                <div class="static bg-white z-10 pb-2 mb-4 md:mb-6 md:pb-0 modal-section" data-section="header">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex justify-between items-start gap-3">
+                            <div class="flex-1 pr-2">
+                                <div class="flex items-start gap-3 mb-3 md:mb-5 flex-wrap">
+                                    <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis"></h3>
+                                    <button id="awardPdfEnlargeBtn" class="hidden bg-white text-gray-700 border border-primary/30 shadow-sm rounded-full px-3 py-1.5 text-xs font-semibold flex items-center gap-1 hover:bg-slate-50 transition-colors flex-shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                        </svg>
+                                        <span>상장 크게 보기</span>
+                                    </button>
+                                </div>
+                                <div id="awardHeaderMeta" class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-col items-end gap-2">
-                            <button id="awardPdfEnlargeBtn" class="hidden bg-white text-gray-700 border border-primary/30 shadow-sm rounded-full px-3 py-1.5 text-xs font-semibold flex items-center gap-1 hover:bg-slate-50 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                </svg>
-                                <span>상장 크게 보기</span>
-                            </button>
-                            <button id="closeAwardModal" class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors">&times;</button>
                         </div>
                     </div>
                 </div>
@@ -576,9 +740,25 @@
     </div>
 
     <script>
-        if (typeof pdfjsLib !== 'undefined') {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+        // Awards 관련 함수들은 head에서 이미 정의됨
+        // PDF.js Worker 설정 (PDF.js가 로드될 때까지 대기)
+        function initPdfJs() {
+            if (typeof pdfjsLib !== 'undefined') {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+                return true;
+            }
+            return false;
         }
+        
+        // PDF.js 초기화 재시도
+        let pdfJsInitRetries = 0;
+        const maxPdfJsRetries = 50;
+        const pdfJsInitInterval = setInterval(() => {
+            if (initPdfJs() || pdfJsInitRetries >= maxPdfJsRetries) {
+                clearInterval(pdfJsInitInterval);
+            }
+            pdfJsInitRetries++;
+        }, 100);
         
         // PDF Swiper 인스턴스 저장 (전역 접근 가능하도록 window에 할당)
         window.pdfSwiperInstances = {};
@@ -586,19 +766,64 @@
         
         // Award 카드의 PDF 첫 페이지를 canvas에 렌더링
         async function renderAwardPdfThumbnails() {
-            if (typeof pdfjsLib === 'undefined') return;
+            // PDF.js가 로드될 때까지 대기
+            let retryCount = 0;
+            const maxRetries = 100; // 최대 10초 대기 (100ms * 100)
+            
+            while (typeof pdfjsLib === 'undefined' && retryCount < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                retryCount++;
+            }
+            
+            // PDF.js Worker 설정
+            if (typeof pdfjsLib !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+            }
+            
+            if (typeof pdfjsLib === 'undefined') {
+                console.error('PDF.js 라이브러리를 로드할 수 없습니다.');
+                // PDF.js가 로드되지 않았을 때 플레이스홀더 표시
+                const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered])');
+                canvases.forEach(canvas => {
+                    const container = canvas.parentElement;
+                    if (container && !canvas.hasAttribute('data-rendered')) {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
+                        placeholder.textContent = '썸네일 로딩 중...';
+                        canvas.parentElement.replaceChild(placeholder, canvas);
+                    }
+                });
+                return;
+            }
             
             const canvases = document.querySelectorAll('.award-pdf-canvas');
             for (const canvas of canvases) {
+                // 이미 렌더링된 경우 건너뛰기
+                if (canvas.hasAttribute('data-rendered') && canvas.getAttribute('data-rendered') === 'true') {
+                    continue;
+                }
+                
                 const pdfPath = canvas.dataset.pdf;
-                if (!pdfPath) continue;
+                if (!pdfPath) {
+                    canvas.setAttribute('data-rendered', 'error');
+                    continue;
+                }
                 
                 try {
-                    const loadingTask = pdfjsLib.getDocument(pdfPath);
+                    const loadingTask = pdfjsLib.getDocument({
+                        url: pdfPath,
+                        httpHeaders: {},
+                        withCredentials: false
+                    });
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
                     
                     const container = canvas.parentElement;
+                    if (!container) {
+                        canvas.setAttribute('data-rendered', 'error');
+                        continue;
+                    }
+                    
                     const containerWidth = container.clientWidth || 200;
                     const containerHeight = container.clientHeight || 280;
                     
@@ -610,15 +835,70 @@
                     canvas.height = scaledViewport.height;
                     
                     const context = canvas.getContext('2d');
+                    context.fillStyle = 'white';
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    
                     await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+                    canvas.style.display = 'block';
+                    canvas.style.pointerEvents = 'none'; // 클릭 이벤트가 부모로 전달되도록
+                    canvas.setAttribute('data-rendered', 'true');
                 } catch (e) {
                     console.error('Award PDF 렌더링 실패:', pdfPath, e);
+                    // 에러 발생 시 플레이스홀더 표시
+                    const container = canvas.parentElement;
+                    if (container) {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
+                        placeholder.textContent = '썸네일 로드 실패';
+                        placeholder.style.pointerEvents = 'none';
+                        try {
+                            container.replaceChild(placeholder, canvas);
+                        } catch (replaceError) {
+                            // 이미 교체된 경우 무시
+                        }
+                    }
+                    canvas.setAttribute('data-rendered', 'error');
                 }
             }
         }
         
         // 페이지 로드 시 Award PDF 썸네일 렌더링
-        document.addEventListener('DOMContentLoaded', renderAwardPdfThumbnails);
+        function initAwardThumbnails() {
+            // DOMContentLoaded 이벤트에서 실행
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    // PDF.js가 로드될 때까지 대기 후 렌더링
+                    setTimeout(() => {
+                        renderAwardPdfThumbnails();
+                    }, 1000);
+                });
+            } else {
+                // 이미 로드된 경우
+                setTimeout(() => {
+                    renderAwardPdfThumbnails();
+                }, 1000);
+            }
+            
+            // window.load 이벤트에서도 시도 (PDF.js가 늦게 로드될 경우 대비)
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered="true"]):not([data-rendered="error"])');
+                    if (canvases.length > 0) {
+                        renderAwardPdfThumbnails();
+                    }
+                }, 1500);
+            });
+            
+            // 추가 재시도 (3초 후)
+            setTimeout(() => {
+                const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered="true"]):not([data-rendered="error"])');
+                if (canvases.length > 0 && typeof pdfjsLib !== 'undefined') {
+                    renderAwardPdfThumbnails();
+                }
+            }, 3000);
+        }
+        
+        initAwardThumbnails();
         
         // PDF 페이지를 렌더링하는 함수 (전역 접근 가능하도록 window에 할당)
         window.renderPdfPages = async function renderPdfPages(pdfPath, containerId, pageInfoElementId) {
@@ -923,48 +1203,24 @@
             }
         ];
 
-        let currentAwardIndex = -1;
-
-
-
-        // 카드 마우스 다운 처리
-        let cardMouseDownX = 0;
-        let cardMouseDownY = 0;
-        let cardHasMoved = false;
-
-        function handleCardMouseDown(event, index) {
-            cardMouseDownX = event.clientX;
-            cardMouseDownY = event.clientY;
-            cardHasMoved = false;
-        }
-
-        // 카드 클릭 처리
-        function handleCardClick(event, index) {
-            // 마우스가 많이 움직였으면 클릭으로 간주하지 않음
-            const deltaX = Math.abs(event.clientX - cardMouseDownX);
-            const deltaY = Math.abs(event.clientY - cardMouseDownY);
-            
-            if (deltaX > 5 || deltaY > 5) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-            
-            // 드래그 중이면 모달 열지 않음
-            if (hasMoved || cardHasMoved) {
-                hasMoved = false;
-                cardHasMoved = false;
-                return false;
-            }
-            
-            openAwardModal(index, event);
-        }
 
         // 모달 열기 - Project 모달과 동일한 UI/UX
         function openAwardModal(index, event) {
             if (event) {
                 event.preventDefault();
                 event.stopPropagation();
+            }
+            
+            // awardsData가 로드되었는지 확인
+            if (typeof awardsData === 'undefined' || !awardsData || awardsData.length === 0) {
+                console.warn('openAwardModal: awardsData가 아직 로드되지 않았습니다.');
+                return;
+            }
+            
+            // 인덱스 유효성 검사
+            if (index < 0 || index >= awardsData.length) {
+                console.error('openAwardModal: 유효하지 않은 인덱스입니다.', index);
+                return;
             }
             
             currentAwardIndex = index;
@@ -999,10 +1255,10 @@
             });
             
             const modal = document.getElementById('awardModal');
-            const isMobile = window.innerWidth < 768;
+            const isMobileDevice = window.innerWidth < 768;
             
             // 모바일에서 배경 스크롤 방지
-            if (isMobile) {
+            if (isMobileDevice) {
                 // 현재 스크롤 위치 저장
                 const scrollY = window.scrollY;
                 document.body.style.position = 'fixed';
@@ -1274,14 +1530,33 @@
             
             // 모달 표시 및 애니메이션 - Project 모달과 동일
             modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            
+            // 배경 스크롤 방지 (PC/모바일 모두)
+            const isMobileForScroll = window.innerWidth < 768;
+            if (isMobileForScroll) {
+                // 모바일: 현재 스크롤 위치 저장
+                const scrollY = window.scrollY;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.width = '100%';
+                document.body.style.overflow = 'hidden';
+                document.body.dataset.awardScrollY = scrollY;
+            } else {
+                // PC: 스크롤바 너비 보정하여 레이아웃 시프트 방지
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+                if (scrollbarWidth > 0) {
+                    document.body.style.paddingRight = `${scrollbarWidth}px`;
+                    document.body.dataset.awardScrollbarWidth = scrollbarWidth;
+                }
+            }
             
             // Framer Motion 스타일 애니메이션
             const overlay = modal;
             const container = modal.querySelector('.modal-container');
-            const isMobile = window.innerWidth < 768;
-            const yDistance = isMobile ? 4 : 8;
-            const duration = isMobile ? 0.2 : 0.25;
+            const yDistance = isMobileDevice ? 4 : 8;
+            const duration = isMobileDevice ? 0.2 : 0.25;
             
             overlay.style.opacity = '0';
             container.style.opacity = '0';
@@ -1443,7 +1718,7 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 
-                // 모바일에서 스크롤 위치 복원
+                // 스크롤 위치 및 스타일 복원
                 if (isMobile) {
                     const scrollY = document.body.dataset.awardScrollY || '0';
                     document.body.style.position = '';
@@ -1453,7 +1728,13 @@
                     window.scrollTo(0, parseInt(scrollY, 10));
                     delete document.body.dataset.awardScrollY;
                 } else {
+                    // PC에서 스크롤바 관련 스타일 복원
                     document.body.style.overflow = '';
+                    document.documentElement.style.overflow = '';
+                    if (document.body.dataset.awardScrollbarWidth) {
+                        document.body.style.paddingRight = '';
+                        delete document.body.dataset.awardScrollbarWidth;
+                    }
                 }
                 
                 // Awards 모달의 padding 제거
@@ -1504,80 +1785,6 @@
                 closeAwardModal();
             }
         });
-
-
-        // 캐러셀 드래그 기능
-        let isDragging = false;
-        let startX = 0;
-        let scrollLeft = 0;
-        let carouselElement = null;
-        let hasMoved = false;
-
-        function handleCarouselMouseDown(e) {
-            carouselElement = document.getElementById('awardsCarousel');
-            if (!carouselElement) return;
-            
-            isDragging = true;
-            hasMoved = false;
-            carouselElement.style.cursor = 'grabbing';
-            startX = e.pageX - carouselElement.offsetLeft;
-            scrollLeft = carouselElement.scrollLeft;
-        }
-
-        function handleCarouselMouseMove(e) {
-            if (!isDragging || !carouselElement) return;
-            
-            const x = e.pageX - carouselElement.offsetLeft;
-            const walk = (x - startX) * 2; // 스크롤 속도 조절
-            
-            if (Math.abs(walk) > 5) {
-                hasMoved = true;
-                cardHasMoved = true;
-            }
-            
-            carouselElement.scrollLeft = scrollLeft - walk;
-            updateDragBar();
-            e.preventDefault();
-        }
-
-        function handleCarouselMouseUp(e) {
-            if (!carouselElement) return;
-            
-            isDragging = false;
-            carouselElement.style.cursor = 'grab';
-            
-            // 드래그가 발생했다면 클릭 이벤트 방지
-            if (hasMoved) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }
-
-        // 드래그 바 thumb 위치 업데이트
-        function updateDragBar() {
-            const carousel = document.getElementById('awardsCarousel');
-            const dragBarThumb = document.getElementById('dragBarThumb');
-            if (!carousel || !dragBarThumb) return;
-            
-            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-            if (scrollWidth <= 0) {
-                dragBarThumb.style.width = '100%';
-                dragBarThumb.style.left = '0%';
-                return;
-            }
-            
-            const thumbWidth = (carousel.clientWidth / carousel.scrollWidth) * 100;
-            const maxThumbWidth = 100;
-            const minThumbWidth = 15;
-            const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
-            
-            const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
-            const maxLeft = 100 - finalThumbWidth;
-            const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
-            
-            dragBarThumb.style.width = finalThumbWidth + '%';
-            dragBarThumb.style.left = finalLeft + '%';
-        }
 
         // 드래그 바 드래그 기능
         let isDraggingBar = false;

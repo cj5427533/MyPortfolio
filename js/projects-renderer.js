@@ -655,7 +655,7 @@ function createTechnicalTroubleshooting(project, theme) {
                                         <span>💡</span>
                                         <span>해결 과정</span>
                                     </span>
-                                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 transition-all duration-200 text-gray-700 font-bold text-sm leading-none" data-arrow style="line-height: 1;">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white hover:bg-gray-100 transition-all duration-200 text-gray-700 font-bold text-sm leading-none" data-arrow style="line-height: 1;">
                                         <span class="plus-icon leading-none" style="line-height: 1;">+</span>
                                         <span class="minus-icon hidden leading-none" style="line-height: 1;">−</span>
                                     </span>
@@ -1061,6 +1061,7 @@ function createProjectModal(project) {
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 project-modal modal-overlay" data-project-id="${project.id}">
             <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container">
                 <div class="bg-gradient-to-r ${theme.gradient} h-2"></div>
+                <button class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors" data-project-id="${project.id}">&times;</button>
                 <div class="overflow-y-auto flex-1 p-4 md:p-6">
                     <div class="static pb-2 mb-4 md:mb-6 md:pb-0 modal-section" data-section="header">
                         <div class="flex justify-between items-start">
@@ -1086,7 +1087,6 @@ function createProjectModal(project) {
                                     <span class="px-2 py-1 md:px-3 md:py-1 ${theme.bg} ${theme.text} rounded-full text-xs md:text-sm font-medium"><strong>기간</strong>: ${project.period}</span>
                                 </div>
                             </div>
-                            <button class="close-modal text-gray-400 hover:text-gray-600 text-2xl md:text-3xl leading-none min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors" data-project-id="${project.id}">&times;</button>
                         </div>
                     </div>
                     
@@ -1380,7 +1380,7 @@ function showProjectModal(projectId) {
     
     const isMobile = window.innerWidth < 768;
     
-    // 모바일에서 배경 스크롤 방지
+    // 배경 스크롤 방지
     if (isMobile) {
         // 현재 스크롤 위치 저장
         const scrollY = window.scrollY;
@@ -1390,7 +1390,14 @@ function showProjectModal(projectId) {
         document.body.style.overflow = 'hidden';
         document.body.dataset.scrollY = scrollY;
     } else {
+        // PC에서도 스크롤바 너비 보정하여 레이아웃 시프트 방지
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+        if (scrollbarWidth > 0) {
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            document.body.dataset.scrollbarWidth = scrollbarWidth;
+        }
     }
     
     // 모바일에서는 애니메이션 없이 즉시 표시하여 성능 개선
@@ -1745,7 +1752,7 @@ function closeProjectModal(projectId) {
         setTimeout(() => {
             modal.remove();
             
-            // 모바일에서 스크롤 위치 복원
+            // 스크롤 위치 및 스타일 복원
             if (isMobile) {
                 const scrollY = document.body.dataset.scrollY || '0';
                 document.body.style.position = '';
@@ -1755,7 +1762,13 @@ function closeProjectModal(projectId) {
                 window.scrollTo(0, parseInt(scrollY, 10));
                 delete document.body.dataset.scrollY;
             } else {
+                // PC에서 스크롤바 관련 스타일 복원
                 document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                if (document.body.dataset.scrollbarWidth) {
+                    document.body.style.paddingRight = '';
+                    delete document.body.dataset.scrollbarWidth;
+                }
             }
         }, duration * 1000);
     }

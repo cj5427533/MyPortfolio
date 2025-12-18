@@ -340,7 +340,7 @@ function initAllAnimations() {
     
     initImageZoom('.project-image-container .project-image', { scale: 1.05, duration: 0.3 });
     
-    initRippleEffect('button, a, .cta-button, .submit-button, .award-card', {
+    initRippleEffect('button, a, .cta-button, .submit-button', {
         color: 'rgba(14, 165, 233, 0.4)',
         duration: 600
     });
