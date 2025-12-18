@@ -334,7 +334,6 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     const mobileScrollBar = document.getElementById('mobile-scroll-bar');
     const mobileScrollBtn = document.getElementById('mobile-scroll-btn');
     const heroSection = document.getElementById('hero-section');
-    const projectsSection = document.querySelector('section:has(h2:contains("🚀 Project"))');
     const skillsSection = document.getElementById('skills-section');
     
     if (!mobileScrollBar || !mobileScrollBtn || !heroSection || !skillsSection) return;
@@ -417,20 +416,25 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         }
     }
     
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', () => {
-        handleScroll();
-    });
-    
-    // DOMContentLoaded 후 초기 체크
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(handleScroll, 100);
-        });
-    } else {
-        setTimeout(handleScroll, 100);
+    // 초기화 함수
+    function init() {
+        // DOM이 완전히 로드될 때까지 대기
+        const initHandler = () => {
+            setTimeout(() => {
+                handleScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', () => {
+                    handleScroll();
+                });
+            }, 300);
+        };
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initHandler);
+        } else {
+            initHandler();
+        }
     }
     
-    // 초기 체크
-    handleScroll();
+    init();
 })(); 
