@@ -768,6 +768,140 @@
         window.pdfSwiperInstances = {};
         const pdfSwiperInstances = window.pdfSwiperInstances;
         
+        // 개별 canvas 렌더링 함수 (중복 렌더링 방지)
+        async function renderSingleCanvas(canvas) {
+            // 이미 렌더링되었거나 렌더링 중인 경우 건너뛰기
+            if (canvas.hasAttribute('data-rendered') && canvas.getAttribute('data-rendered') === 'true') {
+                return;
+            }
+            if (canvas.hasAttribute('data-rendering') && canvas.getAttribute('data-rendering') === 'true') {
+                return;
+            }
+            
+            const pdfPath = canvas.dataset.pdf;
+            if (!pdfPath) {
+                canvas.setAttribute('data-rendered', 'error');
+                return;
+            }
+            
+            // PDF.js가 로드될 때까지 대기
+            let retryCount = 0;
+            const maxRetries = 100;
+            while (typeof pdfjsLib === 'undefined' && retryCount < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                retryCount++;
+            }
+            
+            if (typeof pdfjsLib === 'undefined') {
+                canvas.setAttribute('data-rendered', 'error');
+                return;
+            }
+            
+            // PDF.js Worker 설정
+            if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+            }
+            
+            // 렌더링 시작 플래그 설정
+            canvas.setAttribute('data-rendering', 'true');
+            
+            try {
+                const container = canvas.parentElement;
+                if (!container) {
+                    canvas.setAttribute('data-rendered', 'error');
+                    canvas.removeAttribute('data-rendering');
+                    return;
+                }
+                
+                // 컨테이너 크기 측정
+                let containerWidth = container.clientWidth;
+                let containerHeight = container.clientHeight;
+                let sizeRetryCount = 0;
+                const maxSizeRetries = 10;
+                
+                while ((containerWidth === 0 || containerHeight === 0) && sizeRetryCount < maxSizeRetries) {
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                    containerWidth = container.clientWidth;
+                    containerHeight = container.clientHeight;
+                    sizeRetryCount++;
+                }
+                
+                if (containerWidth === 0) containerWidth = 200;
+                if (containerHeight === 0) containerHeight = 280;
+                
+                const loadingTask = pdfjsLib.getDocument({
+                    url: pdfPath,
+                    httpHeaders: {},
+                    withCredentials: false,
+                    verbosity: 0
+                });
+                
+                const pdf = await Promise.race([
+                    loadingTask.promise,
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('PDF 로드 타임아웃')), 15000)
+                    )
+                ]);
+                
+                const page = await pdf.getPage(1);
+                
+                const viewport = page.getViewport({ scale: 1 });
+                const isMobile = window.innerWidth < 768;
+                const scaleMultiplier = isMobile ? 1.2 : 1.5;
+                const scale = Math.min(containerWidth / viewport.width, containerHeight / viewport.height) * scaleMultiplier;
+                const scaledViewport = page.getViewport({ scale });
+                
+                const maxWidth = isMobile ? 400 : 800;
+                const maxHeight = isMobile ? 600 : 1200;
+                const finalWidth = Math.min(scaledViewport.width, maxWidth);
+                const finalHeight = Math.min(scaledViewport.height, maxHeight);
+                const finalScale = Math.min(finalWidth / viewport.width, finalHeight / viewport.height);
+                const finalViewport = page.getViewport({ scale: finalScale });
+                
+                if (!canvas.parentElement) {
+                    canvas.removeAttribute('data-rendering');
+                    return;
+                }
+                
+                // 다시 한번 확인 (다른 프로세스가 이미 렌더링했을 수 있음)
+                if (canvas.getAttribute('data-rendered') === 'true') {
+                    canvas.removeAttribute('data-rendering');
+                    return;
+                }
+                
+                canvas.width = finalViewport.width;
+                canvas.height = finalViewport.height;
+                
+                const context = canvas.getContext('2d');
+                context.fillStyle = 'white';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                await page.render({ canvasContext: context, viewport: finalViewport }).promise;
+                
+                canvas.style.display = 'block';
+                canvas.style.pointerEvents = 'none';
+                canvas.setAttribute('data-rendered', 'true');
+                canvas.removeAttribute('data-rendering');
+            } catch (e) {
+                console.error('Award PDF 렌더링 실패:', pdfPath, e);
+                canvas.removeAttribute('data-rendering');
+                
+                const container = canvas.parentElement;
+                if (container && canvas.getAttribute('data-rendered') !== 'error') {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
+                    placeholder.textContent = '썸네일 로드 실패';
+                    placeholder.style.pointerEvents = 'none';
+                    try {
+                        container.replaceChild(placeholder, canvas);
+                    } catch (replaceError) {
+                        // 이미 교체된 경우 무시
+                    }
+                }
+                canvas.setAttribute('data-rendered', 'error');
+            }
+        }
+        
         // Award 카드의 PDF 첫 페이지를 canvas에 렌더링
         async function renderAwardPdfThumbnails() {
             // PDF.js가 로드될 때까지 대기
@@ -800,105 +934,19 @@
                 return;
             }
             
+            // 모든 canvas를 순차적으로 렌더링 (동시 렌더링 방지)
             const canvases = document.querySelectorAll('.award-pdf-canvas');
             for (const canvas of canvases) {
-                // 이미 렌더링된 경우 건너뛰기
+                // 이미 렌더링되었거나 렌더링 중인 경우 건너뛰기
                 if (canvas.hasAttribute('data-rendered') && canvas.getAttribute('data-rendered') === 'true') {
                     continue;
                 }
-                
-                const pdfPath = canvas.dataset.pdf;
-                if (!pdfPath) {
-                    canvas.setAttribute('data-rendered', 'error');
+                if (canvas.hasAttribute('data-rendering') && canvas.getAttribute('data-rendering') === 'true') {
                     continue;
                 }
                 
-                try {
-                    // 모바일에서 컨테이너 크기를 정확히 측정하기 위해 약간의 지연
-                    const container = canvas.parentElement;
-                    if (!container) {
-                        canvas.setAttribute('data-rendered', 'error');
-                        continue;
-                    }
-                    
-                    // 컨테이너가 아직 렌더링되지 않았을 수 있으므로 재시도
-                    let containerWidth = container.clientWidth;
-                    let containerHeight = container.clientHeight;
-                    let retryCount = 0;
-                    const maxSizeRetries = 10;
-                    
-                    while ((containerWidth === 0 || containerHeight === 0) && retryCount < maxSizeRetries) {
-                        await new Promise(resolve => setTimeout(resolve, 50));
-                        containerWidth = container.clientWidth;
-                        containerHeight = container.clientHeight;
-                        retryCount++;
-                    }
-                    
-                    // 여전히 크기를 측정할 수 없으면 기본값 사용
-                    if (containerWidth === 0) containerWidth = 200;
-                    if (containerHeight === 0) containerHeight = 280;
-                    
-                    const loadingTask = pdfjsLib.getDocument({
-                        url: pdfPath,
-                        httpHeaders: {},
-                        withCredentials: false,
-                        // 모바일에서 타임아웃 증가
-                        verbosity: 0
-                    });
-                    
-                    // 타임아웃 설정 (모바일에서 더 긴 시간 허용)
-                    const pdf = await Promise.race([
-                        loadingTask.promise,
-                        new Promise((_, reject) => 
-                            setTimeout(() => reject(new Error('PDF 로드 타임아웃')), 15000)
-                        )
-                    ]);
-                    
-                    const page = await pdf.getPage(1);
-                    
-                    const viewport = page.getViewport({ scale: 1 });
-                    // 모바일에서 성능을 위해 스케일 조정
-                    const isMobile = window.innerWidth < 768;
-                    const scaleMultiplier = isMobile ? 1.2 : 1.5;
-                    const scale = Math.min(containerWidth / viewport.width, containerHeight / viewport.height) * scaleMultiplier;
-                    const scaledViewport = page.getViewport({ scale });
-                    
-                    // 모바일에서 메모리 제한을 고려한 최대 크기 제한
-                    const maxWidth = isMobile ? 400 : 800;
-                    const maxHeight = isMobile ? 600 : 1200;
-                    const finalWidth = Math.min(scaledViewport.width, maxWidth);
-                    const finalHeight = Math.min(scaledViewport.height, maxHeight);
-                    const finalScale = Math.min(finalWidth / viewport.width, finalHeight / viewport.height);
-                    const finalViewport = page.getViewport({ scale: finalScale });
-                    
-                    canvas.width = finalViewport.width;
-                    canvas.height = finalViewport.height;
-                    
-                    const context = canvas.getContext('2d');
-                    context.fillStyle = 'white';
-                    context.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    await page.render({ canvasContext: context, viewport: finalViewport }).promise;
-                    canvas.style.display = 'block';
-                    canvas.style.pointerEvents = 'none'; // 클릭 이벤트가 부모로 전달되도록
-                    canvas.setAttribute('data-rendered', 'true');
-                } catch (e) {
-                    console.error('Award PDF 렌더링 실패:', pdfPath, e);
-                    // 에러 발생 시 플레이스홀더 표시
-                    const container = canvas.parentElement;
-                    if (container) {
-                        const placeholder = document.createElement('div');
-                        placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
-                        placeholder.textContent = '썸네일 로드 실패';
-                        placeholder.style.pointerEvents = 'none';
-                        try {
-                            container.replaceChild(placeholder, canvas);
-                        } catch (replaceError) {
-                            // 이미 교체된 경우 무시
-                        }
-                    }
-                    canvas.setAttribute('data-rendered', 'error');
-                }
+                // 개별 canvas 렌더링 함수 사용 (순차 처리)
+                await renderSingleCanvas(canvas);
             }
         }
         
@@ -948,8 +996,12 @@
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const canvas = entry.target;
+                            // 렌더링 중이 아니고, 아직 렌더링되지 않은 경우만
                             if (!canvas.hasAttribute('data-rendered') || canvas.getAttribute('data-rendered') !== 'true') {
-                                renderAwardPdfThumbnails();
+                                if (!canvas.hasAttribute('data-rendering') || canvas.getAttribute('data-rendering') !== 'true') {
+                                    // 개별 canvas만 렌더링
+                                    renderSingleCanvas(canvas);
+                                }
                             }
                             observer.unobserve(canvas);
                         }
