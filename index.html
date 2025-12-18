@@ -1669,8 +1669,12 @@
     </style>
     
     <!-- 모바일 전용 스크롤 버튼 -->
-    <button id="mobile-scroll-btn" class="mobile-scroll-button hidden" aria-label="Skills 섹션으로 이동">
-        ⬇️
-    </button>
+    <div id="mobile-scroll-bar" class="mobile-scroll-bar hidden">
+        <button id="mobile-scroll-btn" class="mobile-scroll-button" aria-label="Skills 섹션으로 이동">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </button>
+    </div>
 </body>
 </html>

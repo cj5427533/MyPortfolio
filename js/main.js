@@ -331,12 +331,13 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
 (function() {
     'use strict';
     
+    const mobileScrollBar = document.getElementById('mobile-scroll-bar');
     const mobileScrollBtn = document.getElementById('mobile-scroll-btn');
     const heroSection = document.getElementById('hero-section');
     const projectsSection = document.querySelector('section:has(h2:contains("🚀 Project"))');
     const skillsSection = document.getElementById('skills-section');
     
-    if (!mobileScrollBtn || !heroSection || !skillsSection) return;
+    if (!mobileScrollBar || !mobileScrollBtn || !heroSection || !skillsSection) return;
     
     // Project 섹션 찾기 (더 안전한 방법)
     let projectSectionElement = null;
@@ -358,8 +359,8 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     // 스크롤 감지 함수
     function handleScroll() {
         if (!isMobile()) {
-            mobileScrollBtn.classList.add('hidden');
-            mobileScrollBtn.classList.remove('visible');
+            mobileScrollBar.classList.add('hidden');
+            mobileScrollBar.classList.remove('visible');
             return;
         }
         
@@ -379,14 +380,14 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         const isInRange = viewportTop >= heroBottom && viewportTop < projectBottom;
         
         if (isInRange) {
-            mobileScrollBtn.classList.remove('hidden');
-            mobileScrollBtn.classList.add('visible');
+            mobileScrollBar.classList.remove('hidden');
+            mobileScrollBar.classList.add('visible');
         } else {
-            mobileScrollBtn.classList.remove('visible');
+            mobileScrollBar.classList.remove('visible');
             // 약간의 딜레이 후 숨김 (애니메이션 완료 대기)
             setTimeout(() => {
-                if (!mobileScrollBtn.classList.contains('visible')) {
-                    mobileScrollBtn.classList.add('hidden');
+                if (!mobileScrollBar.classList.contains('visible')) {
+                    mobileScrollBar.classList.add('hidden');
                 }
             }, 300);
         }
@@ -418,6 +419,15 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     window.addEventListener('resize', () => {
         handleScroll();
     });
+    
+    // DOMContentLoaded 후 초기 체크
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(handleScroll, 100);
+        });
+    } else {
+        setTimeout(handleScroll, 100);
+    }
     
     // 초기 체크
     handleScroll();
