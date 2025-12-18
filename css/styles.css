@@ -727,12 +727,21 @@ body {
 
 /* 히어로 섹션 레이아웃 시프트 방지 */
 #hero-tagline {
-    min-height: 4.5rem; /* 모바일에서 2~3줄을 고려한 높이 */
+    min-height: 6rem; /* 모바일에서 3줄을 고려한 최소 높이 */
+    display: flex;
+    align-items: flex-start; /* 텍스트를 상단 정렬 */
+    overflow: visible; /* 텍스트가 넘치면 보이도록 */
+}
+
+@media (min-width: 375px) {
+    #hero-tagline {
+        min-height: 5.5rem; /* 작은 모바일에서 2~3줄 고려 */
+    }
 }
 
 @media (min-width: 640px) {
     #hero-tagline {
-        min-height: 3rem; /* 작은 태블릿에서 2줄 고려 */
+        min-height: 4rem; /* 작은 태블릿에서 2줄 고려 */
     }
 }
 
@@ -747,7 +756,13 @@ body {
     margin-bottom: 1rem;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 374px) {
+    #hero-cta {
+        margin-bottom: 2.5rem; /* 매우 작은 모바일에서 더 많은 여백 */
+    }
+}
+
+@media (min-width: 375px) and (max-width: 639px) {
     #hero-cta {
         margin-bottom: 2rem; /* 작은 모바일에서 더 많은 여백 */
     }

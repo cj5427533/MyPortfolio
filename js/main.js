@@ -112,6 +112,43 @@ document.addEventListener('DOMContentLoaded', function() {
                         setTimeout(() => {
                             typedElement.textContent = '';
                             
+                            // 히어로 태그라인 영역의 고정 높이 설정 (레이아웃 시프트 방지)
+                            const heroTagline = document.getElementById('hero-tagline');
+                            if (heroTagline) {
+                                const strings = [
+                                    '협업과 열린 소통으로 함께 문제를 해결하는 개발자',
+                                    'UX 중심의 문제 정의와 해결을 추구하는 개발자',
+                                    'Agile 방식으로 빠르게 실행하고 개선하는 개발자',
+                                    '최신 LLM 및 IT 트렌드를 학습하고 실전에 적용하는 개발자'
+                                ];
+                                
+                                // 임시로 모든 텍스트를 렌더링하여 최대 높이 계산
+                                const tempContainer = document.createElement('p');
+                                tempContainer.className = heroTagline.className;
+                                tempContainer.style.position = 'absolute';
+                                tempContainer.style.visibility = 'hidden';
+                                tempContainer.style.width = heroTagline.offsetWidth + 'px';
+                                tempContainer.style.padding = '0';
+                                tempContainer.style.margin = '0';
+                                heroTagline.parentElement.appendChild(tempContainer);
+                                
+                                let maxHeight = 0;
+                                strings.forEach(str => {
+                                    tempContainer.innerHTML = '<span>' + str + '</span><span class="typed-cursor">|</span>';
+                                    const height = tempContainer.offsetHeight;
+                                    if (height > maxHeight) {
+                                        maxHeight = height;
+                                    }
+                                });
+                                
+                                // 계산된 최대 높이에 여유 공간 추가 (약 10%)
+                                const finalHeight = Math.ceil(maxHeight * 1.1);
+                                heroTagline.style.minHeight = finalHeight + 'px';
+                                
+                                // 임시 요소 제거
+                                tempContainer.remove();
+                            }
+                            
                             new Typed('#typed-text', {
                                 strings: [
                                     '협업과 열린 소통으로 함께 문제를 해결하는 개발자',
