@@ -727,12 +727,29 @@ body {
 
 /* 히어로 섹션 레이아웃 시프트 방지 */
 #hero-tagline {
-    min-height: 2.5rem; /* 한 줄 높이 고정 */
+    min-height: 4.5rem; /* 모바일에서 2~3줄을 고려한 높이 */
+}
+
+@media (min-width: 640px) {
+    #hero-tagline {
+        min-height: 3rem; /* 작은 태블릿에서 2줄 고려 */
+    }
 }
 
 @media (min-width: 768px) {
     #hero-tagline {
         min-height: 2rem; /* 데스크톱에서 한 줄 높이 */
+    }
+}
+
+/* 히어로 CTA 버튼 아래 여백 추가 (모바일) */
+#hero-cta {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 639px) {
+    #hero-cta {
+        margin-bottom: 2rem; /* 작은 모바일에서 더 많은 여백 */
     }
 }
 
