@@ -733,6 +733,24 @@ body {
     overflow: visible; /* 텍스트가 넘치면 보이도록 */
 }
 
+/* Typed.js 초기화 전 깜빡임 방지 */
+#typed-text:empty {
+    opacity: 0; /* Typed.js 초기화 전까지 텍스트 영역 숨김 */
+}
+
+#typed-text:not(:empty) {
+    opacity: 1; /* 텍스트가 있으면 표시 */
+    transition: opacity 0.2s ease-in;
+}
+
+#typed-text:empty + .typed-cursor {
+    opacity: 0; /* Typed.js 초기화 전까지 커서 숨김 */
+}
+
+#typed-text:not(:empty) + .typed-cursor {
+    opacity: 1; /* 텍스트가 있으면 커서 표시 */
+}
+
 @media (min-width: 375px) {
     #hero-tagline {
         min-height: 5.5rem; /* 작은 모바일에서 2~3줄 고려 */
@@ -984,6 +1002,7 @@ body {
 
 /* PDF Swiper 스타일 */
 .pdf-swiper-container {
+    min-height: 500px; /* 레이아웃 시프트 방지 */
     position: relative;
     width: 100%;
 }

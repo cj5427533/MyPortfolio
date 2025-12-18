@@ -99,6 +99,16 @@ document.addEventListener('DOMContentLoaded', function() {
     initHeroAnimations();
     
     const typedElement = document.getElementById('typed-text');
+    const typedCursor = document.querySelector('.typed-cursor');
+    
+    // 초기 로드 시 텍스트와 커서 숨김 (깜빡임 방지)
+    if (typedElement) {
+        typedElement.style.opacity = '0';
+    }
+    if (typedCursor) {
+        typedCursor.style.opacity = '0';
+    }
+    
     if (typedElement && typeof Typed !== 'undefined') {
         const heroSection = document.getElementById('hero-section');
         const heroTagline = document.getElementById('hero-tagline');
@@ -111,6 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         setTimeout(() => {
                             typedElement.textContent = '';
+                            
+                            // Typed.js 시작 직전에 텍스트 영역 표시
+                            if (typedElement) {
+                                typedElement.style.opacity = '1';
+                            }
+                            if (typedCursor) {
+                                typedCursor.style.opacity = '1';
+                            }
                             
                             // 히어로 태그라인 영역의 고정 높이 설정 (레이아웃 시프트 방지)
                             const heroTagline = document.getElementById('hero-tagline');

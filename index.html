@@ -1025,9 +1025,9 @@
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // 로딩 표시
+                // 로딩 표시 (최소 높이 유지)
                 container.innerHTML = `
-                    <div class="flex items-center justify-center py-12">
+                    <div class="flex items-center justify-center" style="min-height: 500px;">
                         <div class="text-center">
                             <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
                             <p class="text-gray-600">PDF를 로딩 중입니다...</p>
@@ -1081,23 +1081,25 @@
                 // 모든 페이지 렌더링 완료 후 Swiper HTML 생성
                 const slidesHTML = pageImages.map((pageImage, index) => `
                     <div class="swiper-slide">
-                        <div class="flex items-center justify-center bg-gray-50 p-4 min-h-[400px]">
+                        <div class="flex items-center justify-center bg-gray-50 p-4" style="min-height: 500px;">
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden max-w-full">
                                 <img src="${pageImage.dataUrl}" 
                                      alt="PDF 페이지 ${pageImage.pageNum}" 
                                      class="max-w-full h-auto"
-                                     style="max-height: 80vh; display: block;"
+                                     style="opacity: ${index === 0 ? '1' : '0'}; transition: opacity 0.3s ease-in-out; max-height: 80vh; display: block; width: auto; height: auto;"
                                      loading="${index === 0 ? 'eager' : 'lazy'}"
                                      decoding="async"
-                                     fetchpriority="${index === 0 ? 'high' : 'low'}">
+                                     fetchpriority="${index === 0 ? 'high' : 'low'}"
+                                     onload="this.style.opacity='1';"
+                                     onerror="this.style.opacity='1';">
                             </div>
                         </div>
                     </div>
                 `).join('');
                 
-                // Swiper HTML 생성
+                // Swiper HTML 생성 (최소 높이 유지)
                 container.innerHTML = `
-                    <div class="swiper pdf-swiper-${containerId}">
+                    <div class="swiper pdf-swiper-${containerId}" style="min-height: 500px;">
                         <div class="swiper-wrapper">
                             ${slidesHTML}
                         </div>
@@ -1111,13 +1113,27 @@
                 const firstImage = container.querySelector('.swiper-slide:first-child img');
                 if (firstImage) {
                     await new Promise((resolve) => {
-                        if (firstImage.complete) {
+                        const handleLoad = () => {
+                            // 첫 번째 이미지 opacity 확실히 설정
+                            firstImage.style.opacity = '1';
                             resolve();
+                        };
+                        
+                        if (firstImage.complete && firstImage.naturalHeight > 0) {
+                            // 이미 로드된 경우 즉시 처리
+                            handleLoad();
                         } else {
-                            firstImage.onload = resolve;
-                            firstImage.onerror = resolve; // 에러가 나도 계속 진행
+                            firstImage.onload = handleLoad;
+                            firstImage.onerror = () => {
+                                // 에러가 나도 opacity는 설정
+                                firstImage.style.opacity = '1';
+                                resolve();
+                            };
                             // 타임아웃 설정 (5초 후 강제 진행)
-                            setTimeout(resolve, 5000);
+                            setTimeout(() => {
+                                firstImage.style.opacity = '1';
+                                resolve();
+                            }, 5000);
                         }
                     });
                 }
@@ -1130,6 +1146,7 @@
                     const swiperInstance = new Swiper(`.pdf-swiper-${containerId}`, {
                         slidesPerView: 1,
                         spaceBetween: 20,
+                        initialSlide: 0, // 첫 번째 슬라이드로 명시적 설정
                         pagination: {
                             el: `.pdf-pagination-${containerId}`,
                             clickable: true,
@@ -1149,6 +1166,15 @@
                             forceToAxis: true,
                         },
                         on: {
+                            init: function() {
+                                // Swiper 초기화 후 첫 번째 슬라이드로 이동 보장
+                                this.slideTo(0, 0);
+                                // 첫 번째 이미지 opacity 확인
+                                const firstImg = this.slides[0]?.querySelector('img');
+                                if (firstImg) {
+                                    firstImg.style.opacity = '1';
+                                }
+                            },
                             slideChange: function() {
                                 if (pageInfoElementId) {
                                     const pageInfo = document.getElementById(pageInfoElementId);
