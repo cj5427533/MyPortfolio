@@ -1791,24 +1791,46 @@ function initModalSectionAnimations(modal) {
     const yDistance = 16;
     const duration = 0.25;
     
+    // 모달이 열릴 때 이미 보이는 섹션들은 즉시 표시
+    const modalContainer = modal.querySelector('.modal-container');
+    if (modalContainer) {
+        const containerRect = modalContainer.getBoundingClientRect();
+        sections.forEach((section) => {
+            const sectionRect = section.getBoundingClientRect();
+            // 이미 뷰포트에 보이는 섹션은 즉시 표시
+            if (sectionRect.top < containerRect.bottom && sectionRect.bottom > containerRect.top) {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+                section.style.transition = 'none';
+            } else {
+                section.style.opacity = '0';
+                section.style.transform = `translateY(${yDistance}px)`;
+                section.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+            }
+        });
+    }
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                // 이미 표시된 섹션은 건너뛰기
+                if (entry.target.style.opacity !== '1') {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
                 observer.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.05,
-        rootMargin: '0px 0px -30px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
     
+    // 아직 표시되지 않은 섹션만 관찰
     sections.forEach((section) => {
-        section.style.opacity = '0';
-        section.style.transform = `translateY(${yDistance}px)`;
-        section.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
-        observer.observe(section);
+        if (section.style.opacity !== '1') {
+            observer.observe(section);
+        }
     });
 }
 

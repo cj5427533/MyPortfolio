@@ -113,6 +113,10 @@
         }
 
         function handleCardClick(event, index) {
+            // 기본 동작 방지 (페이지 스크롤 방지)
+            event.preventDefault();
+            event.stopPropagation();
+            
             // Canvas나 다른 자식 요소에서 발생한 클릭도 처리
             const target = event.target;
             if (target.tagName === 'CANVAS' || target.classList.contains('award-pdf-canvas')) {
@@ -125,8 +129,6 @@
             const deltaY = Math.abs(event.clientY - cardMouseDownY);
             
             if (deltaX > 5 || deltaY > 5) {
-                event.preventDefault();
-                event.stopPropagation();
                 return false;
             }
             
@@ -156,6 +158,8 @@
                     }
                 }, 100);
             }
+            
+            return false;
         }
 
         function handleCarouselMouseDown(e) {
@@ -252,7 +256,7 @@
                     </picture>
                 </div>
                 <div class="flex-1 text-left">
-                    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary" id="hero-headline" data-animate="stagger-child" data-stagger-index="0">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-primary" id="hero-headline" data-animate="stagger-child" data-stagger-index="0">
                         인터랙티브한 경험을<br class="sm:hidden"> 설계하는<br class="hidden sm:inline lg:inline"> 풀스택 지향 개발자, <span class="title-emphasis">천규진</span>입니다.
                     </h1>
                     
@@ -810,35 +814,71 @@
                 }
                 
                 try {
-                    const loadingTask = pdfjsLib.getDocument({
-                        url: pdfPath,
-                        httpHeaders: {},
-                        withCredentials: false
-                    });
-                    const pdf = await loadingTask.promise;
-                    const page = await pdf.getPage(1);
-                    
+                    // 모바일에서 컨테이너 크기를 정확히 측정하기 위해 약간의 지연
                     const container = canvas.parentElement;
                     if (!container) {
                         canvas.setAttribute('data-rendered', 'error');
                         continue;
                     }
                     
-                    const containerWidth = container.clientWidth || 200;
-                    const containerHeight = container.clientHeight || 280;
+                    // 컨테이너가 아직 렌더링되지 않았을 수 있으므로 재시도
+                    let containerWidth = container.clientWidth;
+                    let containerHeight = container.clientHeight;
+                    let retryCount = 0;
+                    const maxSizeRetries = 10;
+                    
+                    while ((containerWidth === 0 || containerHeight === 0) && retryCount < maxSizeRetries) {
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        containerWidth = container.clientWidth;
+                        containerHeight = container.clientHeight;
+                        retryCount++;
+                    }
+                    
+                    // 여전히 크기를 측정할 수 없으면 기본값 사용
+                    if (containerWidth === 0) containerWidth = 200;
+                    if (containerHeight === 0) containerHeight = 280;
+                    
+                    const loadingTask = pdfjsLib.getDocument({
+                        url: pdfPath,
+                        httpHeaders: {},
+                        withCredentials: false,
+                        // 모바일에서 타임아웃 증가
+                        verbosity: 0
+                    });
+                    
+                    // 타임아웃 설정 (모바일에서 더 긴 시간 허용)
+                    const pdf = await Promise.race([
+                        loadingTask.promise,
+                        new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('PDF 로드 타임아웃')), 15000)
+                        )
+                    ]);
+                    
+                    const page = await pdf.getPage(1);
                     
                     const viewport = page.getViewport({ scale: 1 });
-                    const scale = Math.min(containerWidth / viewport.width, containerHeight / viewport.height) * 1.5;
+                    // 모바일에서 성능을 위해 스케일 조정
+                    const isMobile = window.innerWidth < 768;
+                    const scaleMultiplier = isMobile ? 1.2 : 1.5;
+                    const scale = Math.min(containerWidth / viewport.width, containerHeight / viewport.height) * scaleMultiplier;
                     const scaledViewport = page.getViewport({ scale });
                     
-                    canvas.width = scaledViewport.width;
-                    canvas.height = scaledViewport.height;
+                    // 모바일에서 메모리 제한을 고려한 최대 크기 제한
+                    const maxWidth = isMobile ? 400 : 800;
+                    const maxHeight = isMobile ? 600 : 1200;
+                    const finalWidth = Math.min(scaledViewport.width, maxWidth);
+                    const finalHeight = Math.min(scaledViewport.height, maxHeight);
+                    const finalScale = Math.min(finalWidth / viewport.width, finalHeight / viewport.height);
+                    const finalViewport = page.getViewport({ scale: finalScale });
+                    
+                    canvas.width = finalViewport.width;
+                    canvas.height = finalViewport.height;
                     
                     const context = canvas.getContext('2d');
                     context.fillStyle = 'white';
                     context.fillRect(0, 0, canvas.width, canvas.height);
                     
-                    await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+                    await page.render({ canvasContext: context, viewport: finalViewport }).promise;
                     canvas.style.display = 'block';
                     canvas.style.pointerEvents = 'none'; // 클릭 이벤트가 부모로 전달되도록
                     canvas.setAttribute('data-rendered', 'true');
@@ -864,38 +904,65 @@
         
         // 페이지 로드 시 Award PDF 썸네일 렌더링
         function initAwardThumbnails() {
+            const isMobile = window.innerWidth < 768;
+            const initialDelay = isMobile ? 1500 : 1000; // 모바일에서 더 긴 대기 시간
+            
             // DOMContentLoaded 이벤트에서 실행
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', () => {
                     // PDF.js가 로드될 때까지 대기 후 렌더링
                     setTimeout(() => {
                         renderAwardPdfThumbnails();
-                    }, 1000);
+                    }, initialDelay);
                 });
             } else {
                 // 이미 로드된 경우
                 setTimeout(() => {
                     renderAwardPdfThumbnails();
-                }, 1000);
+                }, initialDelay);
             }
             
             // window.load 이벤트에서도 시도 (PDF.js가 늦게 로드될 경우 대비)
             window.addEventListener('load', () => {
+                const loadDelay = isMobile ? 2000 : 1500;
                 setTimeout(() => {
                     const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered="true"]):not([data-rendered="error"])');
                     if (canvases.length > 0) {
                         renderAwardPdfThumbnails();
                     }
-                }, 1500);
+                }, loadDelay);
             });
             
-            // 추가 재시도 (3초 후)
+            // 추가 재시도 (모바일에서 더 긴 시간)
+            const retryDelay = isMobile ? 5000 : 3000;
             setTimeout(() => {
                 const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered="true"]):not([data-rendered="error"])');
                 if (canvases.length > 0 && typeof pdfjsLib !== 'undefined') {
                     renderAwardPdfThumbnails();
                 }
-            }, 3000);
+            }, retryDelay);
+            
+            // 모바일에서 추가 재시도 (IntersectionObserver 사용)
+            if (isMobile && 'IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const canvas = entry.target;
+                            if (!canvas.hasAttribute('data-rendered') || canvas.getAttribute('data-rendered') !== 'true') {
+                                renderAwardPdfThumbnails();
+                            }
+                            observer.unobserve(canvas);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px'
+                });
+                
+                setTimeout(() => {
+                    const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered="true"]):not([data-rendered="error"])');
+                    canvases.forEach(canvas => observer.observe(canvas));
+                }, 2000);
+            }
         }
         
         initAwardThumbnails();
@@ -1257,17 +1324,23 @@
             const modal = document.getElementById('awardModal');
             const isMobileDevice = window.innerWidth < 768;
             
+            // 현재 페이지 스크롤 위치 저장 (모든 경우에)
+            const currentScrollY = window.scrollY;
+            document.body.dataset.awardPageScrollY = currentScrollY;
+            
             // 모바일에서 배경 스크롤 방지
             if (isMobileDevice) {
                 // 현재 스크롤 위치 저장
-                const scrollY = window.scrollY;
                 document.body.style.position = 'fixed';
-                document.body.style.top = `-${scrollY}px`;
+                document.body.style.top = `-${currentScrollY}px`;
                 document.body.style.width = '100%';
                 document.body.style.overflow = 'hidden';
-                document.body.dataset.awardScrollY = scrollY;
+                document.body.dataset.awardScrollY = currentScrollY;
             } else {
+                // PC에서도 스크롤 위치 유지
                 document.body.style.overflow = 'hidden';
+                // 페이지 스크롤 위치를 명시적으로 유지
+                window.scrollTo(0, currentScrollY);
             }
             
             // 제목
@@ -1720,21 +1793,31 @@
                 
                 // 스크롤 위치 및 스타일 복원
                 if (isMobile) {
-                    const scrollY = document.body.dataset.awardScrollY || '0';
+                    const scrollY = document.body.dataset.awardScrollY || document.body.dataset.awardPageScrollY || '0';
                     document.body.style.position = '';
                     document.body.style.top = '';
                     document.body.style.width = '';
                     document.body.style.overflow = '';
-                    window.scrollTo(0, parseInt(scrollY, 10));
+                    // 약간의 지연 후 스크롤 복원 (레이아웃 안정화 대기)
+                    setTimeout(() => {
+                        window.scrollTo(0, parseInt(scrollY, 10));
+                    }, 10);
                     delete document.body.dataset.awardScrollY;
+                    delete document.body.dataset.awardPageScrollY;
                 } else {
                     // PC에서 스크롤바 관련 스타일 복원
+                    const savedScrollY = document.body.dataset.awardPageScrollY || window.scrollY;
                     document.body.style.overflow = '';
                     document.documentElement.style.overflow = '';
                     if (document.body.dataset.awardScrollbarWidth) {
                         document.body.style.paddingRight = '';
                         delete document.body.dataset.awardScrollbarWidth;
                     }
+                    // 저장된 스크롤 위치로 복원
+                    setTimeout(() => {
+                        window.scrollTo(0, parseInt(savedScrollY, 10));
+                    }, 10);
+                    delete document.body.dataset.awardPageScrollY;
                 }
                 
                 // Awards 모달의 padding 제거
@@ -1746,27 +1829,60 @@
         function initAwardModalSectionAnimations(modal) {
             const sections = modal.querySelectorAll('.modal-section');
             const isMobile = window.innerWidth < 768;
-            const yDistance = isMobile ? 8 : 16;
-            const duration = isMobile ? 0.2 : 0.25;
+            
+            // 모바일에서는 애니메이션 비활성화
+            if (isMobile) {
+                sections.forEach((section) => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'none';
+                    section.style.transition = 'none';
+                });
+                return;
+            }
+            
+            const yDistance = 16;
+            const duration = 0.25;
+            
+            // 모달이 열릴 때 이미 보이는 섹션들은 즉시 표시
+            const modalContainer = modal.querySelector('.modal-container');
+            if (modalContainer) {
+                const containerRect = modalContainer.getBoundingClientRect();
+                sections.forEach((section) => {
+                    const sectionRect = section.getBoundingClientRect();
+                    // 이미 뷰포트에 보이는 섹션은 즉시 표시
+                    if (sectionRect.top < containerRect.bottom && sectionRect.bottom > containerRect.top) {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                        section.style.transition = 'none';
+                    } else {
+                        section.style.opacity = '0';
+                        section.style.transform = `translateY(${yDistance}px)`;
+                        section.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+                    }
+                });
+            }
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        // 이미 표시된 섹션은 건너뛰기
+                        if (entry.target.style.opacity !== '1') {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
                         observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.05,
-                rootMargin: '0px 0px -30px 0px'
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
             
+            // 아직 표시되지 않은 섹션만 관찰
             sections.forEach((section) => {
-                section.style.opacity = '0';
-                section.style.transform = `translateY(${yDistance}px)`;
-                section.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
-                observer.observe(section);
+                if (section.style.opacity !== '1') {
+                    observer.observe(section);
+                }
             });
         }
 
