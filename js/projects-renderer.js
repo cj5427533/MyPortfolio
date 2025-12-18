@@ -1054,7 +1054,7 @@ function createProjectModal(project) {
             <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container">
                 <div class="bg-gradient-to-r ${theme.gradient} h-2"></div>
                 <div class="overflow-y-auto flex-1 p-4 md:p-6">
-                    <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
+                    <div class="static pb-2 mb-4 md:mb-6 md:pb-0 modal-section" data-section="header">
                         <div class="flex justify-between items-start">
                             <div class="flex-1 pr-2">
                                 <h3 class="font-semibold ${theme.text} title-emphasis">${project.title}</h3>

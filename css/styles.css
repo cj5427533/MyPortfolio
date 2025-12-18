@@ -1171,16 +1171,16 @@ img[class*="swiper-slide"] img {
 /* 모바일 전용 스크롤 버튼 */
 .mobile-scroll-button {
     position: fixed;
-    bottom: 2rem;
-    right: 1.5rem;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    right: 1rem;
     width: 56px;
     height: 56px;
     border-radius: 50%;
     background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
     color: white;
-    font-size: 1.5rem;
-    border: none;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    font-size: 1.75rem;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.5), 0 2px 8px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     z-index: 50;
     display: flex;
@@ -1190,6 +1190,9 @@ img[class*="swiper-slide"] img {
     opacity: 0;
     transform: translateY(20px) scale(0.8);
     pointer-events: none;
+    /* 터치 최적화 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .mobile-scroll-button.visible {
@@ -1199,8 +1202,19 @@ img[class*="swiper-slide"] img {
 }
 
 .mobile-scroll-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    transform: scale(0.92);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4), 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 작은 화면에서 버튼 위치 조정 */
+@media (max-width: 640px) {
+    .mobile-scroll-button {
+        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+        right: 0.75rem;
+        width: 52px;
+        height: 52px;
+        font-size: 1.5rem;
+    }
 }
 
 /* 모바일에서만 표시 */
