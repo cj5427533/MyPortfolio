@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="GyuJin Cheon의 포트폴리오 - 풀스택 개발자">
     <title>GyuJin Cheon - Portfolio</title>
-    <!-- 성능 최적화 메타 태그 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#0EA5E9">
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <!-- Tailwind CSS - async로 비동기 로드하여 렌더링 차단 최소화 -->
     <link rel="preload" href="https://cdn.tailwindcss.com" as="script" crossorigin>
     <script>
-        // Tailwind config는 즉시 설정
         window.tailwindConfig = {
             theme: {
                 extend: {
@@ -26,13 +23,11 @@
         };
     </script>
     <script src="https://cdn.tailwindcss.com" async onload="if(typeof tailwind !== 'undefined' && window.tailwindConfig) { tailwind.config = window.tailwindConfig; }"></script>
-    <!-- 초기 로딩 처리 -->
     <script>
         // 페이지 로드 완료 시 body에 loaded 클래스 추가
         (function() {
             function markAsLoaded() {
                 document.body.classList.add('loaded');
-                // 모든 이미지에 로딩 완료 표시
                 document.querySelectorAll('img').forEach(img => {
                     if (img.complete && img.naturalHeight !== 0) {
                         img.setAttribute('data-loaded', 'true');
@@ -47,25 +42,20 @@
                 });
             }
             
-            // DOM 준비되면 즉시 표시 (클릭 가능하도록)
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
-                    // 짧은 지연 후 표시 (스타일 적용 시간 확보)
                     setTimeout(markAsLoaded, 50);
                 });
             } else {
                 setTimeout(markAsLoaded, 50);
             }
             
-            // 추가 안전장치: 모든 리소스 로드 완료 후에도 확인
             window.addEventListener('load', function() {
                 markAsLoaded();
             });
         })();
     </script>
-    <!-- FOUC 방지를 위한 기본 스타일 -->
     <style>
-        /* Tailwind 로드 전 기본 스타일 */
         html, body { 
             margin: 0; 
             padding: 0;
@@ -80,17 +70,14 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- 이미지 최적화: 중요한 프로필 이미지 WebP 우선 preload -->
     <link rel="preload" as="image" href="images/MyImage.webp" fetchpriority="high" type="image/webp">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
-    <!-- 오로라 배경 애니메이션 -->
     <div class="aurora-background pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div class="aurora-band aurora-band-1"></div>
         <div class="aurora-band aurora-band-2"></div>
     </div>
     
-    <!-- 매우 은은한 그리드 텍스처 (선택적) -->
     <div class="fixed inset-0 opacity-[0.06] pointer-events-none -z-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23cbd5e1\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     
     <main class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
@@ -103,17 +90,14 @@
                     </picture>
                 </div>
                 <div class="flex-1 text-left">
-                    <!-- Headline -->
                     <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary" id="hero-headline" data-animate="stagger-child" data-stagger-index="0">
-                        인터랙티브한 경험을 설계하는 <br class="hidden md:block">풀스택 지향 개발자, <span class="title-emphasis">천규진</span>입니다.
+                        인터랙티브한 경험을<br class="md:hidden"> 설계하는<br class="hidden md:block"> 풀스택 지향<br class="md:hidden"> 개발자, <span class="title-emphasis">천규진</span>입니다.
                     </h1>
                     
-                    <!-- Tagline -->
                     <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium" id="hero-tagline" data-animate="stagger-child" data-stagger-index="1">
                         <span id="typed-text"></span><span class="typed-cursor">|</span>
                     </p>
                     
-                    <!-- Key Values -->
                     <div class="space-y-3 mb-6" id="hero-values" data-animate="stagger-parent">
                         <div class="flex items-start gap-3" data-animate="stagger-child">
                             <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
@@ -157,7 +141,6 @@
                         </div>
                     </div>
                     
-                    <!-- CTA -->
                     <div class="mt-6 flex flex-wrap gap-3" id="hero-cta" data-animate="stagger-child" data-stagger-index="2">
                         <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer"
                            class="inline-flex items-center gap-2 px-5 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-200 shadow-md hover:shadow-lg cta-button">
@@ -193,13 +176,11 @@
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
-            <!-- 프로젝트 카드 그리드 - JavaScript로 동적 생성 (모바일 최적화) -->
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12" data-animate="stagger-parent">
-                <!-- 프로젝트 카드들이 여기에 동적으로 생성됩니다 -->
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
+        <section id="skills-section" class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-primary">
                 <span class="relative inline-block">
                     💻 Skills
@@ -208,7 +189,6 @@
             </h2>
             
             <div class="space-y-4 md:space-y-6">
-                <!-- Strong - 주력 기술 (가장 강조) -->
                 <div class="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-4 md:p-6 border-2 border-emerald-300 shadow-lg" data-animate="fade-in">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
                         <div class="flex items-center gap-2">
@@ -221,17 +201,16 @@
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Cursor</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Express.js</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">GitHub Actions</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Java</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Java 17</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">JavaScript</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">MySQL</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Node.js</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">MySQL 8.0</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Node.js 20</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">React Native</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Spring Boot</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">TypeScript</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">Spring Boot 3.4</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center text-xs md:text-sm whitespace-nowrap skill-pill skill-pill-strong" data-animate="stagger-child">TypeScript 5</span>
                     </div>
                 </div>
 
-                <!-- Knowledgeable - 경험 있음 -->
                 <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 md:p-6 border border-blue-200 shadow-md" data-animate="fade-in">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
                         <div class="flex items-center gap-2">
@@ -250,7 +229,7 @@
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kotlin</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Kubernetes</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Linux</span>
-                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">PostgreSQL</span>
+                        <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">PostgreSQL 15</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Tailwind CSS</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Three.js</span>
                         <span class="px-2 py-1 md:px-3 md:py-1.5 bg-blue-100 text-blue-700 rounded-full font-medium shadow-sm text-center text-xs md:text-sm whitespace-nowrap skill-pill" data-animate="stagger-child">Unity</span>
@@ -259,7 +238,6 @@
                     </div>
                 </div>
 
-                <!-- Tools - 협업 툴 -->
                 <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 md:p-6 border border-purple-200 shadow-md" data-animate="fade-in">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
                         <div class="flex items-center gap-2">
@@ -276,7 +254,6 @@
                     </div>
                 </div>
 
-                <!-- Designs - 디자인 툴 -->
                 <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 md:p-6 border border-amber-200 shadow-md" data-animate="fade-in">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 md:mb-4">
                         <div class="flex items-center gap-2">
@@ -304,7 +281,6 @@
                 </span>
             </h2>
             <div class="space-y-4 md:space-y-6">
-                <!-- 학생회장 -->
                 <div class="bg-gradient-to-r from-sky-50 to-cyan-50 rounded-lg p-4 md:p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
                     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                         <div class="flex-1">
@@ -334,7 +310,6 @@
                     </div>
                 </div>
 
-                <!-- 창업동아리 회장 -->
                 <div class="bg-gradient-to-r from-sky-50 to-cyan-50 rounded-lg p-4 md:p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow leadership-card" data-animate="slide-in-left">
                     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                         <div class="flex-1">
@@ -369,7 +344,6 @@
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
-            <!-- 가로 스크롤 가능한 캐러셀 컨테이너 -->
             <div class="relative">
                 <div id="awardsCarousel" class="flex gap-6 overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide snap-x snap-mandatory scroll-smooth" 
                      style="scrollbar-width: none; -ms-overflow-style: none;"
@@ -378,7 +352,6 @@
                      onmouseup="handleCarouselMouseUp(event)"
                      onmouseleave="handleCarouselMouseUp(event)"
                      onscroll="updateDragBar()">
-                    <!-- 수상·제출물 미리보기 카드들 -->
                     <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="0"
                          onmousedown="handleCardMouseDown(event, 0)"
@@ -457,11 +430,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- 드래그 바 (Media 스타일) -->
                 <div id="dragBar" class="w-full h-1 bg-gray-200 rounded-full mt-4 cursor-pointer relative overflow-hidden">
                     <div id="dragBarThumb" class="h-full bg-primary rounded-full transition-all duration-150 absolute left-0 cursor-grab active:cursor-grabbing" style="width: 20%; pointer-events: auto;"></div>
                 </div>
-                <!-- 스크롤 힌트 -->
                 <div class="text-center mt-4 text-sm text-gray-500">
                     <span>← 드래그하거나 스크롤하여 더 많은 수상·제출물을 확인하세요 →</span>
                 </div>
@@ -503,7 +474,6 @@
             
         </section>
 
-        <!-- Giscus 댓글 푸터 -->
         <footer class="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
             <h2 class="text-3xl font-bold mb-6 text-primary">
                 <span class="relative inline-block">
@@ -545,56 +515,37 @@
             </div>
         </footer>
     </main>
-    <!-- 외부 리소스 preconnect -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://giscus.app">
     
-    <!-- Three.js 라이브러리 로드 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-
-    <!-- 프로젝트 데이터 및 렌더러 -->
     <script src="js/projects-data.js" defer></script>
     <script src="js/projects-renderer.js" defer></script>
-
-    <!-- 게임 스크립트 -->
     <script src="Projects/3D_Maze/maze-game.js" defer></script>
-    
-    <!-- 애니메이션 헬퍼 -->
     <script src="js/animations.js" defer></script>
     <script src="js/main.js" defer></script>
-
-    <!-- Swiper.js CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    
-    <!-- PDF.js (수상내역 PDF 페이지 렌더링) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js" defer></script>
-    
-    <!-- Swiper.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
-    <!-- Modal for enlarged images/videos -->
     <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-[100] hidden">
         <button id="closeModal" class="fixed top-4 right-4 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-[101] transition-none">&times;</button>
         <div class="relative bg-white rounded-lg shadow-2xl w-full h-[95vh] max-w-[95vw] max-h-[95vh] overflow-hidden flex flex-col">
             <div id="modalContent" class="flex items-center justify-center flex-1 w-full h-full overflow-auto">
-                <!-- Image or video will be loaded here -->
             </div>
         </div>
     </div>
 
-    <!-- Modal for Awards - Project 모달과 동일한 UI/UX -->
     <div id="awardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50 hidden award-modal modal-overlay" style="opacity: 0;">
         <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container" style="opacity: 0; transform: scale(0.97) translateY(8px);">
             <div class="bg-gradient-to-r from-primary to-secondary h-2"></div>
             <div class="overflow-y-auto flex-1 p-4 md:p-6">
-                <!-- Header - Project 모달과 동일한 구조 -->
                 <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
                     <div class="flex justify-between items-start gap-3">
                         <div class="flex-1 pr-2">
                             <h3 id="awardTitle" class="text-xl md:text-2xl font-semibold text-primary title-emphasis mb-3 md:mb-5"></h3>
                             <div id="awardHeaderMeta" class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
-                                <!-- 동적으로 채워짐 -->
                             </div>
                         </div>
                         <div class="flex flex-col items-end gap-2">
@@ -610,31 +561,14 @@
                 </div>
                 
                 <div id="awardContent">
-                    <!-- Hero Summary (선택적) -->
                     <div id="awardHeroSummary" class="mb-6 md:mb-8"></div>
-                    
-                    <!-- 1) 프로젝트 개요 -->
                     <div id="awardOverview" class="mb-6 md:mb-8 modal-section" data-section="overview"></div>
-                    
-                    <!-- 2) 주요 기능 -->
                     <div id="awardFeatures" class="mb-6 md:mb-8 modal-section" data-section="features"></div>
-                    
-                    <!-- 3) Media (이미지만) -->
                     <div id="awardMedia" class="mb-6 md:mb-8 modal-section" data-section="media"></div>
-                    
-                    <!-- 4) 사용 기술 -->
                     <div id="awardTechnologies" class="mb-6 md:mb-8 modal-section" data-section="technologies"></div>
-                    
-                    <!-- 5) 기술적 문제 해결 / 경험 포인트 -->
                     <div id="awardTroubleshooting" class="mb-6 md:mb-8 modal-section" data-section="troubleshooting"></div>
-                    
-                    <!-- 6) 대상 사용자 -->
                     <div id="awardTargetUsers" class="mb-6 md:mb-8 modal-section" data-section="target-users"></div>
-                    
-                    <!-- 7) 회고 -->
                     <div id="awardReflection" class="mb-6 md:mb-8 modal-section" data-section="reflection"></div>
-                    
-                    <!-- 8) 프로젝트 자료 (PDF) - 항상 최하단 -->
                     <div id="awardPdfPages" class="mb-6 md:mb-8 modal-section" data-section="pdf"></div>
                 </div>
             </div>
@@ -642,7 +576,6 @@
     </div>
 
     <script>
-        // PDF.js Worker 설정
         if (typeof pdfjsLib !== 'undefined') {
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
         }
@@ -872,7 +805,7 @@
                     "신고·커뮤니티: 피해 제보 승인제, 게시판/댓글/좋아요로 정보 공유",
                     "관리자 대시보드: Recharts 통계와 Full-Text Search 기반 검색/관리"
                 ],
-                technologies: ["React", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Supabase", "Claude 3.5 Sonnet", "Random Forest", "Tailwind CSS"],
+                technologies: ["React 18", "TypeScript 5", "Node.js 20", "Express.js", "PostgreSQL 15", "Supabase", "Claude 3.5 Sonnet", "Random Forest", "Tailwind CSS"],
                 experiencePoints: [
                     "LLM·ML을 함께 적용하며 프롬프트/모델의 역할과 한계를 분리해 설계하는 방법을 익혔습니다",
                     "배치 처리·캐싱으로 비용과 응답 시간을 함께 개선하며 실전 최적화 감각을 키웠습니다",
@@ -1148,7 +1081,7 @@
                     `;
                 }).join('');
                 document.getElementById('awardFeatures').innerHTML = `
-                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">📌 주요 기능</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg"><span>📌</span> 주요 기능</h4>
                     <ul class="list-none text-gray-700 space-y-2 md:space-y-3">${featuresHTML}</ul>
                 `;
             } else {
@@ -1161,7 +1094,7 @@
             // 이미지 갤러리
             if (award.images && award.images.length > 0) {
                 mediaHTML = `
-                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🖼️ 플랫폼 이미지</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg"><span>🖼️</span> 플랫폼 이미지</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
                         ${award.images.map((img, imgIndex) => `
                             <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
@@ -1277,7 +1210,7 @@
                 }
                 
                 document.getElementById('awardTechnologies').innerHTML = `
-                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🔧 사용 기술</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg"><span>🔧</span> 사용 기술</h4>
                     ${techHTML}
                 `;
             } else {
@@ -1294,7 +1227,7 @@
                 ).join('');
                 
                 document.getElementById('awardTroubleshooting').innerHTML = `
-                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg">🧠 주요 경험 포인트</h4>
+                    <h4 class="font-semibold mb-3 md:mb-4 text-primary text-base md:text-lg"><span>🧠</span> 주요 경험 포인트</h4>
                     <ul class="list-none space-y-2 md:space-y-3 bg-gradient-to-r from-sky-50 to-cyan-50 rounded-lg md:rounded-xl p-4 md:p-5 border-l-4 border-primary">
                         ${experienceHTML}
                     </ul>
@@ -1306,7 +1239,7 @@
             // 6) 대상 사용자
             if (award.targetUsers) {
                 document.getElementById('awardTargetUsers').innerHTML = `
-                    <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">👥 대상 사용자</h4>
+                    <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg"><span>👥</span> 대상 사용자</h4>
                     <p class="text-gray-700 text-sm leading-relaxed">${award.targetUsers}</p>
                 `;
             } else {
@@ -1317,7 +1250,7 @@
             if (award.reflection) {
                 document.getElementById('awardReflection').innerHTML = `
                     <div class="bg-gradient-to-r from-sky-50 to-cyan-50 p-4 md:p-6 rounded-lg border-l-4 border-primary reflection-box modal-section" data-section="reflection">
-                        <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg">💬 회고</h4>
+                        <h4 class="font-semibold mb-2 md:mb-3 text-primary text-base md:text-lg"><span>💬</span> 회고</h4>
                         <p class="text-gray-700 text-sm leading-relaxed">${award.reflection}</p>
                     </div>
                 `;
@@ -1734,5 +1667,10 @@
             scrollbar-width: none;
         }
     </style>
+    
+    <!-- 모바일 전용 스크롤 버튼 -->
+    <button id="mobile-scroll-btn" class="mobile-scroll-button hidden" aria-label="Skills 섹션으로 이동">
+        ⬇️
+    </button>
 </body>
 </html>

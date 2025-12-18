@@ -1,10 +1,8 @@
-// 이미지 로딩 최적화 유틸리티
+// 이미지 lazy loading
 (function() {
     'use strict';
     
-    // Intersection Observer를 사용한 이미지 지연 로딩
     function initLazyImageLoading() {
-        // 이미 lazy loading 속성이 있는 이미지는 제외
         const lazyImages = document.querySelectorAll('img[loading="lazy"]:not([data-lazy-loaded])');
         
         if ('IntersectionObserver' in window) {
@@ -12,9 +10,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
-                        // 이미지가 이미 로드되었는지 확인
                         if (!img.complete || img.naturalHeight === 0) {
-                            // 이미지 로드 완료 이벤트 리스너
                             img.addEventListener('load', () => {
                                 img.classList.add('loaded');
                                 img.setAttribute('data-loaded', 'true');
@@ -32,21 +28,19 @@
                     }
                 });
             }, {
-                rootMargin: '50px' // 뷰포트 50px 전에 미리 로드
+                rootMargin: '50px'
             });
             
             lazyImages.forEach(img => {
                 imageObserver.observe(img);
             });
         } else {
-            // Intersection Observer를 지원하지 않는 브라우저를 위한 폴백
             lazyImages.forEach(img => {
                 img.setAttribute('data-lazy-loaded', 'true');
             });
         }
     }
     
-    // 이미지 프리로딩 (중요한 이미지)
     function preloadCriticalImages() {
         const criticalImages = [
             'images/MyImage.png'
@@ -62,7 +56,6 @@
         });
     }
     
-    // DOMContentLoaded 시 초기화
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             preloadCriticalImages();
@@ -73,7 +66,7 @@
         initLazyImageLoading();
     }
     
-    // 동적으로 추가된 이미지도 처리
+    // 동적 추가된 이미지 처리
     const observer = new MutationObserver(() => {
         initLazyImageLoading();
     });
@@ -86,7 +79,7 @@
     }
 })();
 
-// 스크롤에 따라 배경 그라데이션 변경
+// 배경 그라데이션 스크롤 효과
 window.addEventListener('scroll', function() {
     const dynamicBg = document.getElementById('dynamic-bg');
     if (!dynamicBg) return;
@@ -95,25 +88,18 @@ window.addEventListener('scroll', function() {
     const documentHeight = document.body.scrollHeight - window.innerHeight;
     const scrollPercentage = (scrollPosition / documentHeight) * 100;
     
-    // 스크롤 위치에 따라 배경 위치 변경
     dynamicBg.style.backgroundPosition = `${scrollPercentage}% ${scrollPercentage/2}%`;
 });
 
-// HERO 섹션 애니메이션 (animations.js에서 처리됨)
 function initHeroAnimations() {
-    // animations.js의 initAllAnimations에서 처리되므로 여기서는 제거
-    // 기존 코드는 animations.js로 이동됨
+    // animations.js에서 처리
 }
 
-// 스크롤 애니메이션
 document.addEventListener('DOMContentLoaded', function() {
-    // HERO 섹션 애니메이션 초기화
     initHeroAnimations();
     
-    // Typed.js 초기화 (태그라인)
     const typedElement = document.getElementById('typed-text');
     if (typedElement && typeof Typed !== 'undefined') {
-        // 히어로 섹션이 화면에 보일 때 시작하도록 Intersection Observer 사용
         const heroSection = document.getElementById('hero-section');
         const heroTagline = document.getElementById('hero-tagline');
         
@@ -123,9 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (entry.isIntersecting && !typedElement.dataset.typedInitialized) {
                         typedElement.dataset.typedInitialized = 'true';
                         
-                        // 애니메이션이 완료된 후 Typed.js 시작 (stagger-index가 1이므로 약 300ms + 여유)
                         setTimeout(() => {
-                            // 기존 텍스트를 숨기고 Typed.js 시작
                             typedElement.textContent = '';
                             
                             new Typed('#typed-text', {
@@ -139,11 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                 backSpeed: 30,
                                 backDelay: 2000,
                                 loop: true,
-                                showCursor: false, // 커서는 CSS로 직접 제어
+                                showCursor: false,
                                 smartBackspace: true,
-                                startDelay: 300 // 애니메이션 완료 후 추가 딜레이
+                                startDelay: 300
                             });
-                        }, 600); // 애니메이션 완료 대기 시간
+                        }, 600);
                         
                         observer.unobserve(heroSection);
                     }
@@ -166,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const elementTopPosition = section.offsetTop;
             const elementBottomPosition = elementTopPosition + elementHeight;
             
-            // Element is in view if its top is visible or its bottom is visible
             if ((elementBottomPosition >= windowTopPosition) && 
                 (elementTopPosition <= windowBottomPosition)) {
                 section.classList.add('visible');
@@ -176,58 +159,41 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', checkIfInView);
     window.addEventListener('resize', checkIfInView);
-    
-    // Trigger once at load
     checkIfInView();
 
     const dynamicBg = document.getElementById('dynamic-bg');
     if (dynamicBg) {
-        // Function to update background based on scroll position
         function updateBackground() {
             const scrollY = window.scrollY;
             const totalHeight = document.body.scrollHeight - window.innerHeight;
             const scrollFraction = scrollY / totalHeight;
-
-            // Example: Change hue based on scroll (0-360)
-            // const hue = scrollFraction * 360;
-            // dynamicBg.style.filter = `hue-rotate(${hue}deg)`;
-
-            // Example: Change opacity of a subtle overlay based on scroll
-            // This creates a depth effect or shifts mood
-            const opacity = Math.min(1, scrollFraction * 0.5); // Max 0.5 opacity
-            // dynamicBg.style.setProperty('--bg-overlay-opacity', opacity);
+            const opacity = Math.min(1, scrollFraction * 0.5);
         }
 
-        // Call once on load and then on scroll
         updateBackground();
         window.addEventListener('scroll', updateBackground);
     }
 
-    // 프로젝트 카드 애니메이션은 projects-renderer.js의 initProjectCardAnimations에서 처리
-
-    // Smooth scroll for internal links (optional, if you have any)
+    // smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
             });
         });
     });
 
-    // Modal functionality for enlarging images/videos
+    // 이미지/비디오 확대 모달
     const enlargeableMedia = document.querySelectorAll('.enlargeable-media');
     const enlargeModal = document.getElementById('enlargeModal');
     const closeModalBtn = document.getElementById('closeModal');
     const modalContent = document.getElementById('modalContent');
 
-    // 스크롤바 너비 계산 및 레이아웃 시프트 방지
     function preventLayoutShift() {
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         if (scrollbarWidth > 0) {
             document.body.style.paddingRight = `${scrollbarWidth}px`;
-            // Awards 모달이 열려있으면 그것도 고정
             const awardModal = document.getElementById('awardModal');
             if (awardModal && !awardModal.classList.contains('hidden')) {
                 awardModal.style.paddingRight = `${scrollbarWidth}px`;
@@ -237,7 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function restoreLayoutShift() {
         document.body.style.paddingRight = '';
-        // Awards 모달의 padding도 제거 (단, Awards 모달이 닫혀있을 때만)
         const awardModal = document.getElementById('awardModal');
         if (awardModal && awardModal.classList.contains('hidden')) {
             awardModal.style.paddingRight = '';
@@ -246,13 +211,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     enlargeableMedia.forEach(media => {
         media.addEventListener('click', () => {
-            // 스크롤바 너비를 overflow-hidden 추가 전에 먼저 계산
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            
             const mediaSrc = media.dataset.src;
             const mediaType = media.dataset.mediaType;
 
-            modalContent.innerHTML = ''; // Clear previous content
+            modalContent.innerHTML = '';
 
             if (mediaType === 'image') {
                 const img = document.createElement('img');
@@ -263,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const video = document.createElement('video');
                 video.src = mediaSrc;
                 video.controls = true;
-                video.autoplay = true; // Autoplay when enlarged
+                video.autoplay = true;
                 video.loop = true;
                 video.classList.add('max-w-full', 'max-h-full', 'w-auto', 'h-auto', 'object-contain');
                 modalContent.appendChild(video);
@@ -271,54 +234,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
             enlargeModal.classList.remove('hidden');
             
-            // padding을 먼저 추가 (스크롤바가 사라지기 전)
             if (scrollbarWidth > 0) {
                 document.body.style.paddingRight = `${scrollbarWidth}px`;
-                // Awards 모달이 열려있으면 그것도 고정
                 const awardModal = document.getElementById('awardModal');
                 if (awardModal && !awardModal.classList.contains('hidden')) {
                     awardModal.style.paddingRight = `${scrollbarWidth}px`;
                 }
             }
             
-            // 그 다음 overflow-hidden 추가 (스크롤바가 사라짐)
-            document.body.classList.add('overflow-hidden'); // Prevent scrolling body when modal is open
+            document.body.classList.add('overflow-hidden');
         });
     });
 
     function closeEnlargeModal() {
         enlargeModal.classList.add('hidden');
-        modalContent.innerHTML = ''; // Clear content when closing
+        modalContent.innerHTML = '';
         
-        // Awards 모달이 열려있으면 body의 padding을 유지 (Awards 모달이 닫힐 때 제거됨)
         const awardModal = document.getElementById('awardModal');
         const isAwardModalOpen = awardModal && !awardModal.classList.contains('hidden');
         
         if (!isAwardModalOpen) {
-            // 먼저 padding 제거 (레이아웃 시프트 방지)
             restoreLayoutShift();
-            // 그 다음 overflow-hidden 제거 (스크롤바가 다시 나타남)
-            // 동기적으로 처리하여 레이아웃이 즉시 복원되도록 함
-            document.body.classList.remove('overflow-hidden'); // Restore body scrolling
-        } else {
-            // Awards 모달이 열려있으면 body의 overflow만 제거하고 padding은 유지
-            // (Awards 모달이 닫힐 때 restoreLayoutShiftForAwardModal이 호출됨)
             document.body.classList.remove('overflow-hidden');
-            // body의 padding은 유지 (Awards 모달이 닫힐 때 제거됨)
-            // awardModal의 padding도 유지 (Awards 모달이 닫힐 때 제거됨)
+        } else {
+            document.body.classList.remove('overflow-hidden');
         }
     }
 
     closeModalBtn.addEventListener('click', closeEnlargeModal);
 
-    // Close modal when clicking outside of the content (on the overlay)
     enlargeModal.addEventListener('click', (e) => {
         if (e.target === enlargeModal) {
             closeEnlargeModal();
         }
     });
 
-    // Close modal with ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !enlargeModal.classList.contains('hidden')) {
             closeEnlargeModal();
@@ -326,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// 연락처 폼 제출
+// 연락처 폼
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const formStatus = document.getElementById('formStatus');
@@ -353,7 +303,6 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
             successMessage.classList.remove('hidden');
             errorMessage.classList.add('hidden');
             
-            // 성공 메시지 토스트 애니메이션
             successMessage.style.opacity = '0';
             successMessage.style.transform = 'translateY(20px)';
             successMessage.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
@@ -376,4 +325,100 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         errorMessage.classList.remove('hidden');
         successMessage.classList.add('hidden');
     }
-}); 
+});
+
+// 모바일 전용 스크롤 버튼
+(function() {
+    'use strict';
+    
+    const mobileScrollBtn = document.getElementById('mobile-scroll-btn');
+    const heroSection = document.getElementById('hero-section');
+    const projectsSection = document.querySelector('section:has(h2:contains("🚀 Project"))');
+    const skillsSection = document.getElementById('skills-section');
+    
+    if (!mobileScrollBtn || !heroSection || !skillsSection) return;
+    
+    // Project 섹션 찾기 (더 안전한 방법)
+    let projectSectionElement = null;
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        const h2 = section.querySelector('h2');
+        if (h2 && h2.textContent.includes('🚀 Project')) {
+            projectSectionElement = section;
+        }
+    });
+    
+    if (!projectSectionElement) return;
+    
+    // 모바일 체크 함수
+    function isMobile() {
+        return window.innerWidth < 768;
+    }
+    
+    // 스크롤 감지 함수
+    function handleScroll() {
+        if (!isMobile()) {
+            mobileScrollBtn.classList.add('hidden');
+            mobileScrollBtn.classList.remove('visible');
+            return;
+        }
+        
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const heroTop = heroSection.offsetTop;
+        const heroBottom = heroTop + heroSection.offsetHeight;
+        const projectTop = projectSectionElement.offsetTop;
+        const projectBottom = projectTop + projectSectionElement.offsetHeight;
+        
+        // 현재 뷰포트의 상단과 하단 위치
+        const viewportTop = scrollY;
+        const viewportBottom = scrollY + windowHeight;
+        
+        // 히어로 섹션의 하단이 뷰포트 상단을 지나갔고, Project 섹션의 하단이 뷰포트 상단을 지나가기 전까지
+        // 즉, 히어로 섹션을 지나서 Project 섹션을 보고 있는 동안
+        const isInRange = viewportTop >= heroBottom && viewportTop < projectBottom;
+        
+        if (isInRange) {
+            mobileScrollBtn.classList.remove('hidden');
+            mobileScrollBtn.classList.add('visible');
+        } else {
+            mobileScrollBtn.classList.remove('visible');
+            // 약간의 딜레이 후 숨김 (애니메이션 완료 대기)
+            setTimeout(() => {
+                if (!mobileScrollBtn.classList.contains('visible')) {
+                    mobileScrollBtn.classList.add('hidden');
+                }
+            }, 300);
+        }
+    }
+    
+    // 버튼 클릭 이벤트
+    mobileScrollBtn.addEventListener('click', function() {
+        if (skillsSection) {
+            skillsSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+    
+    // 스크롤 이벤트 리스너
+    let ticking = false;
+    function onScroll() {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+        handleScroll();
+    });
+    
+    // 초기 체크
+    handleScroll();
+})(); 

@@ -30,8 +30,8 @@ const projectsData = [
             "관리자 대시보드: Recharts 통계와 Full-Text Search 기반 검색/관리"
         ],
         technologies: {
-            frontend: ["React", "Recharts", "shadcn/ui", "Tailwind CSS", "TypeScript"],
-            backend: ["Express.js", "JWT", "Node.js", "PostgreSQL", "Supabase"],
+            frontend: ["React 18", "Recharts", "shadcn/ui", "Tailwind CSS", "TypeScript 5"],
+            backend: ["Express.js", "JWT", "Node.js 20", "PostgreSQL 15", "Supabase"],
             aiMl: ["Claude 3.5 Sonnet", "Python scikit-learn", "Random Forest"],
             infra: ["Docker", "GCP", "GitHub Actions"],
             tools: ["Cursor"]
@@ -136,7 +136,7 @@ const projectsData = [
             "지도 기반 탐색: 현위치 기반 지도에서 주변 문화시설 검색 및 플랜 추가",
             "관리자 대시보드: 시스템 통계 및 API 사용량 모니터링 (관리자 전용)"
         ],
-        technologies: ["Cursor", "Docker", "Fly.io", "GitHub Actions", "Java 17", "JWT", "Kakao Local API", "Kakao Mobility API", "MySQL", "React", "Spring Boot", "Spring Data JPA", "Spring Security", "TypeScript"],
+        technologies: ["Cursor", "Docker", "Fly.io", "GitHub Actions", "Java 17", "JWT", "Kakao Local API", "Kakao Mobility API", "MySQL 8.0", "React 18", "Spring Boot 3.4", "Spring Data JPA", "Spring Security", "TypeScript 5"],
         technologyRationale: [
             "Spring Boot + JPA: 엔티티 간 복잡한 관계를 효율적으로 관리하고 N+1 문제를 @EntityGraph와 fetch join으로 해결",
             "JWT + 리프레시 토큰: Stateless 인증 방식으로 확장 가능한 인증 시스템 구현 (세션 기반 대비 서버 부하 감소)",
@@ -361,7 +361,7 @@ const projectsData = [
         typeTag: { label: "팀 프로젝트", emoji: "👥" },
         fullDescription: "재능대학교 캠퍼스를 3D로 구현한 웹 플랫폼입니다. 학생들이 강의실을 예약하고 각 건물의 이벤트·캠페인 정보를 시각적으로 확인할 수 있는 서비스입니다.",
         mainFeatures: "Three.js로 3D 캠퍼스를 시각화하고, 건물 클릭 시 이벤트 정보 확인 및 강의실 예약이 가능한 서비스입니다.",
-        technologies: ["Express.js", "HTML/CSS", "JavaScript", "MySQL", "Three.js"],
+        technologies: ["Express.js", "HTML/CSS", "JavaScript", "MySQL 8.0", "Three.js"],
         technologyRationale: [
             "Three.js: 캠퍼스 건물과 동선을 3D로 시각화하여 공간 맥락을 직관적으로 전달 (WebGL 직접 사용 대비 생산성)",
             "Raycasting: 마우스 클릭 위치에서 카메라 방향으로 광선을 쏘아 건물 선택 정확도 향상",
@@ -513,7 +513,7 @@ const projectsData = [
             "CI/CD 자동화: Netlify와 GitHub 연동으로 코드 푸시 시 자동 빌드 및 배포",
             "실서비스 운영: 실제 URL을 통한 배포로 사용자 피드백 수집 및 성능 모니터링"
         ],
-        technologies: ["Cloudflare Workers", "Cursor", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
+        technologies: ["Cloudflare Workers", "Cursor", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js 20", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
         technologyRationale: [
             "데이터 드리븐 렌더링: `projects-data.js` → `projects-renderer.js`로 카드/모달 자동 생성 (수동 HTML 작성 대비 유지보수성)",
             "Cloudflare Worker: 서버 없이 폼 데이터 수집·검증 및 Discord/D1 전달 (서버리스 아키텍처로 비용 절감)",

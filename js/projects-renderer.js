@@ -1,6 +1,5 @@
-// 프로젝트 카드 및 모달 렌더링 관리
+// 프로젝트 카드/모달 렌더링
 
-// 색상 테마 매핑
 const colorThemes = {
     sky: {
         gradient: "from-sky-500 to-indigo-500",
@@ -84,7 +83,6 @@ const colorThemes = {
     }
 };
 
-// 프로젝트 카드 프리뷰 생성
 function createProjectCard(project, index = 0) {
     const theme = colorThemes[project.colorTheme];
     const isFeatured = project.featured === true;
@@ -100,14 +98,12 @@ function createProjectCard(project, index = 0) {
         teal:  { bg: 'bg-teal-50',   text: 'text-teal-700',   border: 'border-teal-200' },
     };
     
-    // 이미지가 없거나 logo.png이거나 빈 문자열인 경우 이미지 영역을 비움
     const hasImage = project.thumbnail && 
                      project.thumbnail !== "images/logo.png" && 
                      project.thumbnail.trim() !== "" &&
                      project.thumbnail.trim().length > 0;
     const thumbnailWebp = project.thumbnailWebp;
     
-    // 프로젝트별 악센트 색상 (그라데이션에서 첫 번째 색상 사용)
     const accentColorMap = {
         'sky': '#0ea5e9',
         'indigo': '#6366f1',
@@ -120,7 +116,6 @@ function createProjectCard(project, index = 0) {
     };
     const accentColor = accentColorMap[project.colorTheme] || '#0ea5e9';
     
-    // Featured 카드 강조용 클래스
     const cardEmphasisClasses = isFeatured
         ? 'ring-2 ring-blue-200 shadow-[0_10px_30px_-12px_rgba(59,130,246,0.6)] hover:-translate-y-1 hover:shadow-2xl'
         : 'shadow-md';
@@ -146,15 +141,12 @@ function createProjectCard(project, index = 0) {
         </div>
     ` : '';
     
-    // 이미지 HTML (인터랙티브 호버 효과 포함) - 모바일 최적화
-    // 컬쳐맵(id: 7)과 바이링궐 버디(id: 4)는 로고 이미지이므로 object-contain과 중앙 정렬 사용
     const isLogoImage = project.id === 7 || project.id === 4;
     const imageObjectFit = isLogoImage ? 'object-contain' : 'object-cover';
     const imageContainerClass = isLogoImage 
         ? 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container flex items-center justify-center'
         : 'aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4 md:mb-5 relative group/image project-image-container';
     
-    // 첫 3개 카드는 즉시 로딩 (로딩 시 깜빡임 방지)
     const loadingAttr = index < 3 ? 'eager' : 'lazy';
     const fetchPriority = index < 3 ? 'high' : 'low';
     
@@ -178,36 +170,29 @@ function createProjectCard(project, index = 0) {
         </div>
     ` : '';
     
-    // Value statement (한 줄 요약)
     const valueStatement = project.valueStatement || '';
     
     return `
         <div class="project-card-preview bg-white rounded-xl overflow-hidden border-l-4 transition-all duration-300 ease-out opacity-0 translate-y-4 project-card-item cursor-pointer w-full ${cardEmphasisClasses}" 
              style="border-left-color: ${accentColor}; pointer-events: auto;"
              data-project-id="${project.id}">
-            <!-- 그라데이션 상단 바 -->
             <div class="bg-gradient-to-r ${theme.gradient} ${gradientBarHeight}"></div>
             <div class="card-inner">
                 ${tagRowHTML}
                 ${imageHTML}
                 
-                <!-- 프로젝트 제목 (시각적 앵커) -->
                 <h3 class="text-xl md:text-2xl font-bold mb-2 ${theme.text} leading-tight">${project.title}</h3>
                 
-                <!-- 한 줄 가치 설명 -->
                 ${valueStatement ? `
                     <p class="value-statement font-medium text-gray-500 mb-2 md:mb-3">${valueStatement}</p>
                 ` : ''}
                 
-                <!-- 짧은 설명 (줄수 통일) -->
                 <p class="short-description text-gray-700 mb-3 md:mb-4 leading-relaxed line-clamp-3 md:line-clamp-4">${project.shortDescription}</p>
                 
-                <!-- 메타데이터 -->
                 <div class="mb-3 md:mb-4 text-gray-500">
                     <span>${project.period}</span>
                 </div>
                 
-                <!-- CTA 링크 -->
                 <div class="pt-3 md:pt-4 border-t border-gray-100 mt-auto">
                     <div class="group/cta flex items-center gap-2 ${theme.text} font-semibold min-h-[44px]">
                         <span>자세히 보기</span>
@@ -221,7 +206,6 @@ function createProjectCard(project, index = 0) {
     `;
 }
 
-// Executive Summary 생성 (JEIU 캠퍼스 / 3D 공 굴리기 / Bilingual Buddy용)
 function createExecutiveSummary(project) {
     if (project.id === 1) {
         // JEIU 캠퍼스 프로젝트
@@ -311,13 +295,11 @@ function createExecutiveSummary(project) {
     return '';
 }
 
-// Hero Summary Block 생성 - 모든 프로젝트 동일 UI
 function createHeroSummary(project, theme) {
     if (!project.heroSummary) return '';
     
     const { purpose, roles, keyOutcomes } = project.heroSummary;
     
-    // 프로젝트별 색상 테마에 맞는 그라데이션과 색상 설정
     const colorMap = {
         sky: {
             gradient: 'from-sky-50 to-blue-50',
@@ -379,7 +361,6 @@ function createHeroSummary(project, theme) {
     
     const colors = colorMap[project.colorTheme] || colorMap.sky;
     
-    // 색상 코드 매핑 (배경 블록용)
     const colorCodeMap = {
         sky: '#0ea5e9',
         purple: '#a855f7',
@@ -394,10 +375,8 @@ function createHeroSummary(project, theme) {
     
     return `
         <div class="bg-white rounded-xl md:rounded-2xl p-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden relative modal-section" data-section="hero-summary">
-            <!-- 대각선 색상 블록 -->
             <div class="absolute top-0 left-0 w-8 md:w-16 h-8 md:h-16" style="background: ${accentColor}; clip-path: polygon(0 0, 100% 0, 0 100%);"></div>
             
-            <!-- 내용 영역 -->
             <div class="relative z-10 p-5 md:p-7 pt-8 md:pt-10">
                 <div class="mb-4 md:mb-5">
                     <p class="text-lg md:text-xl font-semibold text-gray-800 leading-relaxed">${purpose}</p>
@@ -420,21 +399,17 @@ function createHeroSummary(project, theme) {
     `;
 }
 
-// Collapsible Challenge Cards 생성 (여기몰까 프로젝트용)
 function createCollapsibleChallenges(project, theme) {
     if (!project.technicalTroubleshooting || project.technicalTroubleshooting.length === 0) return '';
     
     return `
                 <div class="modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold ${theme.textColor}">🔧 기술적 도전과 해결</h4>
+            <h4 class="font-semibold ${theme.textColor}"><span>🔧</span> 기술적 도전과 해결</h4>
             <div class="space-y-4">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const cardId = `challenge-${project.id}-${index}`;
-                    // 첫 2개는 expanded, 나머지는 collapsed
                     const isExpanded = item.expanded === true || (item.expanded !== false && index < 2);
                     const expandedClass = isExpanded ? '' : 'collapsed';
-                    
-                    // 결과에서 ** 기호 제거
                     let resultHTML = item.result.replace(/\*\*/g, '');
                     
                     return `
@@ -474,10 +449,8 @@ function createCollapsibleChallenges(project, theme) {
     `;
 }
 
-// Tech Stack 그룹화 렌더링 (여기몰까 프로젝트용)
 function createGroupedTechStack(project, theme) {
     if (!project.technologies || typeof project.technologies !== 'object' || project.id !== 5) {
-        // 기존 방식 (배열)
         if (Array.isArray(project.technologies)) {
             return `
                 <div class="flex flex-wrap gap-2 mb-4">
@@ -540,13 +513,9 @@ function createGroupedTechStack(project, theme) {
     `;
 }
 
-    // 기술적 문제 해결 섹션 생성 (Accordion 포함) - 모든 프로젝트 동일 구조
 function createTechnicalTroubleshooting(project, theme) {
     if (!project.technicalTroubleshooting || project.technicalTroubleshooting.length === 0) return '';
     
-    // 모든 프로젝트 동일한 구조 사용 (⚠️ 문제, 💡 해결, ✅ 결과 + 아코디언)
-    
-    // 프로젝트별 색상 테마에 맞춘 배경색과 테두리 색상
     const colorThemeMap = {
         sky: { bg: 'from-sky-50 to-blue-50', border: 'border-sky-400' },
         indigo: { bg: 'from-indigo-50 to-purple-50', border: 'border-indigo-400' },
@@ -561,16 +530,14 @@ function createTechnicalTroubleshooting(project, theme) {
     const themeColors = colorThemeMap[project.colorTheme] || colorThemeMap.sky;
     const bgColorResolved = themeColors.bg;
     const borderColorResolved = themeColors.border;
-    const isBilingual = project.id === 4; // 바이링궐 버디 전용 분기에서 ReferenceError 방지
+    const isBilingual = project.id === 4;
     
     return `
         <div class="modal-section" data-section="troubleshooting">
-            <h4 class="font-semibold ${theme.textColor}">🛠️ 트러블 슈팅</h4>
+            <h4 class="font-semibold ${theme.textColor}"><span>🛠️</span> 트러블 슈팅</h4>
             <div class="space-y-3">
                 ${project.technicalTroubleshooting.map((item, index) => {
                     const accordionId = `troubleshooting-${project.id}-${index}`;
-                    
-                    // 문제 상황 간결화
                     let conciseProblem = item.problem.split('.').slice(0, 2).join('.').trim();
                     if (project.id === 3 && index === 0) {
                         conciseProblem = "물리 시뮬레이션에서 공이 벽을 뚫고 나가거나, 판을 기울였을 때 공이 떨어지지 않고 공중에 떠있는 현상이 발생했습니다.";
@@ -584,7 +551,6 @@ function createTechnicalTroubleshooting(project, theme) {
                         conciseProblem = "Papago가 다국어 교육 용어와 가정통신문을 번역할 때 정확도가 낮아 신뢰성이 떨어졌습니다.";
                     }
                     
-                    // 해결 과정 bullet 추출
                     let solutionBullets = [];
                     if (project.id === 3 && index === 0) {
                         solutionBullets = [
@@ -616,13 +582,10 @@ function createTechnicalTroubleshooting(project, theme) {
                             '사용자 피드백 기반으로 번역 결과를 반복 검증'
                         ];
                     } else {
-                        // 다른 프로젝트는 기존 방식
                         solutionBullets = item.solution.split('.').filter(s => s.trim()).slice(0, 3).map(s => s.trim());
                     }
                     
-                    // 성능 개선 수치 강조 (모든 프로젝트 공통)
                     let highlightedResult = item.result;
-                    // 성능 수치 패턴 강조: %, 배, 초, fps 등
                     const performancePatterns = [
                         /(\d+%)/g,
                         /(\d+\.\d+%)/g,
@@ -633,7 +596,6 @@ function createTechnicalTroubleshooting(project, theme) {
                         /(\d+%\s*(?:단축|감소|절감|향상|개선))/g
                     ];
                     
-                    // 프로젝트별 테마 색상 설정 (프로젝트 고유 색상 사용)
                     const performanceColorMap = {
                         sky: 'text-sky-700',
                         indigo: 'text-indigo-700',
@@ -646,7 +608,6 @@ function createTechnicalTroubleshooting(project, theme) {
                     };
                     const performanceColor = performanceColorMap[project.colorTheme] || 'text-blue-700';
                     
-                    // 성능 수치 강조
                     highlightedResult = highlightedResult
                         .replace(/(\d+%)/g, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
                         .replace(/(\d+\.\d+%)/g, `<span class="font-bold ${performanceColor} text-base">$1</span>`)
@@ -657,7 +618,6 @@ function createTechnicalTroubleshooting(project, theme) {
                         .replace(/(완전히 해결|완전 해결)/g, '<span class="font-bold text-green-700">$1</span>')
                         .replace(/(0건)/g, '<span class="font-bold text-green-700">$1</span>');
                     
-                    // 프로젝트별 추가 강조 (프로젝트 테마 색상 사용)
                     const highlightColorMap = {
                         sky: 'text-sky-700',
                         indigo: 'text-indigo-700',
@@ -670,7 +630,6 @@ function createTechnicalTroubleshooting(project, theme) {
                     };
                     const highlightColor = highlightColorMap[project.colorTheme] || 'text-blue-700';
                     
-                    // 특정 키워드 강조 (프로젝트 테마 색상 적용)
                     highlightedResult = highlightedResult
                         .replace(/자연스럽게/g, `<span class="font-semibold ${highlightColor}">자연스럽게</span>`)
                         .replace(/안정적으로/g, `<span class="font-semibold ${highlightColor}">안정적으로</span>`)
@@ -702,7 +661,6 @@ function createTechnicalTroubleshooting(project, theme) {
                                     <div class="text-gray-700 leading-relaxed space-y-2">
                                         ${solutionBullets.map(step => {
                                             if (!step) return '';
-                                            // 핵심 키워드 강조 (프로젝트 테마 색상 사용)
                                             let highlighted = step
                                                 .replace(/AABB/g, `<span class="font-semibold ${theme.textColor}">AABB</span>`)
                                                 .replace(/requestAnimationFrame/g, `<span class="font-semibold ${theme.textColor}">requestAnimationFrame</span>`)
@@ -736,17 +694,12 @@ function createTechnicalTroubleshooting(project, theme) {
     `;
 }
 
-// 프로젝트 모달 생성
 function createProjectModal(project) {
     const theme = colorThemes[project.colorTheme];
     
-    // Hero Summary (여기몰까 프로젝트만)
     const heroSummaryHTML = createHeroSummary(project, theme);
-    
-    // Executive Summary (JEIU 캠퍼스만)
     const executiveSummaryHTML = createExecutiveSummary(project);
     
-    // 주요 기능이 배열인지 문자열인지 확인
     let mainFeaturesHTML = '';
     if (Array.isArray(project.mainFeatures)) {
         mainFeaturesHTML = `
@@ -760,9 +713,7 @@ function createProjectModal(project) {
             </ul>
         `;
     } else {
-        // 문자열인 경우 간결하게 재작성
         if (project.id === 3) {
-            // 3D 공 굴리기 게임의 경우 bullet list로 변환
             mainFeaturesHTML = `
                 <ul class="list-none text-gray-700 space-y-2">
                     <li class="flex items-start">
@@ -810,8 +761,6 @@ function createProjectModal(project) {
         }
     }
     
-    // 이미지 갤러리 (스크린샷 캐러셀) - 모바일 최적화
-    // 이미지만 있고 비디오나 게임이 없는 경우 Swiper.js 사용
     let imagesHTML = '';
     if (project.images && project.images.length > 0) {
         const imagesWebp = project.imagesWebp || [];
@@ -819,10 +768,9 @@ function createProjectModal(project) {
         const imageContainerId = `project-images-swiper-${project.id}`;
         
         if (hasOnlyImages) {
-            // Swiper.js 사용 (이미지만 있는 경우)
             imagesHTML = `
                 <div class="modal-section" data-section="media">
-                    <h4 class="font-semibold ${theme.textColor}">🖼️ 플랫폼 이미지</h4>
+                    <h4 class="font-semibold ${theme.textColor}"><span>🖼️</span> 플랫폼 이미지</h4>
                     <div id="${imageContainerId}" class="project-images-swiper-container">
                         <div class="swiper project-images-swiper-${project.id}">
                             <div class="swiper-wrapper">
@@ -869,10 +817,9 @@ function createProjectModal(project) {
                 </div>
             `;
         } else {
-            // 기존 방식 (비디오나 게임이 있는 경우)
             imagesHTML = `
                 <div class="modal-section" data-section="media">
-                    <h4 class="font-semibold ${theme.textColor}">🖼️ 플랫폼 이미지</h4>
+                    <h4 class="font-semibold ${theme.textColor}"><span>🖼️</span> 플랫폼 이미지</h4>
                     <div class="flex gap-3 md:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
                         ${project.images.map((img, index) => {
                             const webp = imagesWebp[index];
@@ -910,10 +857,8 @@ function createProjectModal(project) {
         }
     }
     
-    // 비디오 - 모바일 최적화: max-w-full, aspect-video, centered
     let videosHTML = '';
     if (project.videos && project.videos.length > 0) {
-        // Bilingual Buddy 프로젝트는 세로 비디오를 가로 컨테이너에 배치
         const aspectRatio = project.id === 4 ? 'aspect-video' : 'aspect-video';
         const maxWidth = project.id === 4 ? 'max-w-full md:max-w-3xl' : 'max-w-full md:max-w-3xl';
         const bgColor = project.id === 4 ? 'bg-black' : 'bg-gray-100';
@@ -921,9 +866,8 @@ function createProjectModal(project) {
         
         videosHTML = `
             <div class="modal-section" data-section="media">
-                <h4 class="font-semibold ${theme.textColor}">📹 시연 영상</h4>
+                <h4 class="font-semibold ${theme.textColor}"><span>📹</span> 시연 영상</h4>
                 ${project.videos.map(video => {
-                    // Bilingual Buddy 프로젝트(id: 4)는 비디오 확대 기능 제거
                     if (project.id === 4) {
                         return `
                     <div class="${maxWidth} mx-auto rounded-lg md:rounded-xl overflow-hidden shadow-md ${bgColor} mb-3 md:mb-4">
@@ -952,12 +896,11 @@ function createProjectModal(project) {
         `;
     }
     
-    // 특수 콘텐츠 (게임 등)
     let specialContentHTML = '';
     if (project.hasSpecialContent && project.specialContentType === 'game') {
         specialContentHTML = `
-            <div class="w-full h-96 md:h-[480px] bg-gray-100 rounded-lg mb-6 overflow-hidden relative" id="modal-game-container-${project.id}">
-                <canvas id="modal-maze-game-${project.id}" class="w-full h-full"></canvas>
+            <div class="w-full max-w-full mx-auto bg-gray-100 rounded-lg mb-6 overflow-hidden relative game-container-responsive" id="modal-game-container-${project.id}" style="max-height: 70vh; height: min(70vh, 480px);">
+                <canvas id="modal-maze-game-${project.id}" class="w-full h-full" style="max-width: 100%; max-height: 100%; object-fit: contain;"></canvas>
                 <div class="absolute top-2 right-2">
                     <button id="modal-pause-toggle-${project.id}" class="bg-gray-800 text-white text-[10px] sm:text-xs px-3 py-1.5 rounded shadow hover:bg-gray-700 transition-colors">
                         일시정지
@@ -972,14 +915,13 @@ function createProjectModal(project) {
             </div>
         `;
     } else if (project.hasSpecialContent && project.specialContentType === 'unity-game') {
-        // Unity WebGL 게임 컨테이너
         specialContentHTML = `
             <div class="modal-section" data-section="unity-game">
-                <h4 class="font-semibold ${theme.textColor}">🎮 게임 플레이</h4>
+                <h4 class="font-semibold ${theme.textColor}"><span>🎮</span> 게임 플레이</h4>
                 <div
-                    class="w-full bg-gray-900 rounded-lg relative flex items-center justify-center"
+                    class="w-full bg-gray-900 rounded-lg relative flex items-center justify-center unity-game-container-responsive"
                     id="unity-game-container-${project.id}"
-                    style="aspect-ratio: 16/9; max-width: 1200px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);"
+                    style="aspect-ratio: 16/9; max-width: min(1200px, 90vw); max-height: 70vh; width: 100%; margin: 0 auto; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);"
                 >
                     <div id="unity-loading-bar-${project.id}" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-10">
                         <div class="mb-4">
@@ -1003,7 +945,6 @@ function createProjectModal(project) {
         `;
     }
     
-    // 링크 버튼 HTML
     let linksHTML = '';
     if (project.githubUrl || project.demoUrl) {
         linksHTML = `
@@ -1029,8 +970,7 @@ function createProjectModal(project) {
             </div>
         `;
     }
-
-    // 간결한 프로젝트 개요 (2-3줄)
+    
     let conciseDescription = project.fullDescription;
     if (project.id === 1) {
         conciseDescription = "재능대학교 캠퍼스를 3D로 구현한 웹 플랫폼. 학생들이 강의실을 예약하고 각 건물의 이벤트·캠페인 정보를 시각적으로 확인할 수 있습니다.";
@@ -1048,7 +988,6 @@ function createProjectModal(project) {
             .trim();
     }
     
-    // 간결한 대상 사용자 (2-3줄)
     let conciseTargetUsers = project.targetUsers;
     if (project.id === 1) {
         conciseTargetUsers = "재능대학교 학생과 방문객. 특히 처음 학교에 오는 신입생들이 복잡한 캠퍼스 건물을 쉽게 찾고, 강의실도 간편하게 예약할 수 있습니다.";
@@ -1081,7 +1020,7 @@ function createProjectModal(project) {
         
         reflectionHTML = `
             <div class="bg-gradient-to-r ${theme.reflectionGradient} p-4 md:p-6 rounded-lg border-l-4 ${theme.reflectionBorder} reflection-box modal-section" data-section="reflection">
-                <h4 class="font-semibold ${theme.textColor}">📊 성과 및 배운 점</h4>
+                <h4 class="font-semibold ${theme.textColor}"><span>📊</span> 성과 및 배운 점</h4>
                 <div class="mb-5">
                     <h5 class="font-semibold text-gray-800">주요 성과</h5>
                     <ul class="list-none space-y-2">
@@ -1095,7 +1034,6 @@ function createProjectModal(project) {
             </div>
         `;
     } else {
-        // 기존 형식 (문자열) - 하위 호환성 유지
         let conciseReflection = project.reflection || '';
         if (typeof conciseReflection === 'string') {
             conciseReflection = conciseReflection.split('.').filter(s => s.trim()).slice(0, 2).join('.') + '.';
@@ -1103,13 +1041,12 @@ function createProjectModal(project) {
         
         reflectionHTML = `
             <div class="bg-gradient-to-r ${theme.reflectionGradient} p-4 md:p-6 rounded-lg border-l-4 ${theme.reflectionBorder} reflection-box modal-section" data-section="reflection">
-                <h4 class="font-semibold ${theme.textColor}">💬 회고</h4>
+                <h4 class="font-semibold ${theme.textColor}"><span>💬</span> 회고</h4>
                 <p class="text-gray-700 leading-relaxed">${conciseReflection}</p>
             </div>
         `;
     }
     
-    // 기술적 문제 해결 섹션
     const technicalTroubleshootingHTML = createTechnicalTroubleshooting(project, theme);
 
     return `
@@ -1117,18 +1054,15 @@ function createProjectModal(project) {
             <div class="bg-white rounded-lg md:rounded-xl shadow-2xl max-w-4xl w-full max-w-none sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container">
                 <div class="bg-gradient-to-r ${theme.gradient} h-2"></div>
                 <div class="overflow-y-auto flex-1 p-4 md:p-6">
-                    <!-- Header - 모바일 최적화 -->
                     <div class="sticky top-0 bg-white z-10 pb-2 mb-4 md:mb-6 md:static md:pb-0 modal-section" data-section="header">
                         <div class="flex justify-between items-start">
                             <div class="flex-1 pr-2">
                                 <h3 class="font-semibold ${theme.text} title-emphasis">${project.title}</h3>
                                 <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 md:gap-3">
                                     ${(() => {
-                                        // 팀 프로젝트: id 1, 5, 6
                                         const isTeamProject = [1, 5, 6].includes(project.id);
                                         let teamRole = '';
                                         if (isTeamProject) {
-                                            // contribution에서 역할 추출 (간단한 버전)
                                             if (project.id === 1) {
                                                 teamRole = '프론트엔드 전체 구현 / 백엔드 연동 / UI 기획 및 디버깅 주도';
                                             } else if (project.id === 5) {
@@ -1148,11 +1082,9 @@ function createProjectModal(project) {
                         </div>
                     </div>
                     
-                    <!-- GitHub 버튼 - 상단 고정 (githubUrl이 있을 때만 표시) -->
                     ${linksHTML}
                     
                     ${project.id === 1 ? `
-                        <!-- JEIU 캠퍼스 참고 설명 (링크 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
                             <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 border-sky-400">
                                 <strong>📝 참고:</strong> 이 프로젝트는 <strong>로컬(Node.js + MySQL)</strong>에서 재현 가능하도록 공개했으며, <br>운영 리소스 이슈로 <strong>Live Demo는 현재 제공하지 않습니다.</strong> 실행 방법은 GitHub README를 참고해주세요.
@@ -1161,7 +1093,6 @@ function createProjectModal(project) {
                     ` : ''}
                     
                     ${project.id === 3 ? `
-                        <!-- 미로게임 참고 설명 (GitHub 버튼 아래) -->
                         <div class="mb-4 md:mb-6">
                             <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 border-purple-400">
                                 <strong>📝 참고:</strong> 이 게임은 포트폴리오 웹사이트에 내장된 데모입니다. GitHub 링크는 포트폴리오 웹 저장소를 가리키며, 게임 소스 코드는 <code class="px-1 py-0.5 bg-gray-200 rounded text-xs">Projects/3D_Maze/maze-game.js</code>에서 확인하실 수 있습니다.
@@ -1169,18 +1100,15 @@ function createProjectModal(project) {
                         </div>
                     ` : ''}
                     
-                    <!-- Hero Summary - 모든 프로젝트 동일 UI -->
                     ${heroSummaryHTML}
                     
-                    <!-- 1) 프로젝트 개요 / 요약 - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="modal-section" data-section="overview">
                         <h4 class="font-semibold ${theme.textColor}">프로젝트 개요</h4>
                         <p class="text-gray-700 leading-relaxed line-clamp-3 md:line-clamp-none">${conciseDescription}</p>
                     </div>
                     
-                    <!-- 2) 주요 기능 (bullet list) - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="modal-section" data-section="features">
-                        <h4 class="font-semibold ${theme.textColor}">📌 주요 기능</h4>
+                        <h4 class="font-semibold ${theme.textColor}"><span>📌</span> 주요 기능</h4>
                         ${project.id === 5 ? `
                             <ul class="list-none text-gray-700 space-y-3">
                                 ${project.mainFeatures.map(feature => {
@@ -1208,26 +1136,22 @@ function createProjectModal(project) {
                         ` : mainFeaturesHTML}
                     </div>
                     
-                    <!-- 3) Media (image or video) - 모든 프로젝트 동일 순서 -->
                     ${videosHTML}
                     ${!videosHTML && imagesHTML ? imagesHTML : ''}
                     ${videosHTML && imagesHTML ? imagesHTML.replace('data-section="media"', 'data-section="media-images"') : ''}
                     
-                    <!-- Gameplay / Screenshot (게임 프로젝트의 경우) -->
                     ${project.id === 3 && project.hasSpecialContent ? `
                         <div class="modal-section" data-section="gameplay">
-                            <h4 class="font-semibold ${theme.textColor}">🎮 게임 플레이</h4>
+                            <h4 class="font-semibold ${theme.textColor}"><span>🎮</span> 게임 플레이</h4>
                             ${specialContentHTML}
                             <p class="text-center text-gray-600 mt-3">방향키 또는 마우스로 판을 기울여 공을 굴리세요!</p>
                         </div>
                     ` : ''}
                     
-                    <!-- Unity Game (Unity 게임 프로젝트의 경우) -->
                     ${project.hasSpecialContent && project.specialContentType === 'unity-game' ? specialContentHTML : ''}
                     
-                    <!-- 4) 사용 기술 & 왜 이 기술을 썼나요? - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="modal-section" data-section="technologies">
-                        <h4 class="font-semibold ${theme.textColor}">🔧 사용 기술</h4>
+                        <h4 class="font-semibold ${theme.textColor}"><span>🔧</span> 사용 기술</h4>
                         ${project.id === 5 ? createGroupedTechStack(project, theme) : (() => {
                             if (!Array.isArray(project.technologies) || project.technologies.length === 0) {
                                 return '<div class="flex flex-wrap gap-2 mb-3 md:mb-4"></div>';
@@ -1236,7 +1160,6 @@ function createProjectModal(project) {
                             const techs = project.technologies;
                             const totalCount = techs.length;
                             
-                            // 기술이 6개 이하면 한 줄로 표시
                             if (totalCount <= 6) {
                                 return `
                                     <div class="flex flex-wrap gap-2 mb-3 md:mb-4">
@@ -1287,22 +1210,18 @@ function createProjectModal(project) {
                         ` : ''}
                     </div>
                     
-                    <!-- 5) 기술적 문제 해결 - 모든 프로젝트 동일 구조 -->
                     ${technicalTroubleshootingHTML}
                     
-                    <!-- 6) 대상 사용자 - 모든 프로젝트 동일 (모바일 최적화) -->
                     <div class="modal-section" data-section="target-users">
-                        <h4 class="font-semibold ${theme.textColor}">👥 대상 사용자</h4>
+                        <h4 class="font-semibold ${theme.textColor}"><span>👥</span> 대상 사용자</h4>
                         <p class="text-gray-700 leading-relaxed">${conciseTargetUsers}</p>
                     </div>
                     
-                    <!-- 7) 회고 - 모든 프로젝트 동일 -->
                     ${reflectionHTML}
                     
-                    <!-- 8) 프로젝트 자료 (PDF) - Bilingual Buddy 프로젝트만 특별히 추가 -->
                     ${project.pdfPath ? `
                         <div class="modal-section" data-section="pdf">
-                            <h4 class="font-semibold ${theme.textColor}">📄 프로젝트 자료</h4>
+                            <h4 class="font-semibold ${theme.textColor}"><span>📄</span> 프로젝트 자료</h4>
                             <div class="bg-gray-100 rounded-lg md:rounded-xl overflow-hidden shadow-md">
                                 <div class="p-2 md:p-3 bg-gray-200 border-b border-gray-300 flex items-center justify-between">
                                     <span class="font-medium text-gray-700">${project.title}</span>
@@ -1323,12 +1242,10 @@ function createProjectModal(project) {
     `;
 }
 
-// 프로젝트 카드 렌더링
 function renderProjectCards() {
     const container = document.getElementById('projects-container');
     if (!container) return;
     
-    // featured=true인 프로젝트를 항상 먼저 배치하고, 나머지는 원래 순서를 유지
     const sortedProjects = projectsData
         .map((project, index) => ({ ...project, _originalIndex: index }))
         .sort((a, b) => {
@@ -1339,17 +1256,14 @@ function renderProjectCards() {
         })
         .map(({ _originalIndex, ...rest }) => rest);
     
-    // 프로젝트 컨테이너 초기 숨김
     container.style.opacity = '0';
     container.style.visibility = 'hidden';
-    container.style.pointerEvents = 'auto'; // 클릭 가능하도록 설정
+    container.style.pointerEvents = 'auto';
     
     container.innerHTML = sortedProjects.map((project, index) => createProjectCard(project, index)).join('');
     
-    // 카드 클릭 이벤트 추가 - 각 카드에 직접 이벤트 리스너 추가 (더 확실한 방법)
     const cards = container.querySelectorAll('.project-card-preview');
     cards.forEach(card => {
-        // 기존 이벤트 리스너 제거 (중복 방지)
         const existingHandler = card._clickHandler;
         if (existingHandler) {
             card.removeEventListener('click', existingHandler);
@@ -1364,30 +1278,26 @@ function renderProjectCards() {
             }
         };
         
-        card._clickHandler = clickHandler; // 참조 저장
+        card._clickHandler = clickHandler;
         card.addEventListener('click', clickHandler);
     });
     
-    // 스크롤 애니메이션 초기화
     initProjectCardAnimations();
     
-    // 동적으로 추가된 카드에 대한 애니메이션 재초기화
     if (typeof window.reinitAnimations === 'function') {
         setTimeout(() => {
             window.reinitAnimations();
         }, 100);
     }
     
-    // 프로젝트 컨테이너 표시
     requestAnimationFrame(() => {
         container.style.transition = 'opacity 0.3s ease-in, visibility 0.3s ease-in';
         container.style.opacity = '1';
         container.style.visibility = 'visible';
-        container.style.pointerEvents = 'auto'; // 클릭 가능하도록 명시적 설정
+        container.style.pointerEvents = 'auto';
     });
 }
 
-// 모달 열 때 스크롤을 맨 위로 리셋
 function resetModalScroll(modal) {
     const scrollContainer = modal.querySelector('.overflow-y-auto');
     if (scrollContainer) {
@@ -1395,12 +1305,10 @@ function resetModalScroll(modal) {
     }
 }
 
-// 프로젝트 카드 스크롤 애니메이션
 function initProjectCardAnimations() {
     const cards = document.querySelectorAll('.project-card-item');
     if (cards.length === 0) return;
     
-    // Intersection Observer 설정
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -50px 0px',
@@ -1410,33 +1318,28 @@ function initProjectCardAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                // Staggered 애니메이션 적용
                 setTimeout(() => {
                     entry.target.classList.add('visible');
-                }, index * 100); // 각 카드마다 100ms 지연
+                }, index * 100);
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
     
-    // 각 카드 관찰 시작
     cards.forEach(card => {
         observer.observe(card);
     });
 }
 
-// 프로젝트 모달 표시
 function showProjectModal(projectId) {
     const project = projectsData.find(p => p.id === projectId);
     if (!project) return;
     
-    // 기존 모달 제거
     const existingModal = document.querySelector('.project-modal');
     if (existingModal) {
         existingModal.remove();
     }
     
-    // 새 모달 생성
     const modalHTML = createProjectModal(project);
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     
@@ -1444,19 +1347,16 @@ function showProjectModal(projectId) {
     const overlay = modal;
     const container = modal.querySelector('.modal-container');
     
-    // 모달 닫기 이벤트
     modal.querySelector('.close-modal').addEventListener('click', () => {
         closeProjectModal(projectId);
     });
     
-    // 배경 클릭 시 닫기
     modal.addEventListener('click', function(e) {
         if (e.target === this) {
             closeProjectModal(projectId);
         }
     });
     
-    // ESC 키로 닫기
     const escHandler = (e) => {
         if (e.key === 'Escape') {
             closeProjectModal(projectId);
@@ -1465,47 +1365,46 @@ function showProjectModal(projectId) {
     };
     document.addEventListener('keydown', escHandler);
     
-    // body 스크롤 방지
     document.body.style.overflow = 'hidden';
     
-    // 모달 표시 애니메이션 - Framer Motion 스타일 (모바일 최적화)
-    // Backdrop: opacity 0 → 1, duration ~0.2s
-    // Modal panel: opacity 0 → 1, scale 0.97 → 1, y 8 → 0 (모바일: y 4 → 0), duration ~0.25s (모바일: ~0.2s), easeOut
     const isMobile = window.innerWidth < 768;
-    const yDistance = isMobile ? 4 : 8;
-    const duration = isMobile ? 0.2 : 0.25;
     
-    // 초기 상태 설정
-    overlay.style.opacity = '0';
-    overlay.style.pointerEvents = 'auto';
-    container.style.opacity = '0';
-    container.style.transform = `scale(0.97) translateY(${yDistance}px)`;
-    container.style.pointerEvents = 'auto';
-    
-    // 애니메이션 적용
-    requestAnimationFrame(() => {
-        overlay.style.transition = 'opacity 0.2s ease-out';
-        container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+    // 모바일에서는 애니메이션 없이 즉시 표시하여 성능 개선
+    if (isMobile) {
+        overlay.style.opacity = '1';
+        overlay.style.pointerEvents = 'auto';
+        container.style.opacity = '1';
+        container.style.transform = 'none';
+        container.style.pointerEvents = 'auto';
+        overlay.style.transition = 'none';
+        container.style.transition = 'none';
+    } else {
+        const yDistance = 8;
+        const duration = 0.25;
+        
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'auto';
+        container.style.opacity = '0';
+        container.style.transform = `scale(0.97) translateY(${yDistance}px)`;
+        container.style.pointerEvents = 'auto';
         
         requestAnimationFrame(() => {
-            overlay.style.opacity = '1';
-            container.style.opacity = '1';
-            container.style.transform = 'scale(1) translateY(0)';
+            overlay.style.transition = 'opacity 0.2s ease-out';
+            container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+            
+            requestAnimationFrame(() => {
+                overlay.style.opacity = '1';
+                container.style.opacity = '1';
+                container.style.transform = 'scale(1) translateY(0)';
+            });
         });
-    });
+    }
     
-    // 모달 스크롤 리셋
     resetModalScroll(modal);
-    
-    // 섹션 스크롤 reveal 애니메이션
     initModalSectionAnimations(modal);
-    
-    // Accordion 기능 초기화 - 모든 프로젝트 동일
     initTroubleshootingAccordions(modal);
     
-    // 게임 초기화 (해당하는 경우)
     if (project.hasSpecialContent && project.specialContentType === 'game') {
-        // 게임은 모달 내에서 별도로 초기화 필요
         setTimeout(() => {
             const canvasId = `modal-maze-game-${projectId}`;
             const containerId = `modal-game-container-${projectId}`;
@@ -1514,9 +1413,7 @@ function showProjectModal(projectId) {
             const instructionsId = `modal-game-instructions-${projectId}`;
             const pauseId = `modal-pause-toggle-${projectId}`;
             
-            // 게임 요소가 존재하는지 확인
             if (document.getElementById(canvasId) && document.getElementById(containerId)) {
-                // initGame 함수가 전역 스코프에 있는지 확인 후 호출
                 if (typeof initGame === 'function') {
                     initGame(canvasId, containerId, timerId, levelId, instructionsId, pauseId);
                 } else {
@@ -1525,13 +1422,11 @@ function showProjectModal(projectId) {
             }
         }, 200);
     } else if (project.hasSpecialContent && project.specialContentType === 'unity-game') {
-        // Unity 게임 초기화
         setTimeout(() => {
             initUnityGame(projectId, project.unityGamePath);
         }, 300);
     }
     
-    // 이미지만 있는 경우 Swiper 초기화
     const hasOnlyImages = project.images && project.images.length > 0 && !project.videos && !project.hasSpecialContent;
     if (hasOnlyImages && typeof Swiper !== 'undefined') {
         setTimeout(() => {
@@ -1607,7 +1502,6 @@ function showProjectModal(projectId) {
         });
     }, 100);
     
-    // PDF 렌더링 (Bilingual Buddy 프로젝트만)
     if (project.pdfPath && typeof window.renderPdfPages === 'function') {
         setTimeout(() => {
             const pdfContainerId = `project-pdf-container-${project.id}`;
@@ -1618,10 +1512,8 @@ function showProjectModal(projectId) {
     }
 }
 
-// Unity 게임 인스턴스 저장
 const unityInstances = {};
 
-// Unity 게임 초기화 함수
 function initUnityGame(projectId, gamePath) {
     const container = document.getElementById(`unity-game-container-${projectId}`);
     const canvasContainer = document.getElementById(`unity-canvas-container-${projectId}`);
@@ -1633,7 +1525,6 @@ function initUnityGame(projectId, gamePath) {
         return;
     }
     
-    // 기존 인스턴스가 있으면 정리
     if (unityInstances[projectId]) {
         try {
             unityInstances[projectId].Quit().then(() => {
@@ -1652,18 +1543,15 @@ function initUnityGame(projectId, gamePath) {
     canvas.style.display = 'block';
     canvas.style.objectFit = 'contain';
     canvas.style.maxWidth = '100%';
-    canvas.style.maxHeight = '80vh';
+    canvas.style.maxHeight = '100%';
     canvas.style.margin = '0 auto';
     canvas.setAttribute('tabindex', '-1');
     canvasContainer.innerHTML = '';
     canvasContainer.appendChild(canvas);
     
-    // Unity 로더 스크립트 로드
-    // 실제 빌드 구조: Projects/Bullet_Game/Build/Build/Build.loader.js
     const buildUrl = gamePath + "/Build";
     const loaderUrl = buildUrl + "/Build.loader.js";
     
-    // 기존 스크립트가 있으면 제거
     const existingScript = document.querySelector(`script[data-unity-loader="${projectId}"]`);
     if (existingScript) {
         existingScript.remove();
@@ -1674,7 +1562,6 @@ function initUnityGame(projectId, gamePath) {
     script.setAttribute('data-unity-loader', projectId);
     
     script.onload = () => {
-        // 압축 해제된(Disabled) 빌드 파일 사용
         const config = {
             dataUrl: buildUrl + "/Build.data",
             frameworkUrl: buildUrl + "/Build.framework.js",
@@ -1708,11 +1595,9 @@ function initUnityGame(projectId, gamePath) {
             }
         };
         
-        // 모바일/데스크톱 모두 비율 유지하며 전체 표시
         canvas.style.width = '100%';
         canvas.style.height = '100%';
         
-        // Unity 인스턴스 생성
         createUnityInstance(canvas, config, (progress) => {
             if (progressBar) {
                 progressBar.style.width = (100 * progress) + '%';
@@ -1720,21 +1605,18 @@ function initUnityGame(projectId, gamePath) {
         }).then((unityInstance) => {
             unityInstances[projectId] = unityInstance;
             
-            // Unity 게임이 완전히 초기화될 때까지 대기
-            // 게임 씬이 로드되고 UI 요소가 준비될 시간을 줍니다
             setTimeout(() => {
                 if (loadingBar) {
                     loadingBar.style.display = 'none';
                 }
                 console.log('Unity 게임이 준비되었습니다.');
-            }, 1000); // 1초 대기 (Unity 씬 로드 및 초기화 시간)
+            }, 1000);
         }).catch((message) => {
             console.error('Unity 게임 로드 실패:', message);
             if (loadingBar) {
                 let errorMessage = message;
                 let solutionText = '';
                 
-                // gzip 관련 오류인지 확인
                 if (typeof message === 'string' && (message.includes('gzip') || message.includes('Content-Encoding'))) {
                     solutionText = `
                         <div class="mt-4 p-3 bg-yellow-900/30 rounded border border-yellow-700/50">
@@ -1788,25 +1670,21 @@ function cleanupUnityGame(projectId) {
         }
     }
     
-    // 로더 스크립트 제거
     const loaderScript = document.querySelector(`script[data-unity-loader="${projectId}"]`);
     if (loaderScript) {
         loaderScript.remove();
     }
 }
 
-// 프로젝트 모달 닫기 - Framer Motion 스타일 (모바일 최적화)
 function closeProjectModal(projectId) {
     const modal = document.querySelector(`.project-modal[data-project-id="${projectId}"]`);
     if (modal) {
         const project = projectsData.find(p => p.id === projectId);
         
-        // Unity 게임 정리
         if (project && project.hasSpecialContent && project.specialContentType === 'unity-game') {
             cleanupUnityGame(projectId);
         }
         
-        // PDF Swiper 인스턴스 정리
         const pdfContainerId = `project-pdf-container-${projectId}`;
         if (typeof window.pdfSwiperInstances !== 'undefined' && window.pdfSwiperInstances[pdfContainerId]) {
             try {
@@ -1817,7 +1695,6 @@ function closeProjectModal(projectId) {
             delete window.pdfSwiperInstances[pdfContainerId];
         }
         
-        // Swiper 인스턴스 정리 (이미지 갤러리)
         const swiperElement = modal.querySelector(`.project-images-swiper-${projectId}`);
         if (swiperElement && swiperElement.swiper) {
             try {
@@ -1833,8 +1710,6 @@ function closeProjectModal(projectId) {
         const yDistance = isMobile ? 4 : 8;
         const duration = isMobile ? 0.2 : 0.25;
         
-        // Backdrop: opacity 1 → 0, duration ~0.2s
-        // Modal panel: opacity 1 → 0, scale 1 → 0.97, y 0 → 8 (모바일: y 0 → 4), duration ~0.25s (모바일: ~0.2s), easeOut
         overlay.style.transition = 'opacity 0.2s ease-out';
         container.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1), transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
         
@@ -1849,13 +1724,22 @@ function closeProjectModal(projectId) {
     }
 }
 
-// 모달 섹션 스크롤 reveal 애니메이션 - 모바일 최적화
-// opacity 0 → 1, y 16 → 0 (모바일: y 8 → 0), duration ~0.25s (모바일: ~0.2s), easeOut, once per section
 function initModalSectionAnimations(modal) {
     const sections = modal.querySelectorAll('.modal-section');
     const isMobile = window.innerWidth < 768;
-    const yDistance = isMobile ? 8 : 16;
-    const duration = isMobile ? 0.2 : 0.25;
+    
+    // 모바일에서는 섹션 애니메이션 비활성화하여 스크롤 성능 개선
+    if (isMobile) {
+        sections.forEach((section) => {
+            section.style.opacity = '1';
+            section.style.transform = 'none';
+            section.style.transition = 'none';
+        });
+        return;
+    }
+    
+    const yDistance = 16;
+    const duration = 0.25;
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -1878,7 +1762,6 @@ function initModalSectionAnimations(modal) {
     });
 }
 
-// Collapsible Challenges 초기화 (여기몰까 프로젝트용)
 function initCollapsibleChallenges(modal) {
     const toggles = modal.querySelectorAll('.challenge-toggle');
     
@@ -1894,7 +1777,6 @@ function initCollapsibleChallenges(modal) {
             const isHidden = content.classList.contains('hidden');
             
             if (isHidden) {
-                // 열기
                 content.classList.remove('hidden');
                 content.style.maxHeight = '0';
                 content.style.overflow = 'hidden';
@@ -1930,7 +1812,6 @@ function initCollapsibleChallenges(modal) {
     });
 }
 
-// Troubleshooting Accordion 초기화
 function initTroubleshootingAccordions(modal) {
     const toggles = modal.querySelectorAll('.troubleshooting-toggle');
     
@@ -1945,7 +1826,6 @@ function initTroubleshootingAccordions(modal) {
             const isHidden = content.classList.contains('hidden');
             
             if (isHidden) {
-                // 열기
                 content.classList.remove('hidden');
                 content.style.maxHeight = '0';
                 content.style.overflow = 'hidden';
@@ -1959,7 +1839,6 @@ function initTroubleshootingAccordions(modal) {
                 
                 arrow.style.transform = 'rotate(180deg)';
             } else {
-                // 닫기
                 content.style.maxHeight = content.scrollHeight + 'px';
                 content.style.opacity = '1';
                 
@@ -1978,7 +1857,6 @@ function initTroubleshootingAccordions(modal) {
     });
 }
 
-// 페이지 로드 시 프로젝트 카드 렌더링
 document.addEventListener('DOMContentLoaded', function() {
     renderProjectCards();
 });

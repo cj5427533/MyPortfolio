@@ -1,7 +1,5 @@
-// Framer Motion 스타일 애니메이션 헬퍼 함수들
-// React 없이도 사용할 수 있도록 Intersection Observer와 CSS transitions를 활용
+// 애니메이션 헬퍼 함수들
 
-// Fade In On Scroll 애니메이션
 function initFadeInOnScroll(selector, options = {}) {
     const {
         threshold = 0.1,
@@ -33,7 +31,6 @@ function initFadeInOnScroll(selector, options = {}) {
     });
 }
 
-// Stagger Children 애니메이션
 function initStaggerChildren(parentSelector, childSelector, options = {}) {
     const {
         staggerDelay = 0.1,
@@ -71,7 +68,6 @@ function initStaggerChildren(parentSelector, childSelector, options = {}) {
     });
 }
 
-// Hover Scale 애니메이션
 function initHoverScale(selector, options = {}) {
     const {
         scale = 1.03,
@@ -81,7 +77,6 @@ function initHoverScale(selector, options = {}) {
     const elements = document.querySelectorAll(selector);
     
     elements.forEach((el) => {
-        // 기존 transition이 있으면 유지, 없으면 추가
         const existingTransition = el.style.transition || '';
         el.style.transition = `${existingTransition ? existingTransition + ', ' : ''}transform ${duration}s ease-out`;
         
@@ -89,7 +84,6 @@ function initHoverScale(selector, options = {}) {
             el.style.transform = `scale(${scale})`;
         });
         
-        // Tap/Click 효과
         el.addEventListener('mousedown', () => {
             el.style.transform = `scale(${scale * 0.97})`;
         });
@@ -108,7 +102,6 @@ function initHoverScale(selector, options = {}) {
     });
 }
 
-// Hover Lift 애니메이션 (y축 이동 + shadow)
 function initHoverLift(selector, options = {}) {
     const {
         yOffset = -4,
@@ -119,7 +112,6 @@ function initHoverLift(selector, options = {}) {
     const elements = document.querySelectorAll(selector);
     
     elements.forEach((el) => {
-        // 기존 transition이 있으면 유지, 없으면 추가
         const existingTransition = el.style.transition || '';
         el.style.transition = `${existingTransition ? existingTransition + ', ' : ''}transform ${duration}s ease-out, box-shadow ${duration}s ease-out`;
         
@@ -135,7 +127,6 @@ function initHoverLift(selector, options = {}) {
     });
 }
 
-// Slide In From Left 애니메이션
 function initSlideInLeft(selector, options = {}) {
     const {
         threshold = 0.1,
@@ -163,7 +154,6 @@ function initSlideInLeft(selector, options = {}) {
     });
 }
 
-// Image Zoom on Hover (container에 overflow-hidden 필요)
 function initImageZoom(selector, options = {}) {
     const {
         scale = 1.05,
@@ -185,9 +175,7 @@ function initImageZoom(selector, options = {}) {
     });
 }
 
-// data-animate 속성을 기반으로 자동 애니메이션 초기화
 function initAnimationsFromAttributes() {
-    // Fade In 애니메이션
     const fadeInElements = document.querySelectorAll('[data-animate="fade-in"]');
     fadeInElements.forEach((el, index) => {
         el.style.opacity = '0';
@@ -209,7 +197,6 @@ function initAnimationsFromAttributes() {
         observer.observe(el);
     });
 
-    // Stagger Parent 애니메이션
     const staggerParents = document.querySelectorAll('[data-animate="stagger-parent"]');
     staggerParents.forEach((parent) => {
         const children = parent.querySelectorAll('[data-animate="stagger-child"]');
@@ -238,7 +225,6 @@ function initAnimationsFromAttributes() {
         observer.observe(parent);
     });
 
-    // Stagger Child (개별 인덱스 기반)
     const staggerChildren = document.querySelectorAll('[data-animate="stagger-child"][data-stagger-index]');
     if (staggerChildren.length > 0) {
         const parent = staggerChildren[0].closest('[data-animate="fade-in"], [data-animate="stagger-parent"]');
@@ -268,7 +254,6 @@ function initAnimationsFromAttributes() {
         }
     }
 
-    // Slide In Left 애니메이션
     const slideInLeftElements = document.querySelectorAll('[data-animate="slide-in-left"]');
     slideInLeftElements.forEach((el) => {
         el.style.opacity = '0';
@@ -289,7 +274,6 @@ function initAnimationsFromAttributes() {
     });
 }
 
-// 터치 리플 효과 (Material Design 스타일)
 function initRippleEffect(selector = 'body', options = {}) {
     const {
         color = 'rgba(255, 255, 255, 0.6)',
@@ -298,8 +282,6 @@ function initRippleEffect(selector = 'body', options = {}) {
 
     function createRipple(event) {
         const element = event.currentTarget;
-        
-        // 터치 이벤트인 경우
         const clientX = event.touches ? event.touches[0].clientX : event.clientX;
         const clientY = event.touches ? event.touches[0].clientY : event.clientY;
         
@@ -324,7 +306,6 @@ function initRippleEffect(selector = 'body', options = {}) {
             z-index: 1000;
         `;
         
-        // 기존 리플 제거
         const existingRipples = element.querySelectorAll('.ripple-effect');
         existingRipples.forEach(r => r.remove());
         
@@ -333,13 +314,11 @@ function initRippleEffect(selector = 'body', options = {}) {
         element.style.overflow = 'hidden';
         element.appendChild(ripple);
         
-        // 애니메이션 완료 후 제거
         setTimeout(() => {
             ripple.remove();
         }, duration);
     }
 
-    // 선택된 요소들에 리플 효과 적용
     const elements = document.querySelectorAll(selector);
     elements.forEach(el => {
         el.addEventListener('click', createRipple);
@@ -347,42 +326,32 @@ function initRippleEffect(selector = 'body', options = {}) {
     });
 }
 
-// 모든 애니메이션 초기화
 function initAllAnimations() {
-    // data-animate 속성 기반 자동 초기화 (가장 먼저 실행)
     initAnimationsFromAttributes();
     
-    // 프로젝트 카드 애니메이션 (동적으로 생성되므로 별도 처리)
     initFadeInOnScroll('.project-card-item', { threshold: 0.3, duration: 0.35, yOffset: 24 });
-    
-    // Awards cards (동적으로 생성될 수 있으므로 별도 처리)
     initFadeInOnScroll('.award-card', { threshold: 0.3, duration: 0.35, yOffset: 24 });
     
-    // Hover 애니메이션 (항상 적용)
     initHoverScale('.cta-button', { scale: 1.03, duration: 0.2 });
     initHoverLift('.project-card-preview', { yOffset: -4, scale: 1.01, duration: 0.3 });
     initHoverScale('.skill-pill-strong', { scale: 1.04, duration: 0.2 });
     initHoverLift('.award-card', { yOffset: -4, scale: 1.01, duration: 0.3 });
     initHoverScale('.submit-button', { scale: 1.03, duration: 0.2 });
     
-    // 프로젝트 이미지 zoom (overflow-hidden이 있는 컨테이너 내부)
     initImageZoom('.project-image-container .project-image', { scale: 1.05, duration: 0.3 });
     
-    // 터치 리플 애니메이션
     initRippleEffect('button, a, .cta-button, .submit-button, .project-card-preview, .award-card', {
         color: 'rgba(14, 165, 233, 0.4)',
         duration: 600
     });
 }
 
-// DOM 로드 완료 시 초기화
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAllAnimations);
 } else {
     initAllAnimations();
 }
 
-// 동적으로 추가된 요소를 위한 재초기화 함수
 window.reinitAnimations = function() {
     initAllAnimations();
 };

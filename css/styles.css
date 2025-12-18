@@ -1,6 +1,9 @@
 /* 전체 글씨체 조정 */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* 한글 텍스트 단어 단위 줄바꿈 처리 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
 }
 
 /* 배경 패턴 */
@@ -409,6 +412,9 @@ body {
 .modal-container {
     will-change: opacity, transform;
     pointer-events: auto;
+    /* 모바일 성능 최적화 */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 /* 모달 스크롤 */
@@ -445,6 +451,17 @@ body {
     letter-spacing: -0.01em;
     margin-bottom: 0.75rem; /* 12px */
     line-height: 1.5;
+    /* 이모지와 텍스트 일자 정렬 */
+    display: flex;
+    align-items: center;
+    gap: 0.375rem; /* 6px */
+}
+
+/* h4 내부의 이모지 span 정렬 최적화 */
+.modal-section h4 > span:first-child {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
@@ -522,6 +539,13 @@ body {
 /* 모달 섹션 애니메이션 */
 .modal-section {
     will-change: opacity, transform;
+}
+
+/* 모바일에서 모달 섹션 will-change 제거 (성능 최적화) */
+@media (max-width: 768px) {
+    .modal-section {
+        will-change: auto;
+    }
 }
 
 /* 여기몰까 프로젝트 특별 스타일 */
@@ -753,10 +777,15 @@ body {
     
     #hero-headline {
         font-size: 1.875rem;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+        line-height: 1.5;
     }
     
     #hero-tagline {
         font-size: 1.125rem;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
     
     .project-card-preview {
@@ -770,10 +799,33 @@ body {
     /* 모바일 모달 최적화 */
     .project-modal .modal-container {
         max-height: 90vh;
+        /* 모바일에서 will-change 제거하여 리플로우 최소화 */
+        will-change: auto;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    /* 모바일에서 backdrop-filter 제거 (성능 최적화) */
+    .modal-overlay {
+        backdrop-filter: none;
+        background-color: rgba(0, 0, 0, 0.5);
     }
     
     .project-modal .overflow-y-auto {
         -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+        /* 터치 스크롤 최적화 */
+        touch-action: pan-y;
+        /* 하드웨어 가속 */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    /* 모바일에서 모달 섹션 애니메이션 최적화 */
+    .modal-section {
+        will-change: auto;
+        /* 애니메이션 중에도 부드러운 스크롤 */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
     }
     
     /* 모바일에서 호버 애니메이션 비활성화 */
@@ -1070,4 +1122,90 @@ img[class*="swiper-slide"] img {
 .award-card iframe[src*=".pdf"] {
     background: transparent !important;
     background-color: transparent !important;
+}
+
+/* 게임 컨테이너 반응형 크기 조정 */
+.game-container-responsive {
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Unity 게임 컨테이너 반응형 크기 조정 */
+.unity-game-container-responsive {
+    max-width: min(1200px, 90vw) !important;
+    max-height: 70vh !important;
+}
+
+/* 모바일에서 게임 크기 조정 */
+@media (max-width: 768px) {
+    .game-container-responsive {
+        max-height: 60vh !important;
+        height: min(60vh, 400px) !important;
+    }
+    
+    .unity-game-container-responsive {
+        max-height: 60vh !important;
+        max-width: 95vw !important;
+    }
+}
+
+/* 작은 화면에서 게임 크기 추가 조정 */
+@media (max-width: 640px) {
+    .game-container-responsive {
+        max-height: 50vh !important;
+        height: min(50vh, 350px) !important;
+    }
+    
+    .unity-game-container-responsive {
+        max-height: 50vh !important;
+    }
+}
+
+/* 큰 화면에서도 적절한 크기 제한 */
+@media (min-width: 1920px) {
+    .unity-game-container-responsive {
+        max-width: 1200px !important;
+    }
+}
+
+/* 모바일 전용 스크롤 버튼 */
+.mobile-scroll-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    cursor: pointer;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    pointer-events: none;
+}
+
+.mobile-scroll-button.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.mobile-scroll-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+/* 모바일에서만 표시 */
+@media (min-width: 768px) {
+    .mobile-scroll-button {
+        display: none !important;
+    }
 } 
