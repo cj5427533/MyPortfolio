@@ -1446,18 +1446,30 @@
             
             // 모바일에서 배경 스크롤 방지
             if (isMobileDevice) {
-                // 현재 스크롤 위치 저장 (이미 저장되어 있을 수 있음)
+                // 현재 스크롤 위치를 여러 방법으로 저장 (안전장치)
                 document.body.dataset.awardScrollY = currentScrollY;
-                // position: fixed 설정 전에 스크롤 위치를 확실히 저장
+                document.body.dataset.awardPageScrollY = currentScrollY;
+                document.documentElement.dataset.awardScrollY = currentScrollY;
+                
+                // 스크롤을 먼저 고정 (position: fixed 전에)
+                window.scrollTo(0, currentScrollY);
+                
+                // position: fixed 설정
                 document.body.style.position = 'fixed';
                 document.body.style.top = `-${currentScrollY}px`;
                 document.body.style.width = '100%';
                 document.body.style.overflow = 'hidden';
-                // 스크롤 위치가 변경되지 않도록 즉시 확인
+                document.documentElement.style.overflow = 'hidden';
+                
+                // 스크롤 위치가 변경되지 않도록 여러 번 확인
                 requestAnimationFrame(() => {
-                    if (window.scrollY !== 0) {
-                        window.scrollTo(0, 0);
-                    }
+                    window.scrollTo(0, 0);
+                    requestAnimationFrame(() => {
+                        if (window.scrollY !== 0 || document.documentElement.scrollTop !== 0) {
+                            window.scrollTo(0, 0);
+                            document.documentElement.scrollTop = 0;
+                        }
+                    });
                 });
             } else {
                 // PC에서도 스크롤 위치 유지
@@ -1916,20 +1928,41 @@
                 
                 // 스크롤 위치 및 스타일 복원
                 if (isMobile) {
-                    const scrollY = document.body.dataset.awardScrollY || document.body.dataset.awardPageScrollY || '0';
+                    // 저장된 스크롤 위치를 여러 곳에서 확인
+                    const scrollY = parseInt(
+                        document.body.dataset.awardScrollY || 
+                        document.body.dataset.awardPageScrollY || 
+                        document.documentElement.dataset.awardScrollY || 
+                        '0', 
+                        10
+                    );
+                    
+                    // position: fixed 해제
                     document.body.style.position = '';
                     document.body.style.top = '';
                     document.body.style.width = '';
                     document.body.style.overflow = '';
-                    // 약간의 지연 후 스크롤 복원 (레이아웃 안정화 대기)
-                    setTimeout(() => {
-                        window.scrollTo(0, parseInt(scrollY, 10));
-                    }, 10);
+                    document.documentElement.style.overflow = '';
+                    
+                    // 데이터 속성 정리
                     delete document.body.dataset.awardScrollY;
                     delete document.body.dataset.awardPageScrollY;
+                    delete document.documentElement.dataset.awardScrollY;
+                    
+                    // 약간의 지연 후 스크롤 복원 (레이아웃 안정화 대기)
+                    setTimeout(() => {
+                        window.scrollTo(0, scrollY);
+                        document.documentElement.scrollTop = scrollY;
+                        // 한 번 더 확인
+                        requestAnimationFrame(() => {
+                            if (window.scrollY !== scrollY) {
+                                window.scrollTo(0, scrollY);
+                            }
+                        });
+                    }, 50);
                 } else {
                     // PC에서 스크롤바 관련 스타일 복원
-                    const savedScrollY = document.body.dataset.awardPageScrollY || window.scrollY;
+                    const savedScrollY = parseInt(document.body.dataset.awardPageScrollY || window.scrollY, 10);
                     document.body.style.overflow = '';
                     document.documentElement.style.overflow = '';
                     if (document.body.dataset.awardScrollbarWidth) {
@@ -1938,7 +1971,7 @@
                     }
                     // 저장된 스크롤 위치로 복원
                     setTimeout(() => {
-                        window.scrollTo(0, parseInt(savedScrollY, 10));
+                        window.scrollTo(0, savedScrollY);
                     }, 10);
                     delete document.body.dataset.awardPageScrollY;
                 }
