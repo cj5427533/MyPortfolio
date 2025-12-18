@@ -782,10 +782,35 @@ body {
         line-height: 1.5;
     }
     
+    /* 작은 모바일에서 헤드라인 폰트 크기 조정 */
+    @media (max-width: 640px) {
+        #hero-headline {
+            font-size: 1.5rem;
+            line-height: 1.4;
+        }
+    }
+    
     #hero-tagline {
         font-size: 1.125rem;
         word-break: keep-all;
         overflow-wrap: break-word;
+    }
+    
+    #typed-text {
+        display: inline-block;
+        max-width: 100%;
+        line-height: 1.6;
+    }
+    
+    /* 작은 모바일에서만 줄바꿈 표시 */
+    .mobile-only-br {
+        display: none;
+    }
+    
+    @media (max-width: 640px) {
+        .mobile-only-br {
+            display: inline;
+        }
     }
     
     .project-card-preview {

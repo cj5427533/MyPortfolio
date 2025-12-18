@@ -655,7 +655,10 @@ function createTechnicalTroubleshooting(project, theme) {
                                         <span>💡</span>
                                         <span>해결 과정</span>
                                     </span>
-                                    <span class="text-lg transition-transform duration-200" data-arrow>▼</span>
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 transition-all duration-200 text-gray-700 font-bold text-sm leading-none" data-arrow style="line-height: 1;">
+                                        <span class="plus-icon leading-none" style="line-height: 1;">+</span>
+                                        <span class="minus-icon hidden leading-none" style="line-height: 1;">−</span>
+                                    </span>
                                 </button>
                                 <div class="troubleshooting-content hidden pl-4 md:pl-5 mt-1.5" id="${accordionId}" data-mobile-collapsed="true">
                                     <div class="text-gray-700 leading-relaxed space-y-2">
@@ -706,8 +709,8 @@ function createProjectModal(project) {
             <ul class="list-none text-gray-700 space-y-2">
                 ${project.mainFeatures.slice(0, 5).map(feature => `
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>${feature}</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">${feature}</span>
                     </li>
                 `).join('')}
             </ul>
@@ -717,20 +720,20 @@ function createProjectModal(project) {
             mainFeaturesHTML = `
                 <ul class="list-none text-gray-700 space-y-2">
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>3D 미로 구조와 레벨 시스템</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">3D 미로 구조와 레벨 시스템</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>물리 기반 판 기울기 조작 (키보드·마우스·터치)</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">물리 기반 판 기울기 조작 (키보드·마우스·터치)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>실시간 충돌 감지 및 공 움직임 시뮬레이션</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">실시간 충돌 감지 및 공 움직임 시뮬레이션</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>레벨 진행 및 타이머 표시</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">레벨 진행 및 타이머 표시</span>
                     </li>
                 </ul>
             `;
@@ -738,20 +741,20 @@ function createProjectModal(project) {
             mainFeaturesHTML = `
                 <ul class="list-none text-gray-700 space-y-2">
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>이중언어 AI 튜터 (모국어 → 한국어 단계적 설명)</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">이중언어 AI 튜터 (모국어 → 한국어 단계적 설명)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>가정통신문 자동 번역·알림</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">가정통신문 자동 번역·알림</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>다국어 지원 (베트남어·중국어·우즈벡어·네팔어)</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">다국어 지원 (베트남어·중국어·우즈벡어·네팔어)</span>
                     </li>
                     <li class="flex items-start">
-                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none">✓</span>
-                        <span>정서·문화 멘토링 기능</span>
+                        <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                        <span class="flex-1">정서·문화 멘토링 기능</span>
                     </li>
                 </ul>
             `;
@@ -918,6 +921,11 @@ function createProjectModal(project) {
         specialContentHTML = `
             <div class="modal-section" data-section="unity-game">
                 <h4 class="font-semibold ${theme.textColor}"><span>🎮</span> 게임 플레이</h4>
+                <div class="mb-4 md:mb-6 mt-3">
+                    <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 ${theme.border}">
+                        <strong>📝 참고:</strong> 이 게임은 PC를 기준으로 만들어진 게임입니다. 모바일 환경에서는 최적의 경험을 제공하지 못할 수 있습니다.
+                    </p>
+                </div>
                 <div
                     class="w-full bg-gray-900 rounded-lg relative flex items-center justify-center unity-game-container-responsive"
                     id="unity-game-container-${project.id}"
@@ -1117,8 +1125,8 @@ function createProjectModal(project) {
                                     if (parts.length === 2) {
                                         return `
                                             <li class="flex items-start">
-                                                <span class="flex-shrink-0 mr-3 ${theme.check} leading-none">•</span>
-                                                <div>
+                                                <span class="flex-shrink-0 mr-3 ${theme.check} leading-none mt-0.5">•</span>
+                                                <div class="flex-1">
                                                     <span class="font-medium text-gray-900">${parts[0]}:</span>
                                                     <span>${parts[1]}</span>
                                                 </div>
@@ -1127,8 +1135,8 @@ function createProjectModal(project) {
                                     }
                                     return `
                                         <li class="flex items-start">
-                                            <span class="flex-shrink-0 mr-3 ${theme.check} leading-none">•</span>
-                                            <span>${feature}</span>
+                                            <span class="flex-shrink-0 mr-3 ${theme.check} leading-none mt-0.5">•</span>
+                                            <span class="flex-1">${feature}</span>
                                         </li>
                                     `;
                                 }).join('')}
@@ -1143,6 +1151,11 @@ function createProjectModal(project) {
                     ${project.id === 3 && project.hasSpecialContent ? `
                         <div class="modal-section" data-section="gameplay">
                             <h4 class="font-semibold ${theme.textColor}"><span>🎮</span> 게임 플레이</h4>
+                            <div class="mb-4 md:mb-6 mt-3">
+                                <p class="text-gray-600 p-3 bg-gray-50 rounded-lg border-l-4 ${theme.border}">
+                                    <strong>📝 참고:</strong> 이 게임은 PC를 기준으로 만들어진 게임입니다. 모바일 환경에서는 최적의 경험을 제공하지 못할 수 있습니다.
+                                </p>
+                            </div>
                             ${specialContentHTML}
                             <p class="text-center text-gray-600 mt-3">방향키 또는 마우스로 판을 기울여 공을 굴리세요!</p>
                         </div>
@@ -1201,8 +1214,8 @@ function createProjectModal(project) {
                                 <ul class="list-none text-gray-700 space-y-1.5">
                                     ${project.technologyRationale.map(item => `
                                         <li class="flex items-start">
-                                            <span class="inline-block mr-2 mt-1 ${theme.check}">•</span>
-                                            <span>${item}</span>
+                                            <span class="flex-shrink-0 mr-2 ${theme.check} leading-none mt-0.5">•</span>
+                                            <span class="flex-1">${item}</span>
                                         </li>
                                     `).join('')}
                                 </ul>
@@ -1365,9 +1378,20 @@ function showProjectModal(projectId) {
     };
     document.addEventListener('keydown', escHandler);
     
-    document.body.style.overflow = 'hidden';
-    
     const isMobile = window.innerWidth < 768;
+    
+    // 모바일에서 배경 스크롤 방지
+    if (isMobile) {
+        // 현재 스크롤 위치 저장
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        document.body.dataset.scrollY = scrollY;
+    } else {
+        document.body.style.overflow = 'hidden';
+    }
     
     // 모바일에서는 애니메이션 없이 즉시 표시하여 성능 개선
     if (isMobile) {
@@ -1420,6 +1444,7 @@ function showProjectModal(projectId) {
                     console.error('initGame 함수를 찾을 수 없습니다.');
                 }
             }
+            
         }, 200);
     } else if (project.hasSpecialContent && project.specialContentType === 'unity-game') {
         setTimeout(() => {
@@ -1719,7 +1744,19 @@ function closeProjectModal(projectId) {
         
         setTimeout(() => {
             modal.remove();
-            document.body.style.overflow = '';
+            
+            // 모바일에서 스크롤 위치 복원
+            if (isMobile) {
+                const scrollY = document.body.dataset.scrollY || '0';
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.overflow = '';
+                window.scrollTo(0, parseInt(scrollY, 10));
+                delete document.body.dataset.scrollY;
+            } else {
+                document.body.style.overflow = '';
+            }
         }, duration * 1000);
     }
 }
@@ -1820,6 +1857,8 @@ function initTroubleshootingAccordions(modal) {
             const accordionId = toggle.getAttribute('data-accordion-id');
             const content = document.getElementById(accordionId);
             const arrow = toggle.querySelector('[data-arrow]');
+            const plusIcon = arrow?.querySelector('.plus-icon');
+            const minusIcon = arrow?.querySelector('.minus-icon');
             
             if (!content) return;
             
@@ -1837,7 +1876,9 @@ function initTroubleshootingAccordions(modal) {
                     content.style.opacity = '1';
                 });
                 
-                arrow.style.transform = 'rotate(180deg)';
+                // + 버튼을 - 버튼으로 변경
+                if (plusIcon) plusIcon.classList.add('hidden');
+                if (minusIcon) minusIcon.classList.remove('hidden');
             } else {
                 content.style.maxHeight = content.scrollHeight + 'px';
                 content.style.opacity = '1';
@@ -1851,7 +1892,9 @@ function initTroubleshootingAccordions(modal) {
                     content.classList.add('hidden');
                 }, 300);
                 
-                arrow.style.transform = 'rotate(0deg)';
+                // - 버튼을 + 버튼으로 변경
+                if (plusIcon) plusIcon.classList.remove('hidden');
+                if (minusIcon) minusIcon.classList.add('hidden');
             }
         });
     });
