@@ -1439,64 +1439,24 @@
             const modal = document.getElementById('awardModal');
             const isMobileDevice = window.innerWidth < 768;
             
-            // 현재 페이지 스크롤 위치 저장 (모든 경우에)
-            // handleCardClick에서 이미 저장했을 수 있으므로 확인 후 사용
-            let currentScrollY = parseInt(document.body.dataset.awardPageScrollY, 10);
-            if (isNaN(currentScrollY)) {
-                currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-                document.body.dataset.awardPageScrollY = currentScrollY;
-            }
-            
-            // 모바일에서 배경 스크롤 방지
+            // 배경 스크롤 방지 (프로젝트 모달과 동일한 방식)
             if (isMobileDevice) {
-                // 현재 스크롤 위치를 여러 방법으로 저장 (안전장치)
-                document.body.dataset.awardScrollY = currentScrollY;
-                document.body.dataset.awardPageScrollY = currentScrollY;
-                document.documentElement.dataset.awardScrollY = currentScrollY;
-                
-                // 스크롤을 즉시 고정 (모달 열기 전에)
-                window.scrollTo(0, currentScrollY);
-                document.documentElement.scrollTop = currentScrollY;
-                
-                // position: fixed 설정 (스크롤 위치를 음수 top으로 보정)
+                // 현재 스크롤 위치 저장 (프로젝트 모달과 동일)
+                const scrollY = window.scrollY;
                 document.body.style.position = 'fixed';
-                document.body.style.top = `-${currentScrollY}px`;
-                document.body.style.left = '0';
-                document.body.style.right = '0';
+                document.body.style.top = `-${scrollY}px`;
                 document.body.style.width = '100%';
                 document.body.style.overflow = 'hidden';
-                document.documentElement.style.overflow = 'hidden';
-                
-                // 스크롤 위치를 강제로 0으로 유지 (여러 번 확인)
-                const forceScrollToZero = () => {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    if (window.scrollY !== 0 || document.documentElement.scrollTop !== 0) {
-                        requestAnimationFrame(forceScrollToZero);
-                    }
-                };
-                
-                // 즉시 실행 및 다음 프레임에서도 확인
-                forceScrollToZero();
-                requestAnimationFrame(forceScrollToZero);
-                
-                // 추가 안전장치: 짧은 간격으로 여러 번 확인
-                let checkCount = 0;
-                const scrollCheck = setInterval(() => {
-                    if (window.scrollY !== 0 || document.documentElement.scrollTop !== 0) {
-                        window.scrollTo(0, 0);
-                        document.documentElement.scrollTop = 0;
-                    }
-                    checkCount++;
-                    if (checkCount >= 5) {
-                        clearInterval(scrollCheck);
-                    }
-                }, 10);
+                document.body.dataset.scrollY = scrollY;
             } else {
-                // PC에서도 스크롤 위치 유지
+                // PC에서도 스크롤바 너비 보정하여 레이아웃 시프트 방지
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
                 document.body.style.overflow = 'hidden';
-                // 페이지 스크롤 위치를 명시적으로 유지
-                window.scrollTo(0, currentScrollY);
+                document.documentElement.style.overflow = 'hidden';
+                if (scrollbarWidth > 0) {
+                    document.body.style.paddingRight = `${scrollbarWidth}px`;
+                    document.body.dataset.scrollbarWidth = scrollbarWidth;
+                }
             }
             
             // 제목
@@ -1947,49 +1907,15 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 
-                // 모달 오버레이에서 스크롤 방지 이벤트 제거
-                if (awardModalScrollPreventHandlers) {
-                    modal.removeEventListener('touchmove', awardModalScrollPreventHandlers.touchmove);
-                    modal.removeEventListener('touchstart', awardModalScrollPreventHandlers.touchstart);
-                    modal.removeEventListener('wheel', awardModalScrollPreventHandlers.wheel);
-                    window.removeEventListener('scroll', awardModalScrollPreventHandlers.scroll);
-                    awardModalScrollPreventHandlers = null;
-                }
-                
-                // 스크롤 위치 및 스타일 복원
+                // 스크롤 위치 및 스타일 복원 (프로젝트 모달과 동일한 방식)
                 if (isMobile) {
-                    // 저장된 스크롤 위치를 여러 곳에서 확인
-                    const scrollY = parseInt(
-                        document.body.dataset.awardScrollY || 
-                        document.body.dataset.awardPageScrollY || 
-                        document.documentElement.dataset.awardScrollY || 
-                        '0', 
-                        10
-                    );
-                    
-                    // position: fixed 해제
+                    const scrollY = document.body.dataset.scrollY || '0';
                     document.body.style.position = '';
                     document.body.style.top = '';
                     document.body.style.width = '';
                     document.body.style.overflow = '';
-                    document.documentElement.style.overflow = '';
-                    
-                    // 데이터 속성 정리
-                    delete document.body.dataset.awardScrollY;
-                    delete document.body.dataset.awardPageScrollY;
-                    delete document.documentElement.dataset.awardScrollY;
-                    
-                    // 약간의 지연 후 스크롤 복원 (레이아웃 안정화 대기)
-                    setTimeout(() => {
-                        window.scrollTo(0, scrollY);
-                        document.documentElement.scrollTop = scrollY;
-                        // 한 번 더 확인
-                        requestAnimationFrame(() => {
-                            if (window.scrollY !== scrollY) {
-                                window.scrollTo(0, scrollY);
-                            }
-                        });
-                    }, 50);
+                    window.scrollTo(0, parseInt(scrollY, 10));
+                    delete document.body.dataset.scrollY;
                 } else {
                     // PC에서 스크롤바 관련 스타일 복원
                     const savedScrollY = parseInt(document.body.dataset.awardPageScrollY || window.scrollY, 10);
