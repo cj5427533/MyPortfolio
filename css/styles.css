@@ -1171,7 +1171,7 @@ img[class*="swiper-slide"] img {
 /* 모바일 전용 스크롤 바 */
 .mobile-scroll-bar {
     position: fixed;
-    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    bottom: 100px;
     right: 1rem;
     z-index: 9999;
     display: flex;
@@ -1181,12 +1181,22 @@ img[class*="swiper-slide"] img {
     transform: translateX(100px);
     transition: all 0.3s ease;
     pointer-events: none;
+    visibility: hidden;
 }
 
 .mobile-scroll-bar.visible {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
+    visibility: visible;
+}
+
+.mobile-scroll-bar.hidden {
+    display: flex !important; /* Tailwind hidden 클래스 무시 */
+    opacity: 0;
+    transform: translateX(100px);
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .mobile-scroll-button {
@@ -1225,7 +1235,7 @@ img[class*="swiper-slide"] img {
 /* 작은 화면에서 버튼 위치 조정 */
 @media (max-width: 640px) {
     .mobile-scroll-bar {
-        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+        bottom: 90px;
         right: 0.75rem;
     }
     

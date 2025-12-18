@@ -375,9 +375,11 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         const viewportTop = scrollY;
         const viewportBottom = scrollY + windowHeight;
         
-        // 히어로 섹션의 하단이 뷰포트 상단을 지나갔고, Project 섹션의 하단이 뷰포트 상단을 지나가기 전까지
+        // 히어로 섹션의 하단을 지나갔고, Project 섹션의 하단을 지나가지 않았을 때
         // 즉, 히어로 섹션을 지나서 Project 섹션을 보고 있는 동안
-        const isInRange = viewportTop >= heroBottom && viewportTop < projectBottom;
+        const pastHero = viewportTop >= heroBottom - 50; // 약간의 여유 공간
+        const beforeProjectEnd = viewportTop < projectBottom;
+        const isInRange = pastHero && beforeProjectEnd;
         
         if (isInRange) {
             mobileScrollBar.classList.remove('hidden');
