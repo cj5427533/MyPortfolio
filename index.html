@@ -210,8 +210,14 @@
                 hasMoved = true;
             }
             
-            carouselElement.scrollLeft = scrollLeft - walk;
-            updateDragBar();
+            const newScrollLeft = scrollLeft - walk;
+            // requestAnimationFrame을 사용하여 부드러운 스크롤
+            requestAnimationFrame(() => {
+                if (carouselElement) {
+                    carouselElement.scrollLeft = newScrollLeft;
+                    updateDragBar();
+                }
+            });
             e.preventDefault();
         }
 
@@ -228,29 +234,41 @@
             }
         }
 
+        let rafId = null;
         function updateDragBar() {
-            const carousel = document.getElementById('awardsCarousel');
-            const dragBarThumb = document.getElementById('dragBarThumb');
-            if (!carousel || !dragBarThumb) return;
-            
-            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-            if (scrollWidth <= 0) {
-                dragBarThumb.style.width = '100%';
-                dragBarThumb.style.left = '0%';
-                return;
+            // requestAnimationFrame을 사용하여 부드러운 업데이트
+            if (rafId) {
+                cancelAnimationFrame(rafId);
             }
-            
-            const thumbWidth = (carousel.clientWidth / carousel.scrollWidth) * 100;
-            const maxThumbWidth = 100;
-            const minThumbWidth = 15;
-            const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
-            
-            const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
-            const maxLeft = 100 - finalThumbWidth;
-            const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
-            
-            dragBarThumb.style.width = finalThumbWidth + '%';
-            dragBarThumb.style.left = finalLeft + '%';
+            rafId = requestAnimationFrame(() => {
+                const carousel = document.getElementById('awardsCarousel');
+                const dragBarThumb = document.getElementById('dragBarThumb');
+                if (!carousel || !dragBarThumb) return;
+                
+                const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+                if (scrollWidth <= 0) {
+                    dragBarThumb.style.width = '100%';
+                    dragBarThumb.style.left = '0%';
+                    return;
+                }
+                
+                // 보이는 영역 대비 전체 영역 비율로 thumb 너비 계산
+                const visibleRatio = carousel.clientWidth / carousel.scrollWidth;
+                const thumbWidth = visibleRatio * 100;
+                // 최소 너비는 15%, 최대 너비는 100%
+                const minThumbWidth = 15;
+                const maxThumbWidth = 100;
+                const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
+                
+                const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
+                const maxLeft = 100 - finalThumbWidth;
+                const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
+                
+                dragBarThumb.style.width = finalThumbWidth + '%';
+                dragBarThumb.style.left = finalLeft + '%';
+                
+                rafId = null;
+            });
         }
         
         // openAwardModal 함수 선언 (나중에 body에서 정의됨)
@@ -598,6 +616,23 @@
                     </div>
                     <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
                          data-award="3"
+                         onmousedown="handleCardMouseDown(event, 0)"
+                         ontouchstart="handleCardTouchStart(event, 0)"
+                         onclick="handleCardClick(event, 0)"
+                         ontouchend="handleCardTouchEnd(event, 0)">
+                        <div class="bg-gradient-to-br from-sky-50 to-cyan-50 rounded-lg p-4 border-2 border-primary/30 hover:border-primary transition-colors h-full relative">
+                            <div class="aspect-[3/4] bg-white rounded-md overflow-hidden shadow-md mb-3 flex items-center justify-center relative" style="pointer-events: auto;">
+                                <canvas class="award-pdf-canvas w-full h-full" data-pdf="Projects/YGMK/2025_재능대컴소과_캡스톤우수상.pdf" style="pointer-events: none;"></canvas>
+                                <div class="absolute inset-0 bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center" style="pointer-events: none;">
+                                    <span class="px-3 py-2 bg-primary text-white rounded-lg shadow font-semibold text-sm">제출물 자세히 보기</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-800 text-center">2025 인천재능대학교 <br>캡스톤 졸업작품 우수상</h3>
+                            <p class="text-sm text-gray-600 text-center mt-1">온라인 쇼핑몰 안전 확인 플랫폼</p>
+                        </div>
+                    </div>
+                    <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
+                         data-award="4"
                          onmousedown="handleCardMouseDown(event, 3)"
                          ontouchstart="handleCardTouchStart(event, 3)"
                          onclick="handleCardClick(event, 3)"
@@ -614,7 +649,7 @@
                         </div>
                     </div>
                     <div class="award-card flex-shrink-0 w-64 cursor-pointer transition-shadow duration-300 hover:shadow-xl snap-center group" data-animate="fade-in" 
-                         data-award="4"
+                         data-award="5"
                          onmousedown="handleCardMouseDown(event, 4)"
                          ontouchstart="handleCardTouchStart(event, 4)"
                          onclick="handleCardClick(event, 4)"
@@ -633,11 +668,20 @@
                         </div>
                     </div>
                 </div>
-                <div id="dragBar" class="w-full h-1 bg-gray-200 rounded-full mt-4 cursor-pointer relative overflow-hidden">
-                    <div id="dragBarThumb" class="h-full bg-primary rounded-full transition-all duration-150 absolute left-0 cursor-grab active:cursor-grabbing" style="width: 20%; pointer-events: auto;"></div>
-                </div>
-                <div class="text-center mt-4 text-sm text-gray-500">
-                    <span>← 드래그하거나 스크롤하여 더 많은 수상·제출물을 확인하세요 →</span>
+                <div class="flex items-center gap-3 mt-4">
+                    <button id="awardsCarouselPrev" class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="dragBar" class="flex-1 h-2 bg-gray-200 rounded-full cursor-pointer relative">
+                        <div id="dragBarThumb" class="h-full bg-gray-400 rounded-full transition-all duration-200 ease-out absolute left-0 cursor-grab active:cursor-grabbing" style="width: calc(100% / 6 * 0.85); pointer-events: auto; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>
+                    </div>
+                    <button id="awardsCarouselNext" class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
@@ -2027,6 +2071,33 @@
             // 드래그 바 드래그 기능
             const dragBar = document.getElementById('dragBar');
             const carousel = document.getElementById('awardsCarousel');
+            const prevBtn = document.getElementById('awardsCarouselPrev');
+            const nextBtn = document.getElementById('awardsCarouselNext');
+            
+            // 화살표 버튼 클릭 이벤트
+            if (prevBtn && carousel) {
+                prevBtn.addEventListener('click', () => {
+                    const cardWidth = 256; // w-64 = 256px
+                    const gap = 24; // gap-6 = 24px
+                    const cardTotalWidth = cardWidth + gap;
+                    carousel.scrollBy({
+                        left: -cardTotalWidth,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            if (nextBtn && carousel) {
+                nextBtn.addEventListener('click', () => {
+                    const cardWidth = 256; // w-64 = 256px
+                    const gap = 24; // gap-6 = 24px
+                    const cardTotalWidth = cardWidth + gap;
+                    carousel.scrollBy({
+                        left: cardTotalWidth,
+                        behavior: 'smooth'
+                    });
+                });
+            }
             
             if (dragBar && carousel) {
                 const dragBarThumb = document.getElementById('dragBarThumb');
@@ -2041,9 +2112,25 @@
                         
                         if (scrollWidth <= 0) return;
                         
+                        // 클릭한 위치에 맞게 스크롤
                         const clickPercent = clickX / dragBarWidth;
-                        carousel.scrollLeft = clickPercent * scrollWidth;
-                        updateDragBar();
+                        const targetScroll = clickPercent * scrollWidth;
+                        
+                        // 부드러운 스크롤 애니메이션
+                        carousel.scrollTo({
+                            left: targetScroll,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 애니메이션 중간에 업데이트
+                        const updateInterval = setInterval(() => {
+                            updateDragBar();
+                        }, 16); // 약 60fps
+                        
+                        setTimeout(() => {
+                            clearInterval(updateInterval);
+                            updateDragBar();
+                        }, 500);
                     }
                 });
                 
@@ -2074,9 +2161,14 @@
                     if (scrollWidth <= 0) return;
                     
                     const deltaX = clientX - dragBarStartX;
-                    const scrollDelta = (deltaX / dragBarWidth) * carousel.scrollWidth;
-                    carousel.scrollLeft = Math.max(0, Math.min(scrollWidth, dragBarStartScroll + scrollDelta));
-                    updateDragBar();
+                    const scrollDelta = (deltaX / dragBarWidth) * scrollWidth;
+                    const newScrollLeft = Math.max(0, Math.min(scrollWidth, dragBarStartScroll + scrollDelta));
+                    
+                    // requestAnimationFrame을 사용하여 부드러운 스크롤
+                    requestAnimationFrame(() => {
+                        carousel.scrollLeft = newScrollLeft;
+                        updateDragBar();
+                    });
                     e.preventDefault();
                 };
                 
@@ -2110,8 +2202,13 @@
                 if (!touchStartX) return;
                 const x = e.touches[0].pageX - carousel.offsetLeft;
                 const walk = (x - touchStartX) * 2;
-                carousel.scrollLeft = touchScrollLeft - walk;
-                updateDragBar();
+                const newScrollLeft = touchScrollLeft - walk;
+                
+                // requestAnimationFrame을 사용하여 부드러운 스크롤
+                requestAnimationFrame(() => {
+                    carousel.scrollLeft = newScrollLeft;
+                    updateDragBar();
+                });
             });
 
             carousel.addEventListener('touchend', function() {

@@ -770,7 +770,67 @@ function createProjectModal(project) {
         const hasOnlyImages = !project.videos && !project.hasSpecialContent;
         const imageContainerId = `project-images-swiper-${project.id}`;
         
-        if (hasOnlyImages) {
+        // JEIU 캠퍼스 익스플로러 프로젝트(id: 1)는 드래그바 스타일 사용
+        if (project.id === 1 && hasOnlyImages) {
+            imagesHTML = `
+                <div class="modal-section" data-section="media">
+                    <h4 class="font-semibold ${theme.textColor}"><span>🖼️</span> 플랫폼 이미지</h4>
+                    <div class="relative">
+                        <div id="project-images-carousel-${project.id}" class="flex gap-6 overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide snap-x snap-mandatory scroll-smooth" 
+                             style="scrollbar-width: none; -ms-overflow-style: none;"
+                             onscroll="updateProjectImagesDragBar(${project.id})">
+                            ${project.images.map((img, index) => {
+                                const webp = imagesWebp[index];
+                                const preferredSrc = webp || img;
+                                return `
+                                <div class="flex-shrink-0 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 snap-center">
+                                    <div class="flex items-center justify-center bg-gray-50 p-2 md:p-4">
+                                        <div class="bg-white shadow-lg rounded-lg md:rounded-xl overflow-hidden max-w-full cursor-pointer enlargeable-media" data-media-type="image" data-src="${preferredSrc}">
+                                            ${webp ? `
+                                            <picture>
+                                                <source srcset="${webp}" type="image/webp">
+                                                <img src="${img}" alt="${project.title} - 이미지 ${index + 1}"
+                                                     onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);" 
+                                                     class="max-w-full h-auto" 
+                                                     style="max-height: 80vh; display: block;"
+                                                     loading="${index === 0 ? 'eager' : 'lazy'}" 
+                                                     decoding="async"
+                                                     fetchpriority="${index === 0 ? 'high' : 'low'}">
+                                            </picture>
+                                            ` : `
+                                            <img src="${img}" alt="${project.title} - 이미지 ${index + 1}"
+                                                 onload="this.setAttribute('width', this.naturalWidth); this.setAttribute('height', this.naturalHeight);" 
+                                                 class="max-w-full h-auto" 
+                                                 style="max-height: 80vh; display: block;"
+                                                 loading="${index === 0 ? 'eager' : 'lazy'}" 
+                                                 decoding="async"
+                                                 fetchpriority="${index === 0 ? 'high' : 'low'}">
+                                            `}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            }).join('')}
+                        </div>
+                        <div class="flex items-center gap-3 mt-4">
+                            <button id="project-images-prev-${project.id}" class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <div id="project-images-drag-bar-${project.id}" class="flex-1 h-2 bg-gray-200 rounded-full cursor-pointer relative">
+                                <div id="project-images-drag-bar-thumb-${project.id}" class="h-full bg-gray-400 rounded-full transition-all duration-200 ease-out absolute left-0 cursor-grab active:cursor-grabbing" style="pointer-events: auto; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>
+                            </div>
+                            <button id="project-images-next-${project.id}" class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (hasOnlyImages) {
             imagesHTML = `
                 <div class="modal-section" data-section="media">
                     <h4 class="font-semibold ${theme.textColor}"><span>🖼️</span> 플랫폼 이미지</h4>
@@ -1460,7 +1520,13 @@ function showProjectModal(projectId) {
     }
     
     const hasOnlyImages = project.images && project.images.length > 0 && !project.videos && !project.hasSpecialContent;
-    if (hasOnlyImages && typeof Swiper !== 'undefined') {
+    
+    // JEIU 캠퍼스 익스플로러(id: 1)는 드래그바 방식 사용
+    if (project.id === 1 && hasOnlyImages) {
+        setTimeout(() => {
+            initProjectImagesDragBar(project.id, project.images.length);
+        }, 150);
+    } else if (hasOnlyImages && typeof Swiper !== 'undefined') {
         setTimeout(() => {
             const swiperSelector = `.project-images-swiper-${project.id}`;
             const swiperElement = modal.querySelector(swiperSelector);
@@ -1932,6 +1998,171 @@ function initTroubleshootingAccordions(modal) {
                 if (minusIcon) minusIcon.classList.add('hidden');
             }
         });
+    });
+}
+
+// 프로젝트 이미지 드래그바 관련 함수
+let projectImagesRafId = {};
+let isDraggingProjectBar = {};
+let projectDragBarStartX = {};
+let projectDragBarStartScroll = {};
+
+function updateProjectImagesDragBar(projectId) {
+    if (projectImagesRafId[projectId]) {
+        cancelAnimationFrame(projectImagesRafId[projectId]);
+    }
+    projectImagesRafId[projectId] = requestAnimationFrame(() => {
+        const carousel = document.getElementById(`project-images-carousel-${projectId}`);
+        const dragBarThumb = document.getElementById(`project-images-drag-bar-thumb-${projectId}`);
+        if (!carousel || !dragBarThumb) return;
+        
+        const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+        if (scrollWidth <= 0) {
+            dragBarThumb.style.width = '100%';
+            dragBarThumb.style.left = '0%';
+            return;
+        }
+        
+        const visibleRatio = carousel.clientWidth / carousel.scrollWidth;
+        const thumbWidth = visibleRatio * 100;
+        // 최소 너비는 15%, 최대 너비는 100%
+        const minThumbWidth = 15;
+        const maxThumbWidth = 100;
+        const finalThumbWidth = Math.max(minThumbWidth, Math.min(maxThumbWidth, thumbWidth));
+        
+        const scrollPercent = (carousel.scrollLeft / scrollWidth) * 100;
+        const maxLeft = 100 - finalThumbWidth;
+        const finalLeft = Math.max(0, Math.min(maxLeft, scrollPercent));
+        
+        dragBarThumb.style.width = finalThumbWidth + '%';
+        dragBarThumb.style.left = finalLeft + '%';
+        
+        projectImagesRafId[projectId] = null;
+    });
+}
+
+function initProjectImagesDragBar(projectId, imageCount) {
+    const dragBar = document.getElementById(`project-images-drag-bar-${projectId}`);
+    const carousel = document.getElementById(`project-images-carousel-${projectId}`);
+    const prevBtn = document.getElementById(`project-images-prev-${projectId}`);
+    const nextBtn = document.getElementById(`project-images-next-${projectId}`);
+    
+    if (!dragBar || !carousel) return;
+    
+    const dragBarThumb = document.getElementById(`project-images-drag-bar-thumb-${projectId}`);
+    
+    // 초기 드래그바 업데이트
+    setTimeout(() => updateProjectImagesDragBar(projectId), 100);
+    
+    // 화살표 버튼 클릭 이벤트
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const imageWidth = carousel.clientWidth > 768 ? carousel.clientWidth * 0.67 : carousel.clientWidth * 0.8;
+            const gap = 24;
+            const cardTotalWidth = imageWidth + gap;
+            carousel.scrollBy({
+                left: -cardTotalWidth,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const imageWidth = carousel.clientWidth > 768 ? carousel.clientWidth * 0.67 : carousel.clientWidth * 0.8;
+            const gap = 24;
+            const cardTotalWidth = imageWidth + gap;
+            carousel.scrollBy({
+                left: cardTotalWidth,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // 드래그바 클릭 시 스크롤
+    dragBar.addEventListener('click', function(e) {
+        if (e.target.id !== `project-images-drag-bar-thumb-${projectId}` && e.target !== dragBarThumb) {
+            const dragBarRect = dragBar.getBoundingClientRect();
+            const clickX = e.clientX - dragBarRect.left;
+            const dragBarWidth = dragBarRect.width;
+            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+            
+            if (scrollWidth <= 0) return;
+            
+            // 클릭한 위치에 맞게 스크롤
+            const clickPercent = clickX / dragBarWidth;
+            const targetScroll = clickPercent * scrollWidth;
+            
+            carousel.scrollTo({
+                left: targetScroll,
+                behavior: 'smooth'
+            });
+            
+            const updateInterval = setInterval(() => {
+                updateProjectImagesDragBar(projectId);
+            }, 16);
+            
+            setTimeout(() => {
+                clearInterval(updateInterval);
+                updateProjectImagesDragBar(projectId);
+            }, 500);
+        }
+    });
+    
+    // thumb 드래그 시작
+    if (dragBarThumb) {
+        const startDrag = function(e) {
+            isDraggingProjectBar[projectId] = true;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            projectDragBarStartX[projectId] = clientX;
+            projectDragBarStartScroll[projectId] = carousel.scrollLeft;
+            dragBarThumb.style.cursor = 'grabbing';
+            e.preventDefault();
+            e.stopPropagation();
+        };
+        
+        dragBarThumb.addEventListener('mousedown', startDrag);
+        dragBarThumb.addEventListener('touchstart', startDrag, { passive: false });
+    }
+    
+    const handleMove = function(e) {
+        if (!isDraggingProjectBar[projectId] || !carousel) return;
+        
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const dragBarRect = dragBar.getBoundingClientRect();
+        const dragBarWidth = dragBarRect.width;
+        const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+        
+        if (scrollWidth <= 0) return;
+        
+        const deltaX = clientX - projectDragBarStartX[projectId];
+        const scrollDelta = (deltaX / dragBarWidth) * scrollWidth;
+        const newScrollLeft = Math.max(0, Math.min(scrollWidth, projectDragBarStartScroll[projectId] + scrollDelta));
+        
+        requestAnimationFrame(() => {
+            carousel.scrollLeft = newScrollLeft;
+            updateProjectImagesDragBar(projectId);
+        });
+        e.preventDefault();
+    };
+    
+    const handleEnd = function() {
+        if (isDraggingProjectBar[projectId]) {
+            isDraggingProjectBar[projectId] = false;
+            if (dragBarThumb) {
+                dragBarThumb.style.cursor = 'grab';
+            }
+        }
+    };
+    
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    document.addEventListener('mouseup', handleEnd);
+    document.addEventListener('touchend', handleEnd);
+    
+    // 캐러셀 스크롤 이벤트
+    carousel.addEventListener('scroll', () => {
+        updateProjectImagesDragBar(projectId);
     });
 }
 
