@@ -1026,7 +1026,7 @@ function createProjectModal(project) {
                         <span class="font-medium">GitHub</span>
                     </a>
                 ` : ''}
-                ${project.demoUrl ? `
+                ${project.demoUrl && project.id !== 7 ? `
                     <a href="${project.demoUrl}" target="_blank" rel="noopener noreferrer" 
                        class="flex items-center gap-2 px-4 py-2 ${theme.bg} ${theme.text} rounded-lg hover:opacity-90 transition-opacity duration-200 shadow-md hover:shadow-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
