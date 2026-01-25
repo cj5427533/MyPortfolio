@@ -47,3 +47,10 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Performance Analysis & Lighthouse Reports (use for local testing only)
+analyze-lighthouse.py
+extract-improvements.py
+optimize-images.js
+lighthouse-report*.json
+*.report.html
