@@ -751,20 +751,45 @@
                     <span class="absolute bottom-0 left-0 w-full h-1 bg-primary/20 rounded"></span>
                 </span>
             </h2>
-            <script src="https://giscus.app/client.js"
-                    data-repo="cj5427533/MyComments"
-                    data-repo-id="R_kgDOQm4H9g"
-                    data-category="Announcements"
-                    data-category-id="DIC_kwDOQm4H9s4Czqax"
-                    data-mapping="pathname"
-                    data-strict="0"
-                    data-reactions-enabled="1"
-                    data-emit-metadata="0"
-                    data-input-position="bottom"
-                    data-theme="light"
-                    data-lang="ko"
-                    crossorigin="anonymous"
-                    async>
+            <div id="giscus-container"></div>
+            <script>
+                // Giscus 댓글 시스템 비동기 로딩
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', loadGiscus);
+                } else {
+                    loadGiscus();
+                }
+                
+                function loadGiscus() {
+                    // Intersection Observer를 사용하여 댓글 섹션이 뷰포트에 들어올 때만 로드
+                    const giscusContainer = document.getElementById('giscus-container');
+                    if (!giscusContainer) return;
+                    
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting && !window.giscusLoaded) {
+                            window.giscusLoaded = true;
+                            const script = document.createElement('script');
+                            script.src = 'https://giscus.app/client.js';
+                            script.setAttribute('data-repo', 'cj5427533/MyComments');
+                            script.setAttribute('data-repo-id', 'R_kgDOQm4H9g');
+                            script.setAttribute('data-category', 'Announcements');
+                            script.setAttribute('data-category-id', 'DIC_kwDOQm4H9s4Czqax');
+                            script.setAttribute('data-mapping', 'pathname');
+                            script.setAttribute('data-strict', '0');
+                            script.setAttribute('data-reactions-enabled', '1');
+                            script.setAttribute('data-emit-metadata', '0');
+                            script.setAttribute('data-input-position', 'bottom');
+                            script.setAttribute('data-theme', 'light');
+                            script.setAttribute('data-lang', 'ko');
+                            script.setAttribute('crossorigin', 'anonymous');
+                            script.async = true;
+                            giscusContainer.appendChild(script);
+                            observer.unobserve(entries[0].target);
+                        }
+                    }, { rootMargin: '100px' });
+                    
+                    observer.observe(giscusContainer);
+                }
             </script>
             <!-- GitHub 및 Email 링크 -->
             <div class="mt-8 pt-8 border-t border-gray-200">
