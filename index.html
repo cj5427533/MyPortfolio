@@ -85,6 +85,8 @@
     <!-- Typed.js 라이브러리 - defer로 렌더링 차단 방지 -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+    <!-- PDF.js 라이브러리 - async로 비동기 로드 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js" async></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preload" as="image" href="images/MyImage.webp" fetchpriority="high" type="image/webp">
     
@@ -905,14 +907,18 @@
             
             let pdfPath = canvas.dataset.pdf;
             if (!pdfPath) {
+                console.warn('⚠ PDF 경로 없음');
                 canvas.setAttribute('data-rendered', 'error');
                 return;
             }
+            
+            console.log(`🔄 렌더링 중: ${pdfPath}`);
             
             // PDF 경로가 상대 경로인 경우 절대 경로로 변환
             if (!pdfPath.startsWith('http://') && !pdfPath.startsWith('https://')) {
                 const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
                 pdfPath = new URL(pdfPath, baseUrl).href;
+                console.log(`✓ 절대 경로로 변환: ${pdfPath}`);
             }
             
             // PDF.js가 로드될 때까지 대기
@@ -924,6 +930,7 @@
             }
             
             if (typeof pdfjsLib === 'undefined') {
+                console.error('✗ PDF.js 로드 실패');
                 canvas.setAttribute('data-rendered', 'error');
                 return;
             }
@@ -960,6 +967,8 @@
                 if (containerWidth === 0) containerWidth = 200;
                 if (containerHeight === 0) containerHeight = 280;
                 
+                console.log(`📐 컨테이너 크기: ${containerWidth}x${containerHeight}`);
+                
                 const loadingTask = pdfjsLib.getDocument({
                     url: pdfPath,
                     httpHeaders: {},
@@ -970,9 +979,11 @@
                 const pdf = await Promise.race([
                     loadingTask.promise,
                     new Promise((_, reject) => 
-                        setTimeout(() => reject(new Error('PDF 로드 타임아웃')), 15000)
+                        setTimeout(() => reject(new Error('PDF 로드 타임아웃 (15초)')), 15000)
                     )
                 ]);
+                
+                console.log(`✓ PDF 로드 완료, 페이지 수: ${pdf.numPages}`);
                 
                 const page = await pdf.getPage(1);
                 
@@ -1013,15 +1024,16 @@
                 canvas.style.pointerEvents = 'none';
                 canvas.setAttribute('data-rendered', 'true');
                 canvas.removeAttribute('data-rendering');
+                console.log(`✓ 렌더링 완료: ${pdfPath}`);
             } catch (e) {
-                console.error('Award PDF 렌더링 실패:', pdfPath, e);
+                console.error(`✗ 렌더링 실패 [${pdfPath}]:`, e.message || e);
                 canvas.removeAttribute('data-rendering');
                 
                 const container = canvas.parentElement;
                 if (container && canvas.getAttribute('data-rendered') !== 'error') {
                     const placeholder = document.createElement('div');
-                    placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
-                    placeholder.textContent = '썸네일 로드 실패';
+                    placeholder.className = 'w-full h-full flex flex-col items-center justify-center text-gray-400 text-xs bg-gray-50 rounded';
+                    placeholder.innerHTML = `<div>렌더링 실패</div><div class="text-[10px] mt-1">${e.message || '알 수 없는 오류'}</div>`;
                     placeholder.style.pointerEvents = 'none';
                     try {
                         container.replaceChild(placeholder, canvas);
@@ -1035,9 +1047,9 @@
         
         // Award 카드의 PDF 첫 페이지를 canvas에 렌더링
         async function renderAwardPdfThumbnails() {
-            // PDF.js가 로드될 때까지 대기
+            // PDF.js 로드 확인 - 최대 20초 대기
             let retryCount = 0;
-            const maxRetries = 100; // 최대 10초 대기 (100ms * 100)
+            const maxRetries = 200; // 20초 대기 (100ms * 200)
             
             while (typeof pdfjsLib === 'undefined' && retryCount < maxRetries) {
                 await new Promise(resolve => setTimeout(resolve, 100));
@@ -1045,21 +1057,39 @@
             }
             
             // PDF.js Worker 설정
-            if (typeof pdfjsLib !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+            if (typeof pdfjsLib !== 'undefined') {
+                if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+                }
+                console.log('✓ PDF.js 로드 완료');
+            } else {
+                console.error('✗ PDF.js 로드 실패 - CDN에서 로드되지 않았습니다');
+                // 재시도: 메인 스크립트에서 명시적 로드
+                try {
+                    if (typeof window.loadPDFJS === 'function') {
+                        await window.loadPDFJS();
+                        console.log('✓ loadPDFJS()로 재시도 완료');
+                    }
+                } catch (e) {
+                    console.error('✗ loadPDFJS() 실패:', e);
+                }
             }
             
             if (typeof pdfjsLib === 'undefined') {
-                console.error('PDF.js 라이브러리를 로드할 수 없습니다.');
-                // PDF.js가 로드되지 않았을 때 플레이스홀더 표시
+                console.error('✗ PDF.js 라이브러리를 로드할 수 없습니다.');
+                // 플레이스홀더 표시
                 const canvases = document.querySelectorAll('.award-pdf-canvas:not([data-rendered])');
                 canvases.forEach(canvas => {
                     const container = canvas.parentElement;
                     if (container && !canvas.hasAttribute('data-rendered')) {
                         const placeholder = document.createElement('div');
-                        placeholder.className = 'w-full h-full flex items-center justify-center text-gray-400 text-sm';
-                        placeholder.textContent = '썸네일 로딩 중...';
-                        canvas.parentElement.replaceChild(placeholder, canvas);
+                        placeholder.className = 'w-full h-full flex items-center justify-center bg-gray-100 rounded text-gray-500 text-xs';
+                        placeholder.textContent = 'PDF 로드 불가';
+                        try {
+                            container.replaceChild(placeholder, canvas);
+                        } catch (e) {
+                            // 무시
+                        }
                     }
                 });
                 return;
@@ -1067,6 +1097,8 @@
             
             // 모든 canvas를 순차적으로 렌더링 (동시 렌더링 방지)
             const canvases = document.querySelectorAll('.award-pdf-canvas');
+            console.log(`📋 상장 썸네일 렌더링 시작 (${canvases.length}개)`);
+            
             for (const canvas of canvases) {
                 // 이미 렌더링되었거나 렌더링 중인 경우 건너뛰기
                 if (canvas.hasAttribute('data-rendered') && canvas.getAttribute('data-rendered') === 'true') {
@@ -1079,6 +1111,7 @@
                 // 개별 canvas 렌더링 함수 사용 (순차 처리)
                 await renderSingleCanvas(canvas);
             }
+            console.log('✓ 상장 썸네일 렌더링 완료');
         }
         
         // 페이지 로드 시 Award PDF 썸네일 렌더링
@@ -1166,10 +1199,33 @@
                     </div>
                 `;
                 
+                // PDF.js 로드 확인
+                if (typeof pdfjsLib === 'undefined') {
+                    console.error('✗ PDF.js가 로드되지 않았습니다');
+                    container.innerHTML = `<div class="text-red-500 text-center py-8">PDF.js 라이브러리를 로드할 수 없습니다</div>`;
+                    return;
+                }
+                
+                // PDF 경로 처리
+                let pdfUrl = pdfPath;
+                if (!pdfPath.startsWith('http://') && !pdfPath.startsWith('https://')) {
+                    const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                    pdfUrl = new URL(pdfPath, baseUrl).href;
+                }
+                
+                console.log(`📄 프로젝트 자료 로드: ${pdfUrl}`);
+                
                 // PDF 로드
-                const loadingTask = pdfjsLib.getDocument(pdfPath);
+                const loadingTask = pdfjsLib.getDocument({
+                    url: pdfUrl,
+                    httpHeaders: {},
+                    withCredentials: false,
+                    verbosity: 0
+                });
                 const pdf = await loadingTask.promise;
                 const numPages = pdf.numPages;
+                
+                console.log(`✓ PDF 로드 완료, 페이지 수: ${numPages}`);
                 
                 // 각 페이지를 순차적으로 렌더링하고 이미지 URL 생성
                 const pageImages = [];
@@ -1208,6 +1264,8 @@
                         pageNum: pageNum
                     });
                 }
+                
+                console.log(`✓ ${numPages}개 페이지 렌더링 완료`);
                 
                 // 모든 페이지 렌더링 완료 후 Swiper HTML 생성
                 const slidesHTML = pageImages.map((pageImage, index) => `
