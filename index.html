@@ -38,7 +38,7 @@
             }
         };
     </script>
-    <script src="https://cdn.tailwindcss.com" async onload="if(typeof tailwind !== 'undefined' && window.tailwindConfig) { tailwind.config = window.tailwindConfig; }"></script>
+    <script src="https://cdn.tailwindcss.com" async onload="if(typeof tailwind !== 'undefined' && window.tailwindConfig) { tailwind.config = window.tailwindConfig; } document.body.style.display = ''; document.querySelector('main').style.display = ''; document.getElementById('hero-section').style.display = ''; document.querySelectorAll('.section-animate').forEach(el => el.style.display = ''); "></script>
     <script>
         // 페이지 로드 완료 시 body에 loaded 클래스 추가
         (function() {
@@ -299,7 +299,7 @@
         }
     </script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative">
+<body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 text-gray-800 relative" style="display: none;">
     <div class="aurora-background pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div class="aurora-band aurora-band-1"></div>
         <div class="aurora-band aurora-band-2"></div>
@@ -307,8 +307,8 @@
     
     <div class="fixed inset-0 opacity-[0.06] pointer-events-none -z-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23cbd5e1\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     
-    <main class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
-        <header class="text-center mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20" id="hero-section" data-animate="fade-in">
+    <main class="container mx-auto px-4 py-8 max-w-4xl relative z-10" style="display: none;">
+        <header class="text-center mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20" id="hero-section" data-animate="fade-in" style="display: none;">
             <div class="flex flex-col md:flex-row items-center gap-8">
                 <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg" id="hero-image">
                     <picture>
@@ -328,7 +328,7 @@
                     <div class="space-y-3 mb-6" id="hero-values" data-animate="stagger-parent">
                         <div class="flex items-start gap-3" data-animate="stagger-child">
                             <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                 </svg>
                             </div>
@@ -338,7 +338,7 @@
                         </div>
                         <div class="flex items-start gap-3" data-animate="stagger-child">
                             <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
                             </div>
@@ -348,7 +348,7 @@
                         </div>
                         <div class="flex items-start gap-3" data-animate="stagger-child">
                             <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>
                             </div>
@@ -358,7 +358,7 @@
                         </div>
                         <div class="flex items-start gap-3" data-animate="stagger-child">
                             <div class="flex-shrink-0 w-6 h-6 mt-0.5 text-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                             </div>
@@ -383,7 +383,7 @@
                             </svg>
                             Email
                         </a>
-                        <a href="" target="_blank" rel="noopener noreferrer"
+                        <a href="천규진의 이력서.pdf" target="_blank" rel="noopener noreferrer" download="천규진의 이력서.pdf"
                            class="inline-flex items-center gap-2 px-5 py-3 bg-white text-gray-800 border border-primary/40 rounded-lg font-semibold hover:bg-primary/5 transition-all duration-200 shadow-md hover:shadow-lg cta-button">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
@@ -403,7 +403,7 @@
             </div>
         </header>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" style="display: none;">
             <h2 class="text-3xl font-bold mb-8 text-primary">
                 <span class="relative inline-block">
                     🚀 Project
@@ -414,7 +414,7 @@
             </div>
         </section>
 
-        <section id="skills-section" class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
+        <section id="skills-section" class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate" style="display: none;">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-primary">
                 <span class="relative inline-block">
                     💻 Skills
@@ -507,7 +507,7 @@
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-4 md:p-8 shadow-lg border border-white/20 section-animate" style="display: none;">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-primary">
                 <span class="relative inline-block">
                     👔 Leadership & Activities
@@ -571,7 +571,7 @@
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" style="display: none;">
             <h2 class="text-3xl font-bold mb-8 text-primary">
                 <span class="relative inline-block">
                     🏆 Awards & Submissions
@@ -709,7 +709,7 @@
             </div>
         </section>
 
-        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" data-animate="fade-in">
+        <section class="mb-12 bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" data-animate="fade-in" style="display: none;">
             <h2 class="text-3xl font-bold mb-6 text-primary">
                 <span class="relative inline-block">
                     📝 Contact Me
@@ -744,7 +744,7 @@
             
         </section>
 
-        <footer class="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate">
+        <footer class="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/20 section-animate" style="display: none;">
             <h2 class="text-3xl font-bold mb-6 text-primary">
                 <span class="relative inline-block">
                     💬 Comments
@@ -770,7 +770,7 @@
             <div class="mt-8 pt-8 border-t border-gray-200">
                 <div class="flex gap-4">
                     <a href="https://github.com/cj5427533" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                         </svg>
                         GitHub
@@ -789,15 +789,11 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://giscus.app">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script src="js/projects-data.js" defer></script>
     <script src="js/projects-renderer.js" defer></script>
     <script src="Projects/3D_Maze/maze-game.js" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/main.js" defer></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
     <div id="enlargeModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-2 z-[100] hidden">
         <button id="closeModal" class="fixed top-4 right-4 text-white bg-gray-800 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold leading-none hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 z-[101] transition-none">&times;</button>

@@ -766,7 +766,8 @@ function createProjectModal(project) {
     
     let imagesHTML = '';
     if (project.images && project.images.length > 0) {
-        const imagesWebp = project.imagesWebp || [];
+        // imagesWebp가 없으면 images 배열에서 자동으로 WebP 경로 생성
+        const imagesWebp = project.imagesWebp || (project.images.map(img => window.getOptimizedImagePath(img)) || []);
         const hasOnlyImages = !project.videos && !project.hasSpecialContent;
         const imageContainerId = `project-images-swiper-${project.id}`;
         
@@ -1526,12 +1527,13 @@ function showProjectModal(projectId) {
         setTimeout(() => {
             initProjectImagesDragBar(project.id, project.images.length);
         }, 150);
-    } else if (hasOnlyImages && typeof Swiper !== 'undefined') {
-        setTimeout(() => {
+    } else if (hasOnlyImages) {
+        setTimeout(async () => {
             const swiperSelector = `.project-images-swiper-${project.id}`;
             const swiperElement = modal.querySelector(swiperSelector);
             
             if (swiperElement && !swiperElement.swiper) {
+                await window.loadSwiper();
                 new Swiper(swiperSelector, {
                     slidesPerView: 1,
                     spaceBetween: 20,
@@ -1600,12 +1602,15 @@ function showProjectModal(projectId) {
         });
     }, 100);
     
-    if (project.pdfPath && typeof window.renderPdfPages === 'function') {
-        setTimeout(() => {
+    if (project.pdfPath) {
+        setTimeout(async () => {
             const pdfContainerId = `project-pdf-container-${project.id}`;
             const pageInfoElementId = `project-pdf-page-info-${project.id}`;
             const pdfPath = encodeURI(project.pdfPath);
-            window.renderPdfPages(pdfPath, pdfContainerId, pageInfoElementId);
+            await window.loadPDFJS();
+            if (typeof window.renderPdfPages === 'function') {
+                window.renderPdfPages(pdfPath, pdfContainerId, pageInfoElementId);
+            }
         }, 200);
     }
 }

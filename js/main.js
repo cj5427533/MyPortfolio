@@ -492,4 +492,93 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     }
     
     init();
-})(); 
+})();
+
+// ===== 동적 라이브러리 로딩 함수 =====
+
+// Three.js 동적 로드
+window.loadThreeJS = function() {
+    return new Promise((resolve, reject) => {
+        if (window.THREE) {
+            resolve(window.THREE);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.async = true;
+        script.onload = () => resolve(window.THREE);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+};
+
+// PDF.js 동적 로드
+window.loadPDFJS = function() {
+    return new Promise((resolve, reject) => {
+        if (window.pdfjsLib) {
+            resolve(window.pdfjsLib);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js';
+        script.async = true;
+        script.onload = () => resolve(window.pdfjsLib);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+};
+
+// Swiper 동적 로드 (CSS + JS)
+window.loadSwiper = function() {
+    return new Promise((resolve, reject) => {
+        if (window.Swiper) {
+            resolve(window.Swiper);
+            return;
+        }
+        
+        // CSS 로드
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+        document.head.appendChild(cssLink);
+        
+        // JS 로드
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        script.async = true;
+        script.onload = () => resolve(window.Swiper);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+};
+
+// ===== 이미지 최적화 헬퍼 함수 =====
+
+/**
+ * 이미지 경로를 WebP 경로로 변환합니다.
+ * 예: 'Projects/CultureMap/1.png' -> 'Projects/CultureMap/1.webp'
+ */
+window.getOptimizedImagePath = function(imagePath) {
+    if (!imagePath) return imagePath;
+    
+    // 이미 WebP인 경우
+    if (imagePath.endsWith('.webp')) {
+        return imagePath;
+    }
+    
+    // PNG, JPG, JPEG를 WebP로 변환
+    return imagePath.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+};
+
+/**
+ * 반응형 이미지를 위한 picture 태그 HTML을 생성합니다.
+ */
+window.createResponsivePictureHTML = function(imagePath, alt = '') {
+    const webpPath = window.getOptimizedImagePath(imagePath);
+    return `
+        <picture>
+            <source srcset="${webpPath}" type="image/webp">
+            <img src="${imagePath}" alt="${alt}" loading="lazy" decoding="async">
+        </picture>
+    `;
+}; 

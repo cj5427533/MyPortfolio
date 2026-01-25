@@ -2,8 +2,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 메인 페이지의 게임이 시작될 준비가 되었는지 확인
     if (document.getElementById('maze-game')) {
-        // 여기서부터 게임 코드가 시작됩니다
-        initGame('maze-game', 'game-container', 'timer', 'level', 'game-instructions');
+        // Three.js를 동적으로 로드 후 게임 시작
+        if (window.loadThreeJS) {
+            window.loadThreeJS().then(() => {
+                initGame('maze-game', 'game-container', 'timer', 'level', 'game-instructions');
+            });
+        }
     }
 });
 
