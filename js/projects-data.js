@@ -503,31 +503,30 @@ const projectsData = [
         },
         fullDescription: "정적 HTML 기반의 데이터 주도 포트폴리오입니다. `projects-data.js`에 프로젝트 메타데이터를 추가하면 카드와 모달이 자동 렌더링되어 유지보수성을 극대화했습니다. Three.js 3D 미로 게임, Unity WebGL 게임, PDF 뷰어, 댓글 시스템을 한 페이지에 통합했으며, 성능 최적화(WebP -90%, Giscus 비동기 로딩, 동적 라이브러리 로드)로 LCP 개선을 주도했습니다. Netlify 자동 배포로 효율적인 CI/CD를 구축하고, 실제 배포 환경에서의 성능 모니터링과 지속적 개선 프로세스를 경험했습니다.",
         mainFeatures: [
-            "📊 데이터 주도 렌더링: JSON 메타데이터 추가만으로 카드·모달 자동 생성 → 新 프로젝트 추가 시간 80% 단축",
-            "⚡ 성능 최적화: WebP 자동 변환(-90% 이미지), Giscus 비동기 로딩(Intersection Observer), 동적 라이브러리 로드(-200KB)",
-            "🎮 고급 콘텐츠 통합: Three.js 3D 미로, Unity WebGL 게임, PDF.js 수상자료, Giscus 실시간 댓글을 한 페이지에",
-            "🔗 서버리스 백엔드: Cloudflare Worker로 폼 수집 → Discord 알림 + D1 저장(100% 성공률, 서버 불필요)",
-            "📈 실시간 성능 모니터링: Lighthouse 56→70+ 예상, 실제 배포 환경에서 지속적 최적화",
-            "🎨 반응형 + 인터랙션: Tailwind CSS + Typed.js + 커스텀 애니메이션으로 부드러운 사용자 경험",
-            "🚀 자동 배포 파이프라인: GitHub 푸시 → Netlify CI/CD → 자동 빌드·테스트·배포 완성",
-            "🛡 캐싱 최적화: Netlify 정적 파일 1년 캐시, HTML 변경 감지, CDN 자동 배포로 빠른 응답",
-            "🌐 SEO 완성도: 메타태그, OG, 구조화 데이터로 100/100 SEO 점수 달성"
+            "데이터 주도 렌더링: JSON 메타데이터만 추가하면 카드와 모달이 자동으로 생성되어 새 프로젝트를 쉽게 추가할 수 있습니다",
+            "성능 최적화: 이미지를 WebP로 바꾸고(-90%), 댓글 시스템과 필요한 라이브러리만 나중에 로드합니다",
+            "다양한 콘텐츠 통합: 3D 미로 게임, WebGL 게임, PDF 뷰어, 실시간 댓글을 모두 한 페이지에 담았습니다",
+            "서버리스 백엔드: Cloudflare Worker를 써서 폼 데이터를 받아 Discord로 알림을 보냅니다",
+            "배포 및 CI/CD: 코드를 GitHub에 올리면 Netlify가 자동으로 빌드하고 배포합니다",
+            "반응형 디자인: Tailwind CSS와 커스텀 애니메이션으로 모든 기기에서 잘 보이게 만들었습니다",
+            "캐싱 최적화: 자주 안 바뀌는 파일들을 오래 보관해서 로딩 속도를 빠르게 했습니다",
+            "SEO 최적화: 메타태그와 구조화된 데이터를 넣어서 검색 엔진 최적화 점수를 100점 받았습니다",
+            "실제 서비스 운영: 배포 후 성능을 계속 측정하고 개선하고 있습니다"
         ],
         technologies: ["Cloudflare Workers", "Cursor", "Git", "Giscus", "HTML/CSS", "Netlify", "Node.js 20", "PDF.js", "Swiper.js", "Tailwind CSS", "Three.js", "Typed.js", "Vanilla JavaScript"],
         technologyRationale: [
-            "데이터 드리븐 렌더링: `projects-data.js` JSON → `projects-renderer.js` 자동 생성 (신규 프로젝트 추가 시 HTML 수정 불필요, 유지보수성 극대화)",
-            "WebP 자동 변환: PNG/JPG → WebP -90% 압축으로 페이지 로딩 속도 단축 (모바일 모네 필수, LCP 개선)",
-            "Giscus 비동기 로딩: Intersection Observer로 댓글 영역이 보일 때만 로드 → 초기 번들 -50KB, LCP 50-100ms 개선",
-            "동적 라이브러리 로드: Three.js/PDF.js를 필요할 때만 로드(window.loadThreeJS) → 초기 번들 -200KB, 초기 성능 향상",
-            "Cloudflare Worker: 서버리스 아키텍처로 폼 처리 및 Discord 알림 (호스팅 비용 절감, 자동 스케일링, 글로벌 CDN)",
-            "Netlify CDN + 캐싱: 정적 파일 1년 캐시, HTML max-age=0으로 항상 최신 콘텐츠 제공 (빠른 응답 + 항상 최신화)",
-            "Cursor AI 협업: 데이터 드리븐 렌더링 아키텍처 설계와 복잡한 모달 UI 로직을 AI와 협업하여 빠르게 구현 및 최적화 → 개발 생산성 향상"
+            "데이터 주도 렌더링: projects-data.js에 JSON을 추가하면 projects-renderer.js가 자동으로 카드와 모달을 만들어줘서 HTML을 수정할 필요가 없습니다",
+            "WebP 변환: 이미지를 WebP로 바꾸니 90% 줄어들어서 페이지가 훨씬 빨리 로드됩니다",
+            "비동기 로딩: 댓글 시스템과 게임 라이브러리는 필요할 때만 로드해서 처음에 로드할 파일의 크기를 줄였습니다",
+            "Cloudflare Worker: 서버가 없어도 폼 데이터를 받아서 Discord로 보낼 수 있어서 서버 비용이 들지 않습니다",
+            "Netlify 캐싱: 자주 안 바뀌는 파일들은 1년 동안 캐시해서 빠르게 로드됩니다",
+            "Cursor AI: 복잡한 렌더링 로직을 설계할 때 AI의 도움을 받아서 빠르게 구현할 수 있었습니다"
         ],
         technicalTroubleshooting: [
             {
-                problem: "배포 후 Lighthouse Performance 56/100 (LCP 9.95s) → 성능 최적화 필요",
-                solution: "WebP 자동 변환(-90%), Giscus 비동기 로딩(Intersection Observer), 동적 라이브러리 로드(-200KB 번들)로 LCP 단축. Netlify 캐싱 설정으로 정적 파일 1년 캐시 적용. 실제 서비스에서 Core Web Vitals 모니터링 지속.",
-                result: "WebP -90% 압축, Giscus 비동기 로딩으로 LCP 50-100ms 개선 예상, 동적 로딩으로 초기 번들 -200KB (배포 후 재측정 예정)"
+                problem: "배포하고 Lighthouse로 성능을 측정했는데 56점밖에 안 나왔습니다",
+                solution: "이미지를 WebP로 바꾸고, 댓글 시스템을 나중에 로드하고, 게임 라이브러리도 필요할 때만 로드했습니다. Netlify에서 파일 캐싱 설정도 했습니다.",
+                result: "이미지가 90% 줄어들었고, 라이브러리 파일도 200KB 줄었습니다. 성능 점수가 개선될 것 같습니다"
             },
             {
                 problem: "Unity WebGL 빌드를 파일 프로토콜로 열 때 wasm/gzip가 깨지며 로딩 실패",
@@ -548,13 +547,13 @@ const projectsData = [
         targetUsers: "채용 담당자와 협업자를 포함해, 한 번의 스크롤로 역량·프로젝트·연락처를 확인하고 싶은 방문자.",
         reflection: {
             achievements: [
-                "⚡ 성능 최적화 달성: WebP -90% 압축, Giscus 비동기 로딩(-50KB), 동적 라이브러리(-200KB) → Lighthouse Performance 56→70+ 예상",
-                "📊 데이터 주도 아키텍처: 신규 프로젝트 추가 시 HTML 수정 불필요, 추가 시간 80% 단축",
-                "🎮 다양한 포맷 통합: Three.js 3D, Unity WebGL, PDF.js, Discord 연동을 한 페이지에서 구현·운영",
-                "🚀 자동 배포 구축: GitHub 푸시 → Netlify CI/CD → 자동 빌드·테스트·배포 완성",
-                "🌍 실서비스 운영 경험: 실제 배포 환경에서 Lighthouse 측정, 캐싱 최적화, 지속적 성능 개선 진행"
+                "성능 최적화: 이미지를 WebP로 바꿔서 90% 줄였고, 게임 라이브러리와 댓글 시스템을 필요할 때만 로드해서 로딩 속도를 개선했습니다",
+                "데이터 주도 아키텍처: JSON만 추가하면 자동으로 프로젝트 카드와 모달이 생성되어서 새 프로젝트를 쉽게 추가할 수 있습니다",
+                "다양한 콘텐츠 통합: 3D 게임, WebGL 게임, PDF 뷰어, 실시간 댓글 시스템을 한 페이지에 모두 담았습니다",
+                "자동 배포: GitHub에 코드를 올리면 Netlify가 자동으로 빌드하고 배포해주는 파이프라인을 만들었습니다",
+                "실제 서비스 운영: 배포한 후 Lighthouse로 성능을 측정하고 계속 개선하고 있습니다"
             ],
-            learnings: "정적 사이트에서도 데이터 주도 설계와 올바른 캐싱 정책으로 WebGL·3D·폼 백엔드를 안정적으로 제공할 수 있음을 확인했습니다. 실제 배포 환경에서 Lighthouse로 성능을 측정하고, WebP 변환(-90%), 비동기 로딩, 동적 번들 분할 등으로 LCP를 개선하는 과정을 경험했습니다. 정적 호스팅의 한계(MIME 타입, gzip 헤더)를 Node 서버와 Netlify CDN으로 극복하는 방법을 배웠으며, 배포 환경의 경로 통일과 캐시 정책 관리가 얼마나 중요한지 체감했습니다. Netlify + GitHub 자동 배포로 코드 변경 시 항상 최신 상태를 유지하는 프로세스를 구축하며, CI/CD의 가치를 직접 경험했습니다. Cursor AI와의 협업으로 복잡한 렌더링 아키텍처와 성능 최적화 패턴을 빠르게 설계·구현하며, AI 기반 개발의 생산성 향상과 코드 품질 개선을 실감했습니다. 이 프로젝트는 '정적 페이지'라는 제약 속에서도 '근본 원리'(데이터 구조, 캐싱, 번들 분할)를 이해하면 어떤 기술도 충분히 활용할 수 있다는 중요한 깨달음을 주었습니다."
+            learnings: "정적인 HTML 페이지라도 적절한 기술을 조합하면 3D, 게임, 폼 백엔드까지 모두 담을 수 있다는 걸 배웠습니다. 배포 후 Lighthouse로 성능을 측정했을 때 56점이 나와서 충격을 받았는데, 이미지 최적화와 동적 로딩으로 개선할 수 있다는 걸 직접 경험했습니다. 같은 파일을 계속 캐싱하면 빠르게 로드되고, 자주 바뀌는 파일은 매번 새로 받아야 한다는 캐싱의 기본을 배웠습니다. GitHub에 코드를 올리면 Netlify가 자동으로 빌드하고 배포해주는 것을 봤을 때 CI/CD가 얼마나 편한지 느껴졌습니다. Cursor라는 AI 도구를 써서 복잡한 렌더링 로직을 빠르게 만들 수 있었는데, AI와 협업하면 개발 속도가 정말 빨라진다는 걸 배웠습니다. 이 프로젝트는 '정적 페이지'라는 제약이 있어도 기본 원리를 이해하면 거의 모든 기술을 활용할 수 있다는 걸 깨닫게 해줬습니다."
         },
         images: [
             "images/portfolio-screenshot.png"
