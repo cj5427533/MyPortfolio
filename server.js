@@ -19,7 +19,9 @@ const MIME_TYPES = {
     '.svg': 'image/svg+xml',
     '.wasm': 'application/wasm',
     '.gz': 'application/gzip',
-    '.data': 'application/octet-stream'
+    '.data': 'application/octet-stream',
+    '.pdf': 'application/pdf',
+    '.webp': 'image/webp'
 };
 
 const server = http.createServer((req, res) => {
@@ -49,9 +51,9 @@ const server = http.createServer((req, res) => {
                     'Content-Length': content.length
                 });
                 res.end(content, 'binary');
-            } else if (extname === '.wasm') {
+            } else if (extname === '.pdf' || extname === '.wasm') {
                 res.writeHead(200, {
-                    'Content-Type': 'application/wasm',
+                    'Content-Type': contentType,
                     'Content-Length': content.length
                 });
                 res.end(content, 'binary');

@@ -903,10 +903,16 @@
                 return;
             }
             
-            const pdfPath = canvas.dataset.pdf;
+            let pdfPath = canvas.dataset.pdf;
             if (!pdfPath) {
                 canvas.setAttribute('data-rendered', 'error');
                 return;
+            }
+            
+            // PDF 경로가 상대 경로인 경우 절대 경로로 변환
+            if (!pdfPath.startsWith('http://') && !pdfPath.startsWith('https://')) {
+                const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                pdfPath = new URL(pdfPath, baseUrl).href;
             }
             
             // PDF.js가 로드될 때까지 대기
@@ -1920,7 +1926,20 @@
             try {
                 if (typeof pdfjsLib === 'undefined') throw new Error('pdf.js not loaded');
                 
-                const loadingTask = pdfjsLib.getDocument(pdfSrc);
+                // PDF 경로가 상대 경로인 경우 절대 경로로 변환
+                let pdfUrl = pdfSrc;
+                if (!pdfSrc.startsWith('http://') && !pdfSrc.startsWith('https://')) {
+                    // 상대 경로인 경우 현재 페이지 기준으로 절대 경로로 변환
+                    const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                    pdfUrl = new URL(pdfSrc, baseUrl).href;
+                }
+                
+                const loadingTask = pdfjsLib.getDocument({
+                    url: pdfUrl,
+                    httpHeaders: {},
+                    withCredentials: false,
+                    verbosity: 0
+                });
                 const pdf = await loadingTask.promise;
                 const numPages = pdf.numPages;
                 
@@ -1951,10 +1970,10 @@
                     img.style.objectFit = 'contain';
                 });
             } catch (e) {
-                console.error('PDF 렌더링 실패:', e);
+                console.error('PDF 렌더링 실패:', pdfSrc, e);
                 modalContent.innerHTML = `
                     <div class="bg-white w-full h-full flex items-center justify-center p-4">
-                        <p class="text-red-500">PDF를 불러올 수 없습니다.</p>
+                        <p class="text-red-500">PDF를 불러올 수 없습니다. (${e.message})</p>
                     </div>
                 `;
             }
