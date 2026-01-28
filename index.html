@@ -85,8 +85,17 @@
     <!-- Typed.js 라이브러리 - defer로 렌더링 차단 방지 -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
-    <!-- PDF.js 라이브러리 - async로 비동기 로드 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js" async></script>
+    <!-- PDF.js 라이브러리 - 즉시 로드 (defer 제거) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <!-- PDF.js 로드 확인 -->
+    <script>
+        if (typeof pdfjsLib !== 'undefined') {
+            console.log('✓ PDF.js 로드 완료, 버전:', pdfjsLib.version);
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+        } else {
+            console.error('✗ PDF.js 로드 실패 - CDN 응답 없음');
+        }
+    </script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preload" as="image" href="images/MyImage.webp" fetchpriority="high" type="image/webp">
     

@@ -33,16 +33,27 @@ const server = http.createServer((req, res) => {
     const extname = String(path.extname(filePath)).toLowerCase();
     const contentType = MIME_TYPES[extname] || 'application/octet-stream';
 
+    // PDF 파일 요청 로그
+    if (filePath.includes('.pdf')) {
+        console.log(`📋 PDF 요청: ${filePath}`);
+    }
+
     fs.readFile(filePath, (error, content) => {
         if (error) {
             if (error.code === 'ENOENT') {
+                console.error(`❌ 파일 없음: ${filePath}`);
                 res.writeHead(404, { 'Content-Type': 'text/html' });
                 res.end('<h1>404 - File Not Found</h1>', 'utf-8');
             } else {
+                console.error(`❌ 서버 오류: ${error.code} - ${filePath}`);
                 res.writeHead(500);
                 res.end(`Server Error: ${error.code}`, 'utf-8');
             }
         } else {
+            // PDF 파일 로드 성공 로그
+            if (filePath.includes('.pdf')) {
+                console.log(`✓ PDF 로드 성공: ${filePath} (${content.length} bytes)`);
+            }
             // gzip 파일인 경우 Content-Encoding 헤더 추가
             if (filePath.endsWith('.gz')) {
                 res.writeHead(200, {
