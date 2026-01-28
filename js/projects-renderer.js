@@ -299,6 +299,8 @@ function createHeroSummary(project, theme) {
     if (!project.heroSummary) return '';
     
     const { purpose, roles, keyOutcomes } = project.heroSummary;
+    const outcomesCount = Array.isArray(keyOutcomes) ? keyOutcomes.length : 0;
+    const mdGridColsClass = outcomesCount <= 2 ? 'md:grid-cols-2' : (outcomesCount === 3 ? 'md:grid-cols-3' : 'md:grid-cols-4');
     
     const colorMap = {
         sky: {
@@ -386,7 +388,7 @@ function createHeroSummary(project, theme) {
                         <span class="px-3 py-1.5 md:px-4 md:py-2 ${colors.bg} ${colors.text} rounded-full font-medium shadow-sm">${role}</span>
                     `).join('')}
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 pt-4 md:pt-5 border-t-2 ${colors.borderT}">
+                <div class="grid grid-cols-2 ${mdGridColsClass} gap-4 md:gap-5 pt-4 md:pt-5 border-t-2 ${colors.borderT}">
                     ${keyOutcomes.map(outcome => `
                         <div class="text-center">
                             <div class="text-gray-600 mb-2">${outcome.label}</div>

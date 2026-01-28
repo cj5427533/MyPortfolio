@@ -107,7 +107,7 @@ const projectsData = [
         thumbnailWebp: "Projects/CultureMap/Logo.webp",
         shortDescription: "사용자가 스스로 계획한 문화 생활 플랜을 기록하고, 일부를 다른 사람과 공유할 수 있는 커뮤니티 기반 문화기록 플랫폼입니다. Kakao API를 활용해 지도에서 장소를 검색·추가하고, 이동 경로를 설정할 수 있습니다. 플랜을 다른 사용자와 협업(권한 기반)하거나 게시글로 공유하고, 댓글/별점으로 피드백을 주고받는 흐름까지 한 번에 제공합니다.",
         valueStatement: "문화시설을 조합해 나만의 플랜 생성, 기록, 공유",
-        period: "2025.11.10 ~ 현재",
+        period: "2025.11.10 ~ 2025.12.19",
         contribution: "풀스택 개발 / Spring Boot 백엔드 / React 프론트엔드 / Docker 배포 / CI/CD 구축",
         typeTag: { label: "팀 프로젝트", emoji: "👥" },
         heroSummary: {
