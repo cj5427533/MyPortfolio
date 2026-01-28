@@ -5,10 +5,10 @@ const projectsData = [
         title: "여기몰까 - AI 기반 쇼핑몰 신뢰도 분석 플랫폼",
         thumbnail: "Projects/YGMK/스크린샷 2025-12-10 161923.png",
         thumbnailWebp: "Projects/YGMK/스크린샷 2025-12-10 161923.webp",
-        shortDescription: "온라인 쇼핑 피해 예방을 위해 이중 분석 시스템을 구축한 웹 애플리케이션. Claude 3.5 Sonnet 기반 리뷰 신뢰도 분석과 Random Forest ML 모델의 피싱 탐지를 결합하여 0~100점 신뢰도 점수를 산출합니다.",
+        shortDescription: "온라인 쇼핑 피해 예방을 위해 이중 분석 시스템을 구축한 웹 애플리케이션. OpenRouter(Claude 3.5 Sonnet) 기반 리뷰 신뢰도 분석과 Random Forest 기반 URL 피싱 예측(Python 스크립트 실행)을 결합하여 0~100점 신뢰도 점수를 산출합니다.",
         valueStatement: "LLM과 ML을 결합한 이중 분석 시스템 구축",
         period: "2025.09.25 ~ 현재",
-        contribution: "프론트엔드 전체 구현 / 백엔드 API 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획 및 디버깅 주도",
+        contribution: "풀스택 개발 / AI 분석 시스템 구축 / 데이터베이스 설계 / UI/UX 기획",
         featured: true,
         typeTag: { label: "팀 프로젝트", emoji: "👥" },
         // Hero Summary Block
@@ -16,67 +16,65 @@ const projectsData = [
             purpose: "온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 플랫폼",
             roles: ["풀스택 개발", "AI/ML 시스템 설계", "데이터베이스 설계", "UI/UX 기획"],
             keyOutcomes: [
-                { label: "API 비용", value: "60% 절감", bold: true },
-                { label: "응답 속도", value: "3초 → 0.5초", bold: true },
-                { label: "검색 속도", value: "10배 개선", bold: true },
-                { label: "피싱 탐지 정확도", value: "85%", bold: true }
+                { label: "AI 호출 효율화", value: "배치 처리·캐싱", bold: true },
+                { label: "관리/검색 UX", value: "사용성 개선", bold: true },
+                { label: "위험 신호 + ML", value: "결합 분석", bold: true }
             ]
         },
         fullDescription: "온라인 쇼핑몰의 신뢰도를 AI와 머신러닝으로 분석하여 소비자 피해를 예방하는 웹 플랫폼입니다. 사용자가 쇼핑몰 URL을 입력하면 실시간으로 피싱 위험도, 리뷰 신뢰도, 피해 사례를 종합 분석하여 0~100점의 신뢰도 점수를 제공합니다.",
         mainFeatures: [
-            "이중 분석 파이프라인: Claude 3.5 Sonnet 리뷰 신뢰도 + Random Forest URL 피싱 탐지",
-            "기술 검증: SSL 인증서/리다이렉트 체인/도메인 연령 분석으로 위험도 점수화",
-            "신고·커뮤니티: 피해 제보 승인제, 게시판/댓글/좋아요로 정보 공유",
-            "관리자 대시보드: Recharts 통계와 Full-Text Search 기반 검색/관리"
+            "이중 분석 파이프라인: OpenRouter(Claude 3.5 Sonnet) 기반 리뷰 신뢰도 분석 + Random Forest 기반 URL 피싱 예측(Python 스크립트 실행)",
+            "기술 검증: SSL 인증서 유효성/리다이렉트 체인/도메인 기반 휴리스틱으로 위험 신호 점수화",
+            "신고·커뮤니티: 피해 제보, 게시판/댓글/좋아요로 정보 공유",
+            "관리자 대시보드: Recharts 통계와 검색/관리 기능"
         ],
         technologies: {
             frontend: ["React 18", "Recharts", "shadcn/ui", "Tailwind CSS", "TypeScript 5"],
-            backend: ["Express.js", "JWT", "Node.js 20", "PostgreSQL 15", "Supabase"],
-            aiMl: ["Claude 3.5 Sonnet", "Python scikit-learn", "Random Forest"],
+            backend: ["Express.js", "JWT", "Node.js 22", "PostgreSQL 15", "Supabase"],
+            aiMl: ["OpenRouter (Claude 3.5 Sonnet)", "Python scikit-learn", "Random Forest"],
             infra: ["Docker", "GCP", "GitHub Actions"],
             tools: ["Cursor"]
         },
         technologyRationale: [
-            "Claude 3.5 Sonnet: 리뷰 텍스트의 맥락 이해도를 높여 가짜 리뷰 판별 정밀도 확보 (GPT-4 대비 비용 효율성)",
+            "OpenRouter (Claude 3.5 Sonnet): 리뷰 텍스트의 맥락 이해도를 높여 리뷰 신뢰도 분석을 구현",
             "Random Forest(scikit-learn): URL 특성 기반 피싱 탐지에서 해석 가능성과 속도를 확보 (신경망 대비 빠른 추론)",
-            "PostgreSQL Full-Text Search: 한국어 형태소 분석과 pg_trgm 확장으로 초성 검색 및 유사도 검색 지원",
-            "Node.js + Python 분리: ML 모델은 Python Flask 서버로 분리, Node.js는 API 게이트웨이로 활용하여 각 언어의 장점 극대화",
+            "PostgreSQL + Supabase: 데이터 저장 및 조회를 단순화하고, 운영/관리 기능(커뮤니티/신고/관리자)을 빠르게 구현",
+            "Node.js + Python 분리: ML 추론은 Python 스크립트를 실행하여 처리하고, Node.js는 API 서버로 활용",
             "Docker + GCP: 컨테이너화로 개발/프로덕션 환경 일관성 확보 및 GCP의 Auto-scaling으로 트래픽 대응",
             "Cursor: AI 기반 코드 생성과 리팩토링으로 복잡한 React 컴포넌트와 API 통합 로직을 빠르게 구현하고, Claude API 통합 시 프롬프트 엔지니어링과 에러 처리 패턴을 효율적으로 설계했습니다."
         ],
         technicalTroubleshooting: [
             {
-                problem: "Claude 3.5 Sonnet API로 리뷰를 하나씩 처리하니 응답 지연과 비용이 과도하게 발생했습니다.",
-                solution: "배치 처리로 15개씩 묶어 전송하고, 5분 캐싱으로 중복 호출을 제거했습니다. API 호출 큐로 동시 요청 수를 제한했습니다.",
-                result: "API 비용 60% 절감, 응답 속도 3초 → 0.5초로 단축, 서버 부하 감소",
+                problem: "OpenRouter(Claude 3.5 Sonnet)로 리뷰를 하나씩 처리하니 응답 지연과 호출 비용이 증가했습니다.",
+                solution: "배치 처리로 15개씩 묶어 전송하고, 5분 캐싱으로 중복 호출을 제거했습니다. 배치 간 간단한 딜레이를 두어 과도한 연속 호출을 완화했습니다.",
+                result: "배치 처리 및 캐싱 적용으로 중복 호출을 줄이고 응답 체감 속도를 개선했습니다.",
                 expanded: false
             },
             {
-                problem: "Python으로 학습한 Random Forest 모델을 Node.js 서버에서 활용하는 방법이 불명확했습니다.",
-                solution: "PhishTank·OpenPhish 데이터셋으로 학습 데이터를 확보하고, 모델 파라미터를 JSON으로 저장해 Node.js에서 의사결정 트리 로직으로 구현했습니다. 복잡한 모델은 Python Flask 서버를 분리해 API로 호출했습니다.",
-                result: "피싱 탐지 정확도 85% 달성, Node.js와 Python의 장점을 분리해 활용",
+                problem: "Python으로 학습한 Random Forest 모델을 Node.js 서버에서 활용(연동)하는 방법이 불명확했습니다.",
+                solution: "scikit-learn 모델을 pickle(.pkl)로 저장하고, Node.js에서 Python 예측 스크립트를 실행(spawn)하여 결과를 받아오는 방식으로 연동했습니다.",
+                result: "Node.js와 Python의 역할을 분리해 예측 파이프라인을 구성했습니다.",
                 expanded: false
             },
             {
-                problem: "PostgreSQL LIKE 쿼리로 한국어 검색 시 성능 저하와 초성 검색 미지원 문제가 발생했습니다.",
-                solution: "PostgreSQL Full-Text Search로 한국어 형태소 분석을 적용하고, pg_trgm 확장으로 유사도 검색을 지원했습니다. 검색어 인덱스 추가와 초성 컬럼 분리로 검색 성능을 최적화했습니다.",
-                result: "검색 속도 10배 개선, 한글 초성 검색 정확도 향상",
+                problem: "검색 쿼리 최적화가 필요했습니다.",
+                solution: "Supabase 쿼리와 ILIKE 기반 검색을 활용하고, 사용 패턴에 맞춰 조회 성능을 점진적으로 개선했습니다.",
+                result: "관리자/검색 화면에서 필요한 조회 성능을 확보했습니다.",
                 expanded: true
             },
             {
-                problem: "React에서 복잡한 폼 상태 관리와 파일 업로드가 결합되며 코드 복잡도가 증가했습니다.",
-                solution: "React Hook Form으로 폼 상태를 단순화하고, Zod로 타입 안전한 유효성 검사를 구현했습니다. 파일 업로드를 별도 컴포넌트로 분리하고, Supabase Storage 업로드 로직을 커스텀 훅으로 재사용 가능하게 설계했습니다. Cursor의 AI 기반 코드 생성 기능을 활용하여 복잡한 폼 로직과 타입 안전성을 보장하는 패턴을 빠르게 도입하고 검증했습니다.",
-                result: "폼 관련 코드 50% 감소, 유효성 검사 로직 명확화로 버그 감소",
+                problem: "React에서 폼 상태 관리와 파일 업로드가 결합되며 코드 복잡도가 증가했습니다.",
+                solution: "파일 업로드를 별도 컴포넌트로 분리해 재사용 가능하게 설계했습니다. Cursor의 AI 기반 코드 생성 기능을 활용하여 복잡한 폼 로직과 타입 안전성을 보장하는 패턴을 빠르게 도입하고 검증했습니다.",
+                result: "폼/업로드 관련 코드 구조를 정리해 유지보수성을 개선했습니다.",
                 expanded: true
             }
         ],
         targetUsers: "온라인 쇼핑몰의 신뢰도를 빠르게 확인하고 피해를 예방하려는 소비자 및 운영자(관리자).",
         reflection: {
             achievements: [
-                "API 비용 60% 절감, 응답 속도 3초 → 0.5초 (배치 처리 및 5분 캐싱)",
-                "검색 속도 10배 개선 (PostgreSQL Full-Text Search 및 인덱싱)",
-                "피싱 탐지 정확도 85% 달성 (Random Forest ML 모델)",
-                "폼 관련 코드 50% 감소 (React Hook Form 및 Zod 통합)"
+                "배치 처리 및 5분 캐싱으로 리뷰 신뢰도 분석 호출 효율화",
+                "Random Forest 기반 URL 예측(학습/추론 파이프라인) 구현",
+                "관리자 페이지 및 커뮤니티/신고 기능 구현"
             ],
             learnings: "LLM과 ML을 실제 서비스에 도입하면서 데이터 흐름을 어떻게 설계하느냐가 전체 시스템의 효율성을 좌우한다는 걸 깨달았습니다. 배치 처리와 캐싱을 통해 비용과 속도를 모두 잡을 수 있었고, 이 과정에서 아키텍처를 어떻게 구성하느냐가 얼마나 중요한지 몸소 경험했습니다. Node.js와 Python을 분리해서 각각의 강점을 살리는 방식으로 개발하면서, 마이크로서비스 관점에서 시스템을 바라보는 시야가 넓어졌습니다. Cursor 같은 AI 도구를 쓰면서 복잡한 React 컴포넌트나 API 통합 로직을 빠르게 만들 수 있었고, 개발 속도와 코드 품질을 동시에 올릴 수 있다는 걸 실감했습니다. 다음 AI/ML 프로젝트를 할 때는 처음부터 비용과 성능을 함께 생각하면서 설계하고 싶습니다."
         },
